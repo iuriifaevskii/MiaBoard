@@ -189,5 +189,6 @@ _Pvt_Extensions/
 ModelManifest.xml
 
 .vs
-MiaBoard/Migrations/*
-MiaBoard/Models/IdentityModels.cs
+MiaBoard/Migrations/*.cs
+MiaBoard/Migrations/*.resx
+IdentityModels.cs
