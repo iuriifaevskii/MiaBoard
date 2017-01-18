@@ -1,0 +1,23 @@
+﻿@model MiaBoard.ViewModels.ViewDashboardViewModel
+
+@{
+    ViewBag.Title = "View";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <h2 class="row">
+        @Model.Dashboard.Title
+    </h2>
+    <div class="row">
+        @{
+            foreach(var dashlet in Model.Dashlets){
+                <div class="col-xs-4" style="@dashlet.Styles">
+                    <h3>@dashlet.Title</h3>
+                    <h3>@ViewBag.SqlResult</h3>
+                </div>
+            }
+        }
+    
+    </div>
+</div>

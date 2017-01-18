@@ -1,0 +1,66 @@
+﻿@model MiaBoard.Models.Dashlet
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Dashlet</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Dashboard.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Dashboard.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DataSource.ConnectionString)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DataSource.ConnectionString)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Body)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Body)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Sql)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Sql)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Styles)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Styles)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
