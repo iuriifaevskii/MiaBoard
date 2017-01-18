@@ -54,7 +54,7 @@ namespace MiaBoard.Models
         public DbSet<Dashlet> Dashlets { get; set; }
 
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+            : base("KostetskiyDefaultConnection", throwIfV1Schema: false)
         {
         }
 
