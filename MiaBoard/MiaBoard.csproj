@@ -190,6 +190,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201701181111067_init.cs" />
+    <Compile Include="Migrations\201701181111067_init.Designer.cs">
+      <DependentUpon>201701181111067_init.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Dashboard.cs" />
@@ -434,7 +438,6 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\DataSources\Index.cshtml" />
-    <Content Include="Views\DataSources\DataSourceForm.cshtml" />
     <Content Include="Views\DataSources\_DataSourceForm.cshtml" />
     <Content Include="Views\Dashlets\Create.cshtml" />
     <Content Include="Views\Dashlets\Delete.cshtml" />
@@ -448,6 +451,7 @@
     <Content Include="Views\Dashboards\Edit.cshtml" />
     <Content Include="Views\Dashboards\Index.cshtml" />
     <Content Include="Views\Dashboards\View.cshtml" />
+    <Content Include="Views\DataSources\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -458,6 +462,11 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201701181111067_init.resx">
+      <DependentUpon>201701181111067_init.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

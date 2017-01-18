@@ -9,6 +9,7 @@ namespace MiaBoard.ViewModels
     public class DataSourceIndexViewModel
     {
         public DataSource NewDataSource { get; set; }
+        public DataSource UpdateDataSource { get; set; }
         public IEnumerable<DataSource> DataSources { get; set; }
     }
 }
