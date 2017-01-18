@@ -181,6 +181,7 @@
     <Compile Include="Controllers\Api\DashboardsController.cs" />
     <Compile Include="Controllers\Api\DataSourcesController.cs" />
     <Compile Include="Controllers\DashboardsController.cs" />
+    <Compile Include="Controllers\DashletsController.cs" />
     <Compile Include="Controllers\DataSourcesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -189,37 +190,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201701150801536_InitialModels.cs" />
-    <Compile Include="Migrations\201701150801536_InitialModels.Designer.cs">
-      <DependentUpon>201701150801536_InitialModels.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201701150821508_AddedDataSourceModel.cs" />
-    <Compile Include="Migrations\201701150821508_AddedDataSourceModel.Designer.cs">
-      <DependentUpon>201701150821508_AddedDataSourceModel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201701150933221_UpdatedDataSourceModel.cs" />
-    <Compile Include="Migrations\201701150933221_UpdatedDataSourceModel.Designer.cs">
-      <DependentUpon>201701150933221_UpdatedDataSourceModel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201701150952268_UpdatedApplicationUserModel.cs" />
-    <Compile Include="Migrations\201701150952268_UpdatedApplicationUserModel.Designer.cs">
-      <DependentUpon>201701150952268_UpdatedApplicationUserModel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201701151059254_SeedRoles.cs" />
-    <Compile Include="Migrations\201701151059254_SeedRoles.Designer.cs">
-      <DependentUpon>201701151059254_SeedRoles.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201701160026080_uploadDataSourceTable.cs" />
-    <Compile Include="Migrations\201701160026080_uploadDataSourceTable.Designer.cs">
-      <DependentUpon>201701160026080_uploadDataSourceTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201701162147519_AddNewFieldInDataSource.cs" />
-    <Compile Include="Migrations\201701162147519_AddNewFieldInDataSource.Designer.cs">
-      <DependentUpon>201701162147519_AddNewFieldInDataSource.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201701162229123_AddDashboardDashlet.cs" />
-    <Compile Include="Migrations\201701162229123_AddDashboardDashlet.Designer.cs">
-      <DependentUpon>201701162229123_AddDashboardDashlet.cs</DependentUpon>
+    <Compile Include="Migrations\201701181023505_init.cs" />
+    <Compile Include="Migrations\201701181023505_init.Designer.cs">
+      <DependentUpon>201701181023505_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -231,6 +204,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\DataSourceIndexViewModel.cs" />
+    <Compile Include="ViewModels\ViewDashboardViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -466,10 +440,21 @@
     <Content Include="Views\DataSources\Index.cshtml" />
     <Content Include="Views\DataSources\DataSourceForm.cshtml" />
     <Content Include="Views\DataSources\_DataSourceForm.cshtml" />
+    <Content Include="Views\Dashlets\Create.cshtml" />
+    <Content Include="Views\Dashlets\Delete.cshtml" />
+    <Content Include="Views\Dashlets\Details.cshtml" />
+    <Content Include="Views\Dashlets\Edit.cshtml" />
+    <Content Include="Views\Dashlets\Index.cshtml" />
+    <Content Include="Views\Dashlets\ReadOnlySingle.cshtml" />
+    <Content Include="Views\Dashboards\Create.cshtml" />
+    <Content Include="Views\Dashboards\Delete.cshtml" />
+    <Content Include="Views\Dashboards\Details.cshtml" />
+    <Content Include="Views\Dashboards\Edit.cshtml" />
+    <Content Include="Views\Dashboards\Index.cshtml" />
+    <Content Include="Views\Dashboards\View.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Dashboards\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -479,29 +464,8 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201701150801536_InitialModels.resx">
-      <DependentUpon>201701150801536_InitialModels.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201701150821508_AddedDataSourceModel.resx">
-      <DependentUpon>201701150821508_AddedDataSourceModel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201701150933221_UpdatedDataSourceModel.resx">
-      <DependentUpon>201701150933221_UpdatedDataSourceModel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201701150952268_UpdatedApplicationUserModel.resx">
-      <DependentUpon>201701150952268_UpdatedApplicationUserModel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201701151059254_SeedRoles.resx">
-      <DependentUpon>201701151059254_SeedRoles.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201701160026080_uploadDataSourceTable.resx">
-      <DependentUpon>201701160026080_uploadDataSourceTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201701162147519_AddNewFieldInDataSource.resx">
-      <DependentUpon>201701162147519_AddNewFieldInDataSource.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201701162229123_AddDashboardDashlet.resx">
-      <DependentUpon>201701162229123_AddDashboardDashlet.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201701181023505_init.resx">
+      <DependentUpon>201701181023505_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
