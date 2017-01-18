@@ -1,4 +1,5 @@
 ﻿using MiaBoard.Models;
+using MiaBoard.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace MiaBoard.Controllers
         // GET: /DataSources/
         public ActionResult Index()
         {
+
             return View();
         }
 
@@ -33,9 +35,10 @@ namespace MiaBoard.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
+        //public ActionResult Save(DataSource dataSource)
         public ActionResult Save(DataSource dataSource)
         {
-
+            
             if(!ModelState.IsValid)
             {
                 var dataSourcesModel = dataSource;
@@ -74,14 +77,12 @@ namespace MiaBoard.Controllers
         public ActionResult Edit(int id)
         {
             var dataSource = _context.DataSources.SingleOrDefault(c => c.Id == id);
+
             if (dataSource == null)
                 return HttpNotFound();
 
-
-            return View("Index", dataSource);
+            return View("Edit", dataSource);
         }
-
-
 
 	}
 }
