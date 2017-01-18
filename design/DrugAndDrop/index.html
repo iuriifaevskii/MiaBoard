@@ -1,0 +1,274 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <style type="text/css">
+        .boardContainer
+        {
+            width: 100%;
+        }
+        div.sortable { width: 100% }
+
+
+        div.flower {background-color: lightgreen}
+    </style>
+<!--
+    <style type="text/css">
+        .boardContainer
+        {
+            width: 100%;
+        }
+        div.sortable {  background-color: lightgrey; font-size: large;
+            text-align: center; border: medium solid black; width: 100% }
+
+
+        div.flower {background-color: lightgreen}
+    </style>
+-->
+    <!--<script type="text/javascript">-->
+        <!--$(function() {-->
+
+            <!--$('#dashletHtml').draggable({-->
+                <!--connectToSortable: '.boardWorkspaceContainer',-->
+                <!--helper: "clone"-->
+            <!--});-->
+            <!--$('#dashletChart').draggable({-->
+                <!--connectToSortable: '.boardWorkspaceContainer',-->
+                <!--helper: "clone"-->
+            <!--});-->
+            <!--$('.boardWorkspaceContainer').sortable();-->
+
+        <!--});-->
+    <!--</script>-->
+    <script type="text/javascript">
+        $(function() {
+
+            $('#dashletHtml').draggable({
+                connectToSortable: '.boardWorkspaceContainer',
+                helper: "clone"
+            });
+            $('#dashletChart').draggable({
+                connectToSortable: '.boardWorkspaceContainer',
+                helper: "clone"
+            });
+            $('.boardWorkspaceContainer').sortable();
+
+        });
+    </script>
+</head>
+<body>
+<!--
+<div id="boardContainer" class="sortContainer">
+    <div style="width: 100%" id="dashletHtml" class="sortable fruit ui-draggable">dashletHtml</div>
+    <div style="width: 100%" id="dashletChart" class="sortable fruit ui-draggable">dashletChart</div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="sortContainer ui-sortable col-sm-4 boardWorkspaceContainer">
+            <div class="sortable flower">Астра</div>
+        </div>
+        <div class="sortContainer ui-sortable col-sm-4 boardWorkspaceContainer">
+            <div class="sortable flower">Астра</div>
+        </div>
+        <div class="sortContainer ui-sortable col-sm-4 boardWorkspaceContainer">
+            <div class="sortable flower">Астра</div>
+        </div>
+    </div>
+</div>
+-->
+
+<!--
+<div class="container-fluid">
+    <div class="row ">
+        <div class="col-sm-4" style="background-color:lavender;">
+            <div id="test" class="sortable flower">Астра</div>
+        </div>
+        <div class="col-sm-4" style="background-color:lavenderblush;height: 600px">
+            <div id="test1" class="sortable flower">Астра</div>
+        </div>
+        <div class="col-sm-4" style="background-color:lavender;height: 600px">
+            <div id="test2" class="sortable flower">Астра</div>
+        </div>
+</div>
+-->
+<style>
+    .tile-box {
+        line-height: inherit;
+        display: block;
+        position: relative;
+        height: auto;
+        padding: 0;
+        border-width: 1px;
+        border-style: solid;
+        color: #fff;
+        border-color: #e73629;
+        background: #F44336;
+
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+    }
+    .bottom-line
+    {
+        border-bottom: 5px solid #080805;
+    }
+    .tile-box-shortcut .bs-badge {
+        left: auto;
+        right: 10px;
+        top: 10px;
+        background: rgba(0,0,0,.5);
+    }
+
+    .bs-badge.badge-absolute {
+        position: absolute;
+        z-index: 5;
+    }
+    .badge, .bs-badge {
+        font-size: 11px;
+        font-weight: 700;
+        line-height: 19px;
+        display: inline-block;
+        min-width: 20px;
+        height: 20px;
+        padding: 0 4px 0 5px;
+        text-align: center;
+        vertical-align: baseline;
+        white-space: nowrap;
+        color: #fff;
+        border-radius: 10px;
+    }
+    .tile-box-shortcut .tile-header {
+        background: 0 0;
+        padding: 0;
+        position: absolute;
+        right: 10px;
+        bottom: 6px;
+        font-size: 13px;
+        font-weight: 400;
+    }
+    .tile-box-shortcut .tile-content-wrapper {
+        padding: 0;
+        min-height: 80px;
+    }
+    .tile-content-wrapper {
+        position: relative;
+        overflow: hidden;
+        padding: 10px;
+    }
+    .tile-box-shortcut .tile-content-wrapper>.glyph-icon {
+        position: absolute;
+        left: 15px;
+        top: 46px;
+    }
+    .tile-content-wrapper>.glyph-icon {
+        font-size: 35px;
+        line-height: 70px;
+        position: absolute;
+        top: 50%;
+        left: 15px;
+        height: 70px;
+        margin-top: -36px;
+        opacity: .3;
+        -moz-opacity: .3;
+        filter: alpha(opacity:30);
+    }
+    .glyph-icon {
+        text-align: center;
+    }
+
+    .icon-settings
+    {
+        right: 194px;
+        top: 5px;
+        z-index: 5;
+        display: inline-flex;
+    }
+    .new-ic-padding
+    {
+        padding: 10px;
+    }
+
+
+</style>
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<hr>
+<!--
+<div id="boardContainer" class="sortContainer">
+    <div  id="" class="">dashletHtml</div>
+    <div  id="dashletChart" class="">dashletChart</div>
+</div>
+-->
+<div class="container-fluid">
+<div class="row">
+    <div class="col-md-4">
+        <div  id="dashletHtml" title="Example tile shortcut" class="tile-box tile-box-shortcut btn-danger sortable ui-draggable bottom-line">
+            <span class="bs-badge badge-absolute">1</span>
+            <div class="icon-settings">
+                <i class="fa fa-cog new-ic-padding" aria-hidden="true"></i>
+                <i class="fa fa-arrow-circle-down new-ic-padding" aria-hidden="true"></i>
+                <i class="fa fa-times new-ic-padding" aria-hidden="true"></i>
+            </div>
+            <div class="tile-header">HTML Dashlet</div>
+            <div class="tile-content-wrapper">
+                <i class="glyph-icon icon-file-photo-o fa fa-tachometer"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div  id="dashletChart" href="https://agileui.com/demo/delight/demo/admin-template/index.html#" title="Example tile shortcut" class="tile-box tile-box-shortcut btn-danger sortable  ui-draggable">
+            <span class="bs-badge badge-absolute">2</span>
+            <div class="icon-settings">
+                <i class="fa fa-cog new-ic-padding" aria-hidden="true"></i>
+                <i class="fa fa-arrow-circle-down new-ic-padding" aria-hidden="true"></i>
+                <i class="fa fa-times new-ic-padding" aria-hidden="true"></i>
+            </div>
+            <div class="tile-header">Chart Dashlet</div>
+            <div class="tile-content-wrapper">
+                <i class="glyph-icon icon-file-photo-o fa fa-bar-chart"></i>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="container-fluid sortContainer ui-sortable">
+    <div class="row">
+        <div class="sortContainer ui-sortable col-sm-4 boardWorkspaceContainer">
+            <div class="sortable flower">Астра</div>
+        </div>
+        <div class="sortContainer ui-sortable col-sm-4 boardWorkspaceContainer">
+            <div class="sortable flower">Астра</div>
+        </div>
+        <div class="sortContainer ui-sortable col-sm-4 boardWorkspaceContainer">
+            <div class="sortable flower">Астра</div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

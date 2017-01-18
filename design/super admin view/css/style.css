@@ -1,51 +1,3 @@
-﻿/* Set padding to keep content from hitting the edges */
-.body-content {
-    padding-left: 15px;
-    padding-right: 15px;
-}
-
-/* Override the default bootstrap behavior where horizontal description lists 
-   will truncate terms that are too long to fit in the left column 
-*/
-.dl-horizontal dt {
-    white-space: normal;
-}
-
-/* Set width on the form input elements since they're 100% wide by default */
-input,
-select,
-textarea {
-    max-width: 280px;
-}
-
-/* Modal styles*//*
-        .center {
-    margin-top:50px;   
-}
-
-.modal-header {
-	padding-bottom: 5px;
-}
-
-.modal-footer {
-    	padding: 0;
-	}
-    
-.modal-footer .btn-group button {
-	height:40px;
-	border-top-left-radius : 0;
-	border-top-right-radius : 0;
-	border: none;
-	border-right: 1px solid #ddd;
-}
-	
-.modal-footer .btn-group:last-child > button {
-	border-right: 0;
-}
-
-    */
-
-
 /******************/
 
 
@@ -152,6 +104,12 @@ textarea {
 
 .navbar .navbar-toggle .icon-bar {
     background-color: black;
+}
+
+#nav-bar-Login {
+    color: #3190e7;
+    font-weight: 600;
+    text-align: center;
 }
 
 .btn-flat {
@@ -525,15 +483,4 @@ div.bhoechie-tab div.bhoechie-tab-content:not(.active) {
 .bg-body
 {
     background: #298eea;
-}
-
-.nav-padding
-{
-    padding: 10px;
-}
-
-.nav-bar-Login-text {
-    color: #3190e7 !important;
-    font-weight: 600;
-    text-align: center;
 }

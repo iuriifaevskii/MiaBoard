@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- Custom css -->
+    <link rel="stylesheet" href="css/style.css">
+    <link href="icons/icon" rel="stylesheet">
+    <!-- close Custom css -->
+</head>
+
+<body class="bg-body">
+<!-- Navigation -->
+<nav class="navbar z-depth-2" id="nav-bar-id">
+    <div class="container-fluid" style="width: 90%;">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand waves-effect waves-light" href="http://localhost/temp/VENEZIA%20SHOP%20BackUP/store" id="nav-bar-logo"><i class="material-icons md-48">whatshot</i></a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </div>
+
+        <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1" aria-expanded="false" style="height: 0.8px;">
+            <ul class="nav navbar-nav">
+                <li><a href="http://localhost/temp/VENEZIA%20SHOP%20BackUP/store/login" class="btn-flat" id="nav-bar-Login">Login</a></li>
+                <li><a style="margin-top: 8px;" href="http://localhost/temp/VENEZIA%20SHOP%20BackUP/store/register" class="btn btn-primary waves-effect waves-light btn-flat-two">Register</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right" id="navbar-right">
+                <li id="online-user">
+                    <div class="name-user">
+                        Yuriy Faevskyi
+                    </div>
+                    <input style="display: inline-block;" id="Logout-Btn" type="submit" value="LogOut">
+                </li>
+            </ul>
+        </div>
+
+    </div>
+</nav>
+<!-- End Navigation -->
+<!-- Login -->
+<div class="container-fluid font-login ">
+    <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-4 col-sm-offset-3 col-md-offset-4">
+            <div class="panel panel-default" id="Login-Panel">
+                <div class="panel-body">
+                    <h4 class="text-center" id="log-in">Log In</h4>
+                    <form class="form-horizontal">
+
+                        <div class="form-group">
+                            <div class="col-md-10 col-md-offset-1">
+                                <input type="email" class="form-control" name="email" value="" placeholder="email">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-10 col-md-offset-1">
+                                <input type="password" class="form-control" name="password" placeholder="password">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-10 col-md-offset-1">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="remember"> Remember Me
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-6 col-md-offset-3 text-center">
+                                <button id="Login-Btn" type="submit" class="btn btn-default btn-rounded waves-effect waves-light btn-block">Login</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <p id="No-Account" class="center-block text-center">Don't have an account? <a href="http://localhost/temp/VENEZIA%20SHOP%20BackUP/store/register" id="Sign-up">Register</a></p>
+
+        </div>
+    </div>
+</div>
+<!-- End Login -->
+
+<script src="js/script.js"></script>
+</body>
+
+</html>
