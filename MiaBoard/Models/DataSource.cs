@@ -12,7 +12,7 @@ namespace MiaBoard.Models
 
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "Please enter customer's name.")]
+        [Required( ErrorMessage="Type field required!" )]
         [StringLength(255)]
         [Display(Name = "Type")]
         public string Type { get; set; }
