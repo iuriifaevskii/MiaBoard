@@ -191,9 +191,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201701201232363_UpdatedDashletModel.cs" />
-    <Compile Include="Migrations\201701201232363_UpdatedDashletModel.Designer.cs">
-      <DependentUpon>201701201232363_UpdatedDashletModel.cs</DependentUpon>
+    <Compile Include="Migrations\201701201416528_addTablesInDb.cs" />
+    <Compile Include="Migrations\201701201416528_addTablesInDb.Designer.cs">
+      <DependentUpon>201701201416528_addTablesInDb.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -453,6 +453,9 @@
     <Content Include="Views\Dashlets\Create.cshtml" />
     <Content Include="Views\Dashlets\Edit.cshtml" />
     <Content Include="Views\Dashlets\Index.cshtml" />
+    <Content Include="Views\Test\CompanyAdmin.cshtml" />
+    <Content Include="Views\Test\SuperAdmin.cshtml" />
+    <Content Include="Views\Test\User.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -465,8 +468,8 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201701201232363_UpdatedDashletModel.resx">
-      <DependentUpon>201701201232363_UpdatedDashletModel.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201701201416528_addTablesInDb.resx">
+      <DependentUpon>201701201416528_addTablesInDb.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

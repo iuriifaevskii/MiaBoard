@@ -14,5 +14,20 @@ namespace MiaBoard.Controllers
         {
             return View();
         }
+
+        public ActionResult SuperAdmin()
+        {
+            return View();
+        }
+
+        public ActionResult CompanyAdmin()
+        {
+            return View();
+        }
+
+        public ActionResult User()
+        {
+            return View();
+        }
 	}
 }

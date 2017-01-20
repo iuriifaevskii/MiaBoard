@@ -4,14 +4,14 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
-    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
     <!-- Navigation -->
     <nav class="navbar z-depth-2" id="nav-bar-id">
-        <div class="container-fluid nav-padding" >
+        <div class="container-fluid nav-padding">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
                     <span class="sr-only">Toggle navigation</span>
@@ -21,13 +21,13 @@
                 </button>
                 <a class="navbar-brand waves-effect waves-light" href="/" id="nav-bar-logo"><i class="material-icons md-48">whatshot</i></a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </div>
-            <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1" aria-expanded="false" style="height: 0.8px;">       
+            <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1" aria-expanded="false" style="height: 0.8px;">
                 @Html.Partial("_LoginPartial")
             </div>
         </div>
     </nav>
     <!-- End Navigation -->
-    <div class="container body-content">
+    <div>
         @RenderBody()
         <hr />
         <footer>
