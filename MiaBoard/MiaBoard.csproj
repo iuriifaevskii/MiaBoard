@@ -191,6 +191,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201701201232363_UpdatedDashletModel.cs" />
+    <Compile Include="Migrations\201701201232363_UpdatedDashletModel.Designer.cs">
+      <DependentUpon>201701201232363_UpdatedDashletModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Dashboard.cs" />
@@ -437,12 +441,6 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\DataSources\Index.cshtml" />
     <Content Include="Views\DataSources\_DataSourceForm.cshtml" />
-    <Content Include="Views\Dashlets\Create.cshtml" />
-    <Content Include="Views\Dashlets\Delete.cshtml" />
-    <Content Include="Views\Dashlets\Details.cshtml" />
-    <Content Include="Views\Dashlets\Edit.cshtml" />
-    <Content Include="Views\Dashlets\Index.cshtml" />
-    <Content Include="Views\Dashlets\ReadOnlySingle.cshtml" />
     <Content Include="Views\Dashboards\Create.cshtml" />
     <Content Include="Views\Dashboards\Delete.cshtml" />
     <Content Include="Views\Dashboards\Details.cshtml" />
@@ -451,6 +449,10 @@
     <Content Include="Views\Dashboards\View.cshtml" />
     <Content Include="Views\DataSources\Edit.cshtml" />
     <Content Include="Views\Test\Index.cshtml" />
+    <Content Include="Views\Dashboards\View - Copy.cshtml" />
+    <Content Include="Views\Dashlets\Create.cshtml" />
+    <Content Include="Views\Dashlets\Edit.cshtml" />
+    <Content Include="Views\Dashlets\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -461,6 +463,11 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201701201232363_UpdatedDashletModel.resx">
+      <DependentUpon>201701201232363_UpdatedDashletModel.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
