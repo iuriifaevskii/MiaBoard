@@ -14,20 +14,26 @@
         <th>
             @Html.DisplayNameFor(model => model.Dashboard.Title)
         </th>
-        <th>
+        @*<th>
             @Html.DisplayNameFor(model => model.DataSource.ConnectionString)
-        </th>
+        </th>*@
         <th>
             @Html.DisplayNameFor(model => model.Title)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Body)
+            @Html.DisplayNameFor(model => model.TextType)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Sql)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Styles)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TopSubLevel)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BottomSubTitle)
         </th>
         <th></th>
     </tr>
@@ -37,20 +43,26 @@
         <td>
             @Html.DisplayFor(modelItem => item.Dashboard.Title)
         </td>
-        <td>
+        @*<td>
             @Html.DisplayFor(modelItem => item.DataSource.ConnectionString)
-        </td>
+        </td>*@
         <td>
             @Html.DisplayFor(modelItem => item.Title)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Body)
+            @Html.DisplayFor(modelItem => item.TextType)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Sql)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Styles)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TopSubLevel)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BottomSubTitle)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
