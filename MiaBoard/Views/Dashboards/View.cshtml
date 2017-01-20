@@ -1,23 +1,117 @@
 ﻿@model MiaBoard.ViewModels.ViewDashboardViewModel
-
-@{
-    ViewBag.Title = "View";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
-
-<div class="container">
-    <h2 class="row">
-        @Model.Dashboard.Title
-    </h2>
+<style>
+    .ui-sortable-helper {
+        width: 390px;
+    }
+</style>
+<div class="container-fluid">
     <div class="row">
-        @{
-            foreach(var dashlet in Model.Dashlets){
-                <div class="col-xs-4" style="@dashlet.Styles">
-                    <h3>@dashlet.Title</h3>
-                    <h3>@ViewBag.SqlResult</h3>
+        <div class="col-md-6">
+            <div id="dashletHtml" title="Example tile shortcut" class="tile-box tile-box-shortcut btn-danger sortable ui-draggable ">
+                <span class="bs-badge badge-absolute">1</span>
+                <div class="icon-settings">
+                    <i class="fa fa-cog new-ic-padding" aria-hidden="true" data-toggle="collapse" data-target="#demo"></i>
+                    <i class="fa fa-arrow-circle-down new-ic-padding" aria-hidden="true"></i>
+                    <i class="fa fa-times new-ic-padding" aria-hidden="true"></i>
                 </div>
-            }
-        }
-    
+                <div class="tile-header">HTML Dashlet</div>
+                <div class="tile-content-wrapper">
+                    <i class="glyph-icon icon-file-photo-o fa fa-tachometer"></i>
+                </div>
+
+                <div id="demo" class="collapse" style="background:red;">
+                    <div>Set HTML Options</div>
+                    <label>First Name</label>
+                    <input class="span3" placeholder="Your First Name" type="text">
+                    <label>Last Name</label>
+                    <input class="span3" placeholder="Your Last Name" type="text">
+                    <label>Email Address</label>
+                    <input class="span3" placeholder="Your email address" type="text"> <label>Subject</label>
+                    <select class="span3" id="subject" name="subject">
+                        <option selected value="na">
+                            Choose One:
+                        </option>
+
+                        <option value="service">
+                            General Customer Service
+                        </option>
+
+                        <option value="suggestions">
+                            Suggestions
+                        </option>
+
+                        <option value="product">
+                            Product Support
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div id="dashletChart" title="Example tile shortcut" class="tile-box tile-box-shortcut btn-danger sortable  ui-draggable">
+                <span class="bs-badge badge-absolute">2</span>
+                <div class="icon-settings">
+                    <i class="fa fa-cog new-ic-padding" aria-hidden="true"></i>
+                    <i class="fa fa-arrow-circle-down new-ic-padding" aria-hidden="true"></i>
+                    <i class="fa fa-times new-ic-padding" aria-hidden="true"></i>
+                </div>
+                <div class="tile-header">Chart Dashlet</div>
+                <div class="tile-content-wrapper">
+                    <i class="glyph-icon icon-file-photo-o fa fa-bar-chart"></i>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
+<hr />
+
+<div class="container-fluid sortContainer ui-sortable">
+        <div class="row">
+            <div class="sortContainer ui-sortable boardWorkspaceContainer">
+                @{
+                        foreach (var dashlet in Model.Dashlets)
+                        {
+                            <div class="panel panel-primary col-sm-4" style="@dashlet.Styles">
+                                <div class="panel-heading">@dashlet.Title</div>
+                                <div class="panel-body">@dashlet.TextType</div>
+                                <div class="panel-body">@Model.DashletsSqlResult[dashlet.Id]</div>
+                            </div>
+                        }
+                    }
+            </div>
+        </div>
+    </div>
+
+@section Scripts
+{
+    <script>
+
+        /******************/
+        /* DrugAndDrop    */
+        /******************/
+
+        $(function () {
+            $('#dashletHtml').draggable({
+                connectToSortable: '.boardWorkspaceContainer',
+                helper: "clone"
+            });
+            $('#dashletChart').draggable({
+                connectToSortable: '.boardWorkspaceContainer',
+                helper: "clone"
+            });
+            $('.boardWorkspaceContainer').sortable();
+
+            $('.col-Container').sortable({
+                connectWith: '.col-Container'
+            });
+            $('.col-Container').sortable({
+                placeholder: 'emptySpace'
+            });
+        });
+
+        /**********************/
+        /* End DrugAndDrop    */
+        /**********************/
+    </script>
+}
