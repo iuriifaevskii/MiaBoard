@@ -26,6 +26,7 @@ namespace MiaBoard.Controllers
 
             viewDashboardViewModel.Dashboard = db.Dashboards.SingleOrDefault(d => d.Id == id);
             viewDashboardViewModel.Dashlets = db.Dashlets.Include(d => d.DataSource).Where(d => d.DashboardId == id).ToList();
+            viewDashboardViewModel.DashletsSqlResult = new Dictionary<int, string>();
 
             foreach (var dashlet in viewDashboardViewModel.Dashlets)
             {
@@ -45,7 +46,7 @@ namespace MiaBoard.Controllers
                                 {
                                     if (reader.Read())
                                     {
-                                        ViewBag.SqlResult = reader[0];
+                                        viewDashboardViewModel.DashletsSqlResult.Add(dashlet.Id, reader[0].ToString());
                                     }
                                 }
 
