@@ -27,5 +27,9 @@ namespace MiaBoard.Models
         
         public string BottomSubTitle { get; set; }
 
+        public int Position { get; set; }
+        
+        public int Column { get; set; }
+
     }
 }
