@@ -24,9 +24,15 @@ namespace MiaBoard.Controllers
 
             var viewDashboardViewModel = new ViewDashboardViewModel();
 
-            viewDashboardViewModel.Dashboard = db.Dashboards.SingleOrDefault(d => d.Id == id);
-            viewDashboardViewModel.Dashlets = db.Dashlets.Include(d => d.DataSource).Where(d => d.DashboardId == id).ToList();
             viewDashboardViewModel.DashletsSqlResult = new Dictionary<int, string>();
+            
+            viewDashboardViewModel.DashletsFirstCol = new List<Dashlet>();
+            viewDashboardViewModel.DashletsSecondCol = new List<Dashlet>();
+            viewDashboardViewModel.DashletsThirdCol = new List<Dashlet>();
+
+            viewDashboardViewModel.Dashboard = db.Dashboards.SingleOrDefault(d => d.Id == id);
+            viewDashboardViewModel.Dashlets = db.Dashlets.Include(d => d.DataSource).Where(d => d.DashboardId == id).OrderBy(d => d.Position).ToList();
+            
 
             foreach (var dashlet in viewDashboardViewModel.Dashlets)
             {
@@ -55,14 +61,35 @@ namespace MiaBoard.Controllers
                         }
                         catch
                         {
-                            return Content("Invalid Connection to Database in Dashhlet: " + dashlet.Id);
+                            viewDashboardViewModel.DashletsSqlResult.Add(dashlet.Id,"SQL queary is incorrect!");
+                            //continue;
+                            //return Content("Invalid Connection to Database in Dashhlet: " + dashlet.Id);
                         }
                         break;
                     default:
-                        return Content("Invalid Type of Database in Dashhlet: " + dashlet.Id);
+                        viewDashboardViewModel.DashletsSqlResult.Add(dashlet.Id, "Type of Database is unknown!");
+                        //continue;
+                        //return Content("Invalid Type of Database in Dashhlet: " + dashlet.Id);
+                        break;
                 }
-            }
 
+                switch (dashlet.Column)
+                {
+                    case 1:
+                        viewDashboardViewModel.DashletsFirstCol.Add(dashlet);
+                        break;
+                    case 2:
+                        viewDashboardViewModel.DashletsSecondCol.Add(dashlet);
+                        break;
+                    case 3:
+                        viewDashboardViewModel.DashletsThirdCol.Add(dashlet);
+                        break;
+                    default:
+                        Console.WriteLine("Toggle is broke. It's equal to " + dashlet.Column);
+                        break;
+                }
+
+            }
 
             return View(viewDashboardViewModel);
         }
