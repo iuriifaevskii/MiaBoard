@@ -179,6 +179,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Api\DashboardsController.cs" />
+    <Compile Include="Controllers\Api\DashletsController.cs" />
     <Compile Include="Controllers\Api\DataSourcesController.cs" />
     <Compile Include="Controllers\DashboardsController.cs" />
     <Compile Include="Controllers\DashletsController.cs" />
@@ -191,9 +192,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201701201416528_addTablesInDb.cs" />
-    <Compile Include="Migrations\201701201416528_addTablesInDb.Designer.cs">
-      <DependentUpon>201701201416528_addTablesInDb.cs</DependentUpon>
+    <Compile Include="Migrations\201701241004404_AddPositionFieldToDashlet.cs" />
+    <Compile Include="Migrations\201701241004404_AddPositionFieldToDashlet.Designer.cs">
+      <DependentUpon>201701241004404_AddPositionFieldToDashlet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201701241016090_AddColumnFieldToDashlet.cs" />
+    <Compile Include="Migrations\201701241016090_AddColumnFieldToDashlet.Designer.cs">
+      <DependentUpon>201701241016090_AddColumnFieldToDashlet.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -468,8 +473,11 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201701201416528_addTablesInDb.resx">
-      <DependentUpon>201701201416528_addTablesInDb.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201701241004404_AddPositionFieldToDashlet.resx">
+      <DependentUpon>201701241004404_AddPositionFieldToDashlet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701241016090_AddColumnFieldToDashlet.resx">
+      <DependentUpon>201701241016090_AddColumnFieldToDashlet.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
