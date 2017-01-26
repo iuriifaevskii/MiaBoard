@@ -12,6 +12,10 @@
     div.flower {
         background-color: lightgreen;
     }
+
+    .width-class {
+        width: 100% !important;
+    }
 </style>
 <script type="text/javascript">
     $(function () {
@@ -37,7 +41,14 @@
 
         $('#dashletHtml').draggable({
             connectToSortable: '.boardWorkspaceContainer',
-            helper: "clone"
+            helper: function (e) {
+                return $('<div id="dashlet_new" class="panel panel-primary ui-sortable-handle width-class text-center" data-dashlet-id="new" >' +
+                           '<div class="panel-heading">test via WEB</div>' +
+                           '<div class="panel-body">test</div>' +
+                           '<div class="panel-body">22079,98333</div>' +
+                           '<div class="panel-body">test</div>' +
+                       '</div>');
+            }
         });
         $('#dashletChart').draggable({
             connectToSortable: '.boardWorkspaceContainer',
@@ -56,7 +67,6 @@
 
     });
 </script>
-
 <style>
     .tile-box {
         line-height: inherit;
@@ -173,111 +183,327 @@
 
     .emptySpace {
         border: medium dotted red;
-        height: 115px;
+        height: 193px;
         margin: 4px;
     }
 </style>
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-4">
-            <div id="dashletHtml" title="Example tile shortcut" class="tile-box tile-box-shortcut btn-danger sortable ui-draggable ">
-                <span class="bs-badge badge-absolute">1</span>
-                <div class="icon-settings">
-                    <i class="fa fa-cog new-ic-padding" aria-hidden="true" data-toggle="collapse" data-target="#demo"></i>
-                    <i class="fa fa-arrow-circle-down new-ic-padding" aria-hidden="true"></i>
-                    <i class="fa fa-times new-ic-padding" aria-hidden="true"></i>
+<style>
+    /*yura styles*/
+    .own-board-style {
+        border-radius: 4px;
+        -moz-border-radius: 4px;
+        border: 1px solid #ddd;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+        -moz-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+        background-clip: padding-box;
+        opacity: 0.97;
+    }
+
+    .own-board-title {
+        display: inline-block;
+        font-weight: bold;
+    }
+
+    .own-board-btn {
+        text-align: right;
+        margin-top: -40px;
+    }
+
+    .ui-sortable-handle {
+        border: 1px solid black;
+    }
+
+    .container-fluid .bhoechie-tab .bhoechie-tab-content {
+        padding-left: 0;
+    }
+
+    .label-toggle-style {
+        margin: 0;
+        padding: 0;
+    }
+</style>
+
+<!-- Navigation Left-->
+<div class="container-fluid left-menu-padding" style="    ">
+    <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 bhoechie-tab-container new-bhoechine-tab">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 bhoechie-tab">
+            <!-- flight section -->
+            <div class="bhoechie-tab-content active">
+                <ul class="nav nav-pills nav-stacked user-menu-list">
+                    @foreach (var item in Model.DashboardList)
+                    {
+                        <li>
+                            <a class="alert alert-success text-center" href="/dashboards/view/@item.Id">
+                                <i class="fa fa-tachometer fa-fw"></i>
+                                @item.Title
+                            </a>
+                        </li>
+
+                    }
+                </ul>
+            </div>
+            <!-- train section -->
+        </div>
+    </div>
+    <div class="col-lg-10 col-md-8 col-sm-12 col-xs-12  new-bhoechine-tab-main">
+        <div class="panel panel-info own-board-style">
+            <div class="panel-heading ">
+                <div class="text-center">
+                    <h4 class="own-board-title">@Model.Dashboard.Title</h4>
                 </div>
-                <div class="tile-header">HTML Dashlet</div>
-                <div class="tile-content-wrapper">
-                    <i class="glyph-icon icon-file-photo-o fa fa-tachometer"></i>
-                </div>
-
-                <div id="demo" class="collapse" style="background:red;">
-                    <div>Set HTML Options</div>
-                    <label>First Name</label>
-                    <input class="span3" placeholder="Your First Name" type="text">
-                    <label>Last Name</label>
-                    <input class="span3" placeholder="Your Last Name" type="text">
-                    <label>Email Address</label>
-                    <input class="span3" placeholder="Your email address" type="text"> <label>Subject</label>
-                    <select class="span3" id="subject" name="subject">
-                        <option selected value="na">
-                            Choose One:
-                        </option>
-
-                        <option value="service">
-                            General Customer Service
-                        </option>
-
-                        <option value="suggestions">
-                            Suggestions
-                        </option>
-
-                        <option value="product">
-                            Product Support
-                        </option>
-                    </select>
+                <div class="own-board-btn">
+                    <button type="button" class="btn btn-info text-right">Data Source</button>
+                    <button type="button" class="btn btn-info">Security</button>
                 </div>
             </div>
-        </div>
-        <div class="col-md-4 ">
-            <div id="dashletChart" href="https://agileui.com/demo/delight/demo/admin-template/index.html#" title="Example tile shortcut" class="tile-box tile-box-shortcut btn-danger sortable  ui-draggable">
-                <span class="bs-badge badge-absolute">2</span>
-                <div class="icon-settings">
-                    <i class="fa fa-cog new-ic-padding" aria-hidden="true"></i>
-                    <i class="fa fa-arrow-circle-down new-ic-padding" aria-hidden="true"></i>
-                    <i class="fa fa-times new-ic-padding" aria-hidden="true"></i>
+            <div class="panel-body">
+
+
+
+
+
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div id="dashletHtml" title="Example tile shortcut" class="tile-box tile-box-shortcut btn-danger sortable ui-draggable ">
+                                <span class="bs-badge badge-absolute">1</span>
+                                <div class="icon-settings">
+                                    <i class="fa fa-cog new-ic-padding" aria-hidden="true" data-toggle="collapse" data-target="#demo"></i>
+                                    <i class="fa fa-arrow-circle-down new-ic-padding" aria-hidden="true"></i>
+                                    <i class="fa fa-times new-ic-padding" aria-hidden="true"></i>
+                                </div>
+                                <div class="tile-header">HTML Dashlet</div>
+                                <div class="tile-content-wrapper">
+                                    <i class="glyph-icon icon-file-photo-o fa fa-tachometer"></i>
+                                </div>
+
+                                <div id="demo" class="collapse" style="background:red;">
+                                    <div>Set HTML Options</div>
+                                    <label>First Name</label>
+                                    <input class="span3" placeholder="Your First Name" type="text">
+                                    <label>Last Name</label>
+                                    <input class="span3" placeholder="Your Last Name" type="text">
+                                    <label>Email Address</label>
+                                    <input class="span3" placeholder="Your email address" type="text"> <label>Subject</label>
+                                    <select class="span3" id="subject" name="subject">
+                                        <option selected value="na">
+                                            Choose One:
+                                        </option>
+
+                                        <option value="service">
+                                            General Customer Service
+                                        </option>
+
+                                        <option value="suggestions">
+                                            Suggestions
+                                        </option>
+
+                                        <option value="product">
+                                            Product Support
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 ">
+                            <div id="dashletChart" title="Example tile shortcut" class="tile-box tile-box-shortcut btn-danger sortable  ui-draggable">
+                                <span class="bs-badge badge-absolute">2</span>
+                                <div class="icon-settings">
+                                    <i class="fa fa-cog new-ic-padding" aria-hidden="true"></i>
+                                    <i class="fa fa-arrow-circle-down new-ic-padding" aria-hidden="true"></i>
+                                    <i class="fa fa-times new-ic-padding" aria-hidden="true"></i>
+                                </div>
+                                <div class="tile-header">Chart Dashlet</div>
+                                <div class="tile-content-wrapper">
+                                    <i class="glyph-icon icon-file-photo-o fa fa-bar-chart"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="tile-header">Chart Dashlet</div>
-                <div class="tile-content-wrapper">
-                    <i class="glyph-icon icon-file-photo-o fa fa-bar-chart"></i>
+
+            </div>
+        </div>
+
+
+
+        <div class="container-fluid sortContainer ui-sortable">
+            <div class="row">
+                <div id="firstSortableColumn" data-id="1" class="sortContainer ui-sortable col-sm-4 boardWorkspaceContainer col-Container">
+                    @{
+                        foreach (var dashlet in Model.DashletsFirstCol)
+                        {
+                            <div id="dashlet_@dashlet.Id" class="panel panel-primary text-center" data-dashlet-id="@dashlet.Id" style="@dashlet.Styles">
+                                <div class="panel-heading">@dashlet.Title</div>
+                                <div class="panel-body">@dashlet.TextType</div>
+                                <div class="panel-body">@Model.DashletsSqlResult[dashlet.Id]</div>
+                                <div class="panel-body">@dashlet.BottomSubTitle</div>
+
+                                <div class="icon-settings">
+                                    <i class="fa fa-cog new-ic-padding" aria-hidden="true" data-toggle="collapse" data-target="#edit_dashlet_@dashlet.Id"></i>
+                                    <i class="fa fa-arrow-circle-down new-ic-padding" aria-hidden="true"></i>
+                                    <i class="fa fa-times new-ic-padding" aria-hidden="true"></i>
+                                </div>
+                                <div id="edit_dashlet_@dashlet.Id" class="collapse" style="background: red; height: auto;">
+                                    @*@Html.Partial("_DashletEdit", new { id = @dashlet.Id });*@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                    @using (Html.BeginForm())
+                                    {
+                                        @Html.AntiForgeryToken()
+
+                                        <div class="form-horizontal">
+                                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                            @Html.HiddenFor(model => model.Dashlet.Id)
+
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Dashlet.Title, htmlAttributes: new { @class = "control-label col-md-2 label-toggle-style" })
+                                                <div class="col-md-10">
+                                                    @Html.EditorFor(model => model.Dashlet.Title, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => model.Dashlet.Title, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Dashlet.TextType, htmlAttributes: new { @class = "control-label col-md-2 label-toggle-style" })
+                                                <div class="col-md-10">
+                                                    @Html.EditorFor(model => model.Dashlet.TextType, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => model.Dashlet.TextType, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+
+
+
+                                            @*
+                                                <div class="form-group">
+                                                    @Html.LabelFor(model => model.Dashlet.DashboardId, "Dashboard Connect", htmlAttributes: new { @class = "control-label col-md-2 label-toggle-style" })
+                                                    <div class="col-md-10">
+                                                        @Html.DropDownList("DashboardId", null, htmlAttributes: new { @class = "form-control" })
+                                                        @Html.ValidationMessageFor(model => model.Dashlet.DashboardId, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+                                            *@
+                                            @*
+                                                <div class="form-group">
+                                                    @Html.LabelFor(model => model.Dashlet.DataSourceId, "DataSourceId", htmlAttributes: new { @class = "control-label col-md-2 label-toggle-style" })
+                                                    <div class="col-md-10">
+                                                        @Html.DropDownList("DataSourceId", null, htmlAttributes: new { @class = "form-control" })
+                                                        @Html.ValidationMessageFor(model => model.Dashlet.DataSourceId, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+                                            *@
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Dashlet.Sql, htmlAttributes: new { @class = "control-label col-md-2 label-toggle-style" })
+                                                <div class="col-md-10">
+                                                    @Html.EditorFor(model => model.Dashlet.Sql, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => model.Dashlet.Sql, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Dashlet.Styles, htmlAttributes: new { @class = "control-label col-md-2 label-toggle-style" })
+                                                <div class="col-md-10">
+                                                    @Html.EditorFor(model => model.Dashlet.Styles, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => model.Dashlet.Styles, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Dashlet.TopSubLevel, htmlAttributes: new { @class = "control-label col-md-2 label-toggle-style" })
+                                                <div class="col-md-10">
+                                                    @Html.EditorFor(model => model.Dashlet.TopSubLevel, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => model.Dashlet.TopSubLevel, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Dashlet.BottomSubTitle, htmlAttributes: new { @class = "control-label col-md-2 label-toggle-style" })
+                                                <div class="col-md-10">
+                                                    @Html.EditorFor(model => model.Dashlet.BottomSubTitle, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => model.Dashlet.BottomSubTitle, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class="col-md-offset-2 col-md-10">
+                                                    <input type="submit" value="Save" class="btn btn-default" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                    @*ssss*@
+
+
+                                </div>
+
+
+                            </div>
+                        }
+                    }
+                </div>
+                <div id="secondSortableColumn" data-id="2" class="sortContainer ui-sortable col-sm-4 boardWorkspaceContainer col-Container">
+                    @{
+                        foreach (var dashlet in Model.DashletsSecondCol)
+                        {
+                            <div id="dashlet_@dashlet.Id" class="panel panel-primary text-center" data-dashlet-id="@dashlet.Id" style="@dashlet.Styles">
+                                <div class="panel-heading">@dashlet.Title</div>
+                                <div class="panel-body">@dashlet.TextType</div>
+                                <div class="panel-body">@Model.DashletsSqlResult[dashlet.Id]</div>
+                                <div class="panel-body">@dashlet.BottomSubTitle</div>
+                            </div>
+                        }
+                    }
+                </div>
+                <div id="thirdSortableColumn" data-id="3" class="sortContainer ui-sortable col-sm-4 boardWorkspaceContainer col-Container">
+                    @{
+                        foreach (var dashlet in Model.DashletsThirdCol)
+                        {
+                            <div id="dashlet_@dashlet.Id" class="panel panel-primary text-center" data-dashlet-id="@dashlet.Id" style="@dashlet.Styles">
+                                <div class="panel-heading">@dashlet.Title</div>
+                                <div class="panel-body">@dashlet.TextType</div>
+                                <div class="panel-body">@Model.DashletsSqlResult[dashlet.Id]</div>
+                                <div class="panel-body">@dashlet.BottomSubTitle</div>
+                            </div>
+                        }
+                    }
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-<div class="container-fluid sortContainer ui-sortable">
-    <div class="row">
-        <div id="firstSortableColumn" data-id="1" class="sortContainer ui-sortable col-sm-4 boardWorkspaceContainer col-Container">
-            @{
-                foreach (var dashlet in Model.DashletsFirstCol)
-                {
-                    <div id="dashlet_@dashlet.Id" class="panel panel-primary" data-dashlet-id="@dashlet.Id" data-column-num="@dashlet.Column" style="@dashlet.Styles">
-                        <div class="panel-heading">@dashlet.Title</div>
-                        <div class="panel-body">@dashlet.TextType</div>
-                        <div class="panel-body">@Model.DashletsSqlResult[dashlet.Id]</div>
-                        <div class="panel-body">@dashlet.BottomSubTitle</div>
-                    </div>
-                }
-            }
-        </div>
-        <div id="secondSortableColumn" data-id="2" class="sortContainer ui-sortable col-sm-4 boardWorkspaceContainer col-Container">
-            @{
-                foreach (var dashlet in Model.DashletsSecondCol)
-                {
-                    <div id="dashlet_@dashlet.Id" class="panel panel-primary" data-dashlet-id="@dashlet.Id" data-column-num="@dashlet.Column" style="@dashlet.Styles">
-                        <div class="panel-heading">@dashlet.Title</div>
-                        <div class="panel-body">@dashlet.TextType</div>
-                        <div class="panel-body">@Model.DashletsSqlResult[dashlet.Id]</div>
-                        <div class="panel-body">@dashlet.BottomSubTitle</div>
-                    </div>
-                }
-            }
-        </div>
-        <div id="thirdSortableColumn" data-id="3" class="sortContainer ui-sortable col-sm-4 boardWorkspaceContainer col-Container">
-            @{
-                foreach (var dashlet in Model.DashletsThirdCol)
-                {
-                    <div id="dashlet_@dashlet.Id" class="panel panel-primary" data-dashlet-id="@dashlet.Id" data-column-num="@dashlet.Column" style="@dashlet.Styles">
-                        <div class="panel-heading">@dashlet.Title</div>
-                        <div class="panel-body">@dashlet.TextType</div>
-                        <div class="panel-body">@Model.DashletsSqlResult[dashlet.Id]</div>
-                        <div class="panel-body">@dashlet.BottomSubTitle</div>
-                    </div>
-                }
-            }
-        </div>
-    </div>
-</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

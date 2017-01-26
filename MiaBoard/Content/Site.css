@@ -500,6 +500,12 @@ div.bhoechie-tab div.bhoechie-tab-content:not(.active) {
 
 /******************/
 
+    @media (min-width: 992px) {
+        .left-menu-padding {
+            padding-left: 15px;
+        }
+    }
+
 div.bhoechie-tab-container {
     z-index: 10;
     background-color: #ffffff;
@@ -892,7 +898,14 @@ div.bhoechie-tab div.bhoechie-tab-content:not(.active) {
         border-color: black !important;
         
     }
-    
+.boardWorkspaceContainer .ui-sortable-handle .panel-heading {
+    font-weight: bold;
+    font-size: medium;
+    text-align: left;
+    color: #428bca;
+    background-color: #f5f5f5;
+    border-color: none; 
+}
 /**********************/
 /* End DrugAndDrop    */
 /**********************/

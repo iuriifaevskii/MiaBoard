@@ -1,0 +1,321 @@
+﻿@model MiaBoard.ViewModels.ViewDashboardViewModel
+
+<style type="text/css">
+    .boardContainer {
+        width: 100%;
+    }
+
+    div.sortable {
+        width: 100%;
+    }
+
+    div.flower {
+        background-color: lightgreen;
+    }
+</style>
+<script type="text/javascript">
+    $(function () {
+
+        function updateListDashlets() {
+            var $parentOfColumns = $('#firstSortableColumn').parent().eq(0);
+            $($parentOfColumns[0]).children().each(function (columnInRowIndex, columnInRow) {
+                var $childrenOfPerent = $(columnInRow).children();
+                $childrenOfPerent.each(function (columnIndex, columnItem) {
+                    var dashletId = $(columnItem).attr('data-dashlet-id');
+                    var dashletColumn = $(columnItem).parent().attr('data-id');
+                    var dashletPosition = $(columnItem).index();
+                    $.ajax({
+                        type: 'PUT',
+                        url: '/api/dashlets/position/' + dashletId + '/' + dashletColumn + '/' + dashletPosition,
+                        success: function () {
+                            console.log(true);
+                        }
+                    });
+                });
+            });
+        }
+
+        $('#dashletHtml').draggable({
+            connectToSortable: '.boardWorkspaceContainer',
+            helper: function (e) {
+                return $('<div id="dashlet_new" class="panel panel-primary ui-sortable-handle" data-dashlet-id="new" >' +
+                           '<div class="panel-heading">test via WEB</div>' +
+                           '<div class="panel-body"></div>' +
+                           '<div class="panel-body">22079,9833333333</div>' +
+                           '<div class="panel-body"></div>' +
+                       '</div>');
+            }
+        });
+        $('#dashletChart').draggable({
+            connectToSortable: '.boardWorkspaceContainer',
+            helper: "clone"
+        });
+
+        $('.boardWorkspaceContainer').sortable();
+
+        $('.col-Container').sortable({
+            connectWith: '.col-Container',
+            placeholder: 'emptySpace',
+            update: function (event, ui) {
+                updateListDashlets();
+            }
+        });
+
+    });
+</script>
+<style>
+    .tile-box {
+        line-height: inherit;
+        display: block;
+        position: relative;
+        height: auto;
+        padding: 0;
+        border-width: 1px;
+        border-style: solid;
+        color: #fff;
+        background: rgb(87, 67, 255);
+        border-color: black;
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+    }
+
+    .tile-box-shortcut .bs-badge {
+        left: auto;
+        right: 10px;
+        top: 10px;
+        background: rgba(0,0,0,.5);
+    }
+
+    .bs-badge.badge-absolute {
+        position: absolute;
+        z-index: 5;
+    }
+
+    .badge, .bs-badge {
+        font-size: 11px;
+        font-weight: 700;
+        line-height: 19px;
+        display: inline-block;
+        min-width: 20px;
+        height: 20px;
+        padding: 0 4px 0 5px;
+        text-align: center;
+        vertical-align: baseline;
+        white-space: nowrap;
+        color: #fff;
+        border-radius: 10px;
+    }
+
+    .tile-box-shortcut .tile-header {
+        background: 0 0;
+        padding: 0;
+        position: absolute;
+        right: 10px;
+        bottom: 6px;
+        font-size: 13px;
+        font-weight: 400;
+    }
+
+    .tile-box-shortcut .tile-content-wrapper {
+        padding: 0;
+        min-height: 80px;
+    }
+
+    .tile-content-wrapper {
+        position: relative;
+        overflow: hidden;
+        padding: 10px;
+    }
+
+    .tile-box-shortcut .tile-content-wrapper > .glyph-icon {
+        position: absolute;
+        left: 15px;
+        top: 46px;
+    }
+
+    .tile-content-wrapper > .glyph-icon {
+        font-size: 35px;
+        line-height: 70px;
+        position: absolute;
+        top: 50%;
+        left: 15px;
+        height: 70px;
+        margin-top: -36px;
+        opacity: .3;
+        -moz-opacity: .3;
+        filter: alpha(opacity:30);
+    }
+
+    .glyph-icon {
+        text-align: center;
+    }
+
+    .icon-settings {
+        right: 194px;
+        top: 5px;
+        z-index: 5;
+        display: inline-flex;
+    }
+
+    .new-ic-padding {
+        padding: 10px;
+    }
+
+    .btn-danger.active, .btn-danger:active, .open > .dropdown-toggle.btn-danger,
+    .btn-danger.active, .btn-danger:active, .open > .dropdown-toggle.btn-danger,
+    .open > .dropdown-toggle.btn-danger.focus, .open > .dropdown-toggle.btn-danger:focus, .open > .dropdown-toggle.btn-danger:hover,
+    .btn-danger.focus, .btn-danger:focus,
+    .btn-danger.active.focus, .btn-danger.active:focus, .btn-danger.active:hover, .btn-danger:active.focus, .btn-danger:active:focus, .btn-danger:active:hover, .open > .dropdown-toggle.btn-danger.focus, .open > .dropdown-toggle.btn-danger:focus, .open > .dropdown-toggle.btn-danger:hover {
+        color: #fff;
+        background-color: #202bc9;
+        border-color: black;
+    }
+
+    .btn-danger:hover {
+        color: #fff;
+        background-color: #202bc9;
+        border-color: black;
+    }
+
+    .emptySpace {
+        border: medium dotted red;
+        height: 115px;
+        margin: 4px;
+    }
+</style>
+
+<!-- Navigation Left-->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 bhoechie-tab-container new-bhoechine-tab">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 bhoechie-tab">
+                <!-- flight section -->
+                <div class="bhoechie-tab-content active">
+                    <ul class="nav nav-pills nav-stacked user-menu-list">
+                        @foreach (var item in Model.DashboardList)
+                        {
+                            <li>
+                                <a class="alert alert-info text-center" href="/dashboards/view/@item.Id">
+                                    <i class="fa fa-tachometer fa-fw"></i>
+                                    @item.Title
+                                </a>
+                            </li>
+
+                        }
+                    </ul>
+                </div>
+                <!-- train section -->
+            </div>
+        </div>
+        <div class="col-lg-10 col-md-8 col-sm-12 col-xs-12  new-bhoechine-tab-main">
+            <div class="panel panel-info">
+                <div class="panel-heading">Panel with panel-info class</div>
+                <div class="panel-body">Panel Content</div>
+            </div>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div id="dashletHtml" title="Example tile shortcut" class="tile-box tile-box-shortcut btn-danger sortable ui-draggable ">
+                            <span class="bs-badge badge-absolute">1</span>
+                            <div class="icon-settings">
+                                <i class="fa fa-cog new-ic-padding" aria-hidden="true" data-toggle="collapse" data-target="#demo"></i>
+                                <i class="fa fa-arrow-circle-down new-ic-padding" aria-hidden="true"></i>
+                                <i class="fa fa-times new-ic-padding" aria-hidden="true"></i>
+                            </div>
+                            <div class="tile-header">HTML Dashlet</div>
+                            <div class="tile-content-wrapper">
+                                <i class="glyph-icon icon-file-photo-o fa fa-tachometer"></i>
+                            </div>
+
+                            <div id="demo" class="collapse" style="background:red;">
+                                <div>Set HTML Options</div>
+                                <label>First Name</label>
+                                <input class="span3" placeholder="Your First Name" type="text">
+                                <label>Last Name</label>
+                                <input class="span3" placeholder="Your Last Name" type="text">
+                                <label>Email Address</label>
+                                <input class="span3" placeholder="Your email address" type="text"> <label>Subject</label>
+                                <select class="span3" id="subject" name="subject">
+                                    <option selected value="na">
+                                        Choose One:
+                                    </option>
+
+                                    <option value="service">
+                                        General Customer Service
+                                    </option>
+
+                                    <option value="suggestions">
+                                        Suggestions
+                                    </option>
+
+                                    <option value="product">
+                                        Product Support
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 ">
+                        <div id="dashletChart" title="Example tile shortcut" class="tile-box tile-box-shortcut btn-danger sortable  ui-draggable">
+                            <span class="bs-badge badge-absolute">2</span>
+                            <div class="icon-settings">
+                                <i class="fa fa-cog new-ic-padding" aria-hidden="true"></i>
+                                <i class="fa fa-arrow-circle-down new-ic-padding" aria-hidden="true"></i>
+                                <i class="fa fa-times new-ic-padding" aria-hidden="true"></i>
+                            </div>
+                            <div class="tile-header">Chart Dashlet</div>
+                            <div class="tile-content-wrapper">
+                                <i class="glyph-icon icon-file-photo-o fa fa-bar-chart"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container-fluid sortContainer ui-sortable">
+                <div class="row">
+                    <div id="firstSortableColumn" data-id="1" class="sortContainer ui-sortable col-sm-4 boardWorkspaceContainer col-Container">
+                        @{
+                            foreach (var dashlet in Model.DashletsFirstCol)
+                            {
+                                <div id="dashlet_@dashlet.Id" class="panel panel-primary" data-dashlet-id="@dashlet.Id" style="@dashlet.Styles">
+                                    <div class="panel-heading">@dashlet.Title</div>
+                                    <div class="panel-body">@dashlet.TextType</div>
+                                    <div class="panel-body">@Model.DashletsSqlResult[dashlet.Id]</div>
+                                    <div class="panel-body">@dashlet.BottomSubTitle</div>
+                                </div>
+                            }
+                        }
+                    </div>
+                    <div id="secondSortableColumn" data-id="2" class="sortContainer ui-sortable col-sm-4 boardWorkspaceContainer col-Container">
+                        @{
+                            foreach (var dashlet in Model.DashletsSecondCol)
+                            {
+                                <div id="dashlet_@dashlet.Id" class="panel panel-primary" data-dashlet-id="@dashlet.Id" style="@dashlet.Styles">
+                                    <div class="panel-heading">@dashlet.Title</div>
+                                    <div class="panel-body">@dashlet.TextType</div>
+                                    <div class="panel-body">@Model.DashletsSqlResult[dashlet.Id]</div>
+                                    <div class="panel-body">@dashlet.BottomSubTitle</div>
+                                </div>
+                            }
+                        }
+                    </div>
+                    <div id="thirdSortableColumn" data-id="3" class="sortContainer ui-sortable col-sm-4 boardWorkspaceContainer col-Container">
+                        @{
+                            foreach (var dashlet in Model.DashletsThirdCol)
+                            {
+                                <div id="dashlet_@dashlet.Id" class="panel panel-primary" data-dashlet-id="@dashlet.Id" style="@dashlet.Styles">
+                                    <div class="panel-heading">@dashlet.Title</div>
+                                    <div class="panel-body">@dashlet.TextType</div>
+                                    <div class="panel-body">@Model.DashletsSqlResult[dashlet.Id]</div>
+                                    <div class="panel-body">@dashlet.BottomSubTitle</div>
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

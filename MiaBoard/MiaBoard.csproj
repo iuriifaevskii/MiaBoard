@@ -192,13 +192,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201701241004404_AddPositionFieldToDashlet.cs" />
-    <Compile Include="Migrations\201701241004404_AddPositionFieldToDashlet.Designer.cs">
-      <DependentUpon>201701241004404_AddPositionFieldToDashlet.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201701241016090_AddColumnFieldToDashlet.cs" />
-    <Compile Include="Migrations\201701241016090_AddColumnFieldToDashlet.Designer.cs">
-      <DependentUpon>201701241016090_AddColumnFieldToDashlet.cs</DependentUpon>
+    <Compile Include="Migrations\201701251408204_InitDatabase.cs" />
+    <Compile Include="Migrations\201701251408204_InitDatabase.Designer.cs">
+      <DependentUpon>201701251408204_InitDatabase.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -409,7 +405,9 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -461,6 +459,8 @@
     <Content Include="Views\Test\CompanyAdmin.cshtml" />
     <Content Include="Views\Test\SuperAdmin.cshtml" />
     <Content Include="Views\Test\User.cshtml" />
+    <Content Include="Views\Dashboards\ViewYuraCopy.cshtml" />
+    <Content Include="Views\Shared\_DashletEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -473,11 +473,8 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201701241004404_AddPositionFieldToDashlet.resx">
-      <DependentUpon>201701241004404_AddPositionFieldToDashlet.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201701241016090_AddColumnFieldToDashlet.resx">
-      <DependentUpon>201701241016090_AddColumnFieldToDashlet.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201701251408204_InitDatabase.resx">
+      <DependentUpon>201701251408204_InitDatabase.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

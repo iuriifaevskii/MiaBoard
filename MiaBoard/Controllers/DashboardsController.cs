@@ -30,6 +30,7 @@ namespace MiaBoard.Controllers
             viewDashboardViewModel.DashletsSecondCol = new List<Dashlet>();
             viewDashboardViewModel.DashletsThirdCol = new List<Dashlet>();
 
+            viewDashboardViewModel.DashboardList = db.Dashboards.ToList();
             viewDashboardViewModel.Dashboard = db.Dashboards.SingleOrDefault(d => d.Id == id);
             viewDashboardViewModel.Dashlets = db.Dashlets.Include(d => d.DataSource).Where(d => d.DashboardId == id).OrderBy(d => d.Position).ToList();
             

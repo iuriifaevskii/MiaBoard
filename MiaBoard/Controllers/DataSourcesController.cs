@@ -30,7 +30,7 @@ namespace MiaBoard.Controllers
         public ActionResult New()
         {
             var dataSources = new DataSource();
-
+            
             return View("Index", dataSources);
         }
         [HttpPost]

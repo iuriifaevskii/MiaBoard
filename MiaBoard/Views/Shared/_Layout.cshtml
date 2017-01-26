@@ -31,12 +31,8 @@
         </div>
     </nav>
     <!-- End Navigation -->
-    <div>
+    <div class="container-fluid">
         @RenderBody()
-        <hr />
-        <footer>
-            <p style="color:white">&copy; @DateTime.Now.Year - ASP.NET Mia Dushboard</p>
-        </footer>
     </div>
     @Scripts.Render("~/bundles/lib")
     @RenderSection("scripts", required: false)
