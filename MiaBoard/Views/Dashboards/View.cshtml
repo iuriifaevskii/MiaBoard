@@ -1,5 +1,4 @@
 ﻿@model MiaBoard.ViewModels.ViewDashboardViewModel
-
 <style type="text/css">
     .boardContainer {
         width: 100%;
@@ -18,6 +17,68 @@
     }
 </style>
 <script type="text/javascript">
+
+    function deleteDashlet(event) {
+        var choice = confirm("Do you really want to remove this dashlet?");
+        if (choice) {
+            var dashletIdToDelete = $($(event.target).parent().parent()[0]).attr('data-dashlet-id');
+            $.ajax({
+                type: 'DELETE',
+                url: '/api/dashlets/' + dashletIdToDelete,
+                success: function (data) {
+                    $('#dashlet_'+data.id).remove();
+                }
+            });
+        }
+    }
+    function updateDashletViaBurger(event) {
+        var $formDashletUpdate = $(event.target).parent().parent().parent();
+
+        var _id = $formDashletUpdate.parent().attr('data-dashlet-id');
+        var dashletForEditWithId = '#dashletForEdit_' + _id;
+        var _title = $formDashletUpdate.find(dashletForEditWithId + '-Title').val();
+        var _textType = $formDashletUpdate.find(dashletForEditWithId + '-TextType').val();
+        var _styles = $formDashletUpdate.find(dashletForEditWithId + '-Styles').val();
+        var _dataSourceId = $formDashletUpdate.find(dashletForEditWithId + '-DataSourceId').val();
+        var _sql = $formDashletUpdate.find(dashletForEditWithId + '-Sql').val();
+        var _topSubLevel = $formDashletUpdate.find(dashletForEditWithId + '-TopSubLevel').val();
+        var _bottomSubTitle = $formDashletUpdate.find(dashletForEditWithId + '-BottomSubTitle').val();
+        var _column = $formDashletUpdate.find(dashletForEditWithId + '-Column').val();
+        var _position = $formDashletUpdate.find(dashletForEditWithId + '-Position').val();
+
+        $.ajax({
+            type: 'PUT',
+            url: '/api/dashlets/' + _id,
+            data: {
+                Title: _title,
+                TextType: _textType,
+                Styles: _styles,
+                DataSourceId: _dataSourceId,
+                SQL: _sql,
+                TopSubLevel: _topSubLevel,
+                BottomSubTitle: _bottomSubTitle,
+                Column: _column,
+                Position: _position
+            },
+            success: function (data) {
+                if (data.id != "") {
+                    var $dashletThatUpdatedHtml = $('#dashlet_' + data.id);
+                    var helperChngDshlVls = 'div#dashletField_' + data.id;
+
+                    $dashletThatUpdatedHtml.attr('style', data.styles);
+                    $dashletThatUpdatedHtml.find(helperChngDshlVls + '-Title').html(data.title);
+                    $dashletThatUpdatedHtml.find(helperChngDshlVls + '-TextType').html(data.textType);
+                    $dashletThatUpdatedHtml.find(helperChngDshlVls + '-BottomSubTitle').html(data.bottomSubTitle);
+
+                    $('i[data-target="#dashletForEdit_' + data.id + '"]').click();
+                } else {
+                    console.log('ERROR: Empty Dashlet!');
+                }
+
+            }
+        });
+    }
+
     $(function () {
         var countJSDashlets = 0;
         var lastInsertedId = 0;
@@ -63,9 +124,9 @@
                     + '        <div class="form-group">'
                     + '            <label for="newDashletDataSourceId" class="control-label col-xs-12 col-sm-3">Text Type: </label>'
                     + '            <div class="col-xs-12 col-sm-9">'
-                    +               '<select id="newDashletDataSourceId">'
-                    +                       selectDataSources[0].innerHTML
-                    +               '</select>'
+                    + '<select id="newDashletDataSourceId" class="form-control">'
+                    + selectDataSources[0].innerHTML
+                    + '</select>'
                     + '            </div>'
                     + '        </div>'
                     + '        <div class="form-group">'
@@ -261,7 +322,6 @@
         margin: 4px;
     }
 </style>
-
 <style>
     /*yura styles*/
     .own-board-style {
@@ -312,13 +372,13 @@
     <div id="countJSDashlets" data-dashlets-js-count="0"></div>
     <div id="listDataSources">
         <select id="selectDataSources">
-            @foreach(var ds in Model.DataSources){
-                <option value="@ds.Id">@ds.ConnectionString</option>
+            @foreach (var ds in Model.DataSources)
+            {
+            <option value="@ds.Id">@ds.ConnectionString</option>
             }
         </select>
     </div>
 </div>
-
 <!-- Navigation Left-->
 <div class="container-fluid left-menu-padding">
     <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 bhoechie-tab-container new-bhoechine-tab">
@@ -414,7 +474,6 @@
 
             </div>
         </div>
-
         <div class="container-fluid sortContainer ui-sortable">
             <div class="row">
                 <div id="firstSortableColumn" data-id="1" class="sortContainer ui-sortable col-sm-4 boardWorkspaceContainer col-Container">
@@ -422,97 +481,64 @@
                         foreach (var dashlet in Model.DashletsFirstCol)
                         {
                             <div id="dashlet_@dashlet.Id" class="panel panel-primary text-center" data-dashlet-id="@dashlet.Id" style="@dashlet.Styles">
-                                <div class="panel-heading">@dashlet.Title</div>
-                                <div class="panel-body">@dashlet.TextType</div>
+                                <div id="dashletField_@dashlet.Id-Title" class="panel-heading">@dashlet.Title</div>
+                                <div id="dashletField_@dashlet.Id-TextType" class="panel-body">@dashlet.TextType</div>
                                 <div class="panel-body">@Model.DashletsSqlResult[dashlet.Id]</div>
-                                <div class="panel-body">@dashlet.BottomSubTitle</div>
-
+                                <div id="dashletField_@dashlet.Id-BottomSubTitle" class="panel-body">@dashlet.BottomSubTitle</div>
                                 <div class="icon-settings">
-                                    <i class="fa fa-cog new-ic-padding" aria-hidden="true" data-toggle="collapse" data-target="#edit_dashlet_@dashlet.Id"></i>
+                                    <i class="fa fa-cog new-ic-padding" aria-hidden="true" data-toggle="collapse" data-target="#dashletForEdit_@dashlet.Id"></i>
                                     <i class="fa fa-arrow-circle-down new-ic-padding" aria-hidden="true"></i>
-                                    <i class="fa fa-times new-ic-padding" aria-hidden="true"></i>
+                                    <i class="fa fa-times new-ic-padding" aria-hidden="true" onclick="deleteDashlet(event)"></i>
                                 </div>
-                                <div id="edit_dashlet_@dashlet.Id" class="collapse" style="background: red; height: auto;">
-                                    @*@Html.Partial("_DashletEdit", new { id = @dashlet.Id });*@
-
-                                    @using (Html.BeginForm())
-                                    {
-                                        @Html.AntiForgeryToken()
-
-                                        <div class="form-horizontal">
-                                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                                            @Html.HiddenFor(model => model.Dashlet.Id)
-
-                                            <div class="form-group">
-                                                @Html.LabelFor(model => model.Dashlet.Title, htmlAttributes: new { @class = "control-label col-md-2 label-toggle-style" })
-                                                <div class="col-md-10">
-                                                    @Html.EditorFor(model => model.Dashlet.Title, new { htmlAttributes = new { @class = "form-control" } })
-                                                    @Html.ValidationMessageFor(model => model.Dashlet.Title, "", new { @class = "text-danger" })
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                @Html.LabelFor(model => model.Dashlet.TextType, htmlAttributes: new { @class = "control-label col-md-2 label-toggle-style" })
-                                                <div class="col-md-10">
-                                                    @Html.EditorFor(model => model.Dashlet.TextType, new { htmlAttributes = new { @class = "form-control" } })
-                                                    @Html.ValidationMessageFor(model => model.Dashlet.TextType, "", new { @class = "text-danger" })
-                                                </div>
-                                            </div>
-                                            @*
-                                                <div class="form-group">
-                                                    @Html.LabelFor(model => model.Dashlet.DashboardId, "Dashboard Connect", htmlAttributes: new { @class = "control-label col-md-2 label-toggle-style" })
-                                                    <div class="col-md-10">
-                                                        @Html.DropDownList("DashboardId", null, htmlAttributes: new { @class = "form-control" })
-                                                        @Html.ValidationMessageFor(model => model.Dashlet.DashboardId, "", new { @class = "text-danger" })
-                                                    </div>
-                                                </div>
-                                            *@
-                                            @*
-                                                <div class="form-group">
-                                                    @Html.LabelFor(model => model.Dashlet.DataSourceId, "DataSourceId", htmlAttributes: new { @class = "control-label col-md-2 label-toggle-style" })
-                                                    <div class="col-md-10">
-                                                        @Html.DropDownList("DataSourceId", null, htmlAttributes: new { @class = "form-control" })
-                                                        @Html.ValidationMessageFor(model => model.Dashlet.DataSourceId, "", new { @class = "text-danger" })
-                                                    </div>
-                                                </div>
-                                            *@
-                                            <div class="form-group">
-                                                @Html.LabelFor(model => model.Dashlet.Sql, htmlAttributes: new { @class = "control-label col-md-2 label-toggle-style" })
-                                                <div class="col-md-10">
-                                                    @Html.EditorFor(model => model.Dashlet.Sql, new { htmlAttributes = new { @class = "form-control" } })
-                                                    @Html.ValidationMessageFor(model => model.Dashlet.Sql, "", new { @class = "text-danger" })
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                @Html.LabelFor(model => model.Dashlet.Styles, htmlAttributes: new { @class = "control-label col-md-2 label-toggle-style" })
-                                                <div class="col-md-10">
-                                                    @Html.EditorFor(model => model.Dashlet.Styles, new { htmlAttributes = new { @class = "form-control" } })
-                                                    @Html.ValidationMessageFor(model => model.Dashlet.Styles, "", new { @class = "text-danger" })
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                @Html.LabelFor(model => model.Dashlet.TopSubLevel, htmlAttributes: new { @class = "control-label col-md-2 label-toggle-style" })
-                                                <div class="col-md-10">
-                                                    @Html.EditorFor(model => model.Dashlet.TopSubLevel, new { htmlAttributes = new { @class = "form-control" } })
-                                                    @Html.ValidationMessageFor(model => model.Dashlet.TopSubLevel, "", new { @class = "text-danger" })
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                @Html.LabelFor(model => model.Dashlet.BottomSubTitle, htmlAttributes: new { @class = "control-label col-md-2 label-toggle-style" })
-                                                <div class="col-md-10">
-                                                    @Html.EditorFor(model => model.Dashlet.BottomSubTitle, new { htmlAttributes = new { @class = "form-control" } })
-                                                    @Html.ValidationMessageFor(model => model.Dashlet.BottomSubTitle, "", new { @class = "text-danger" })
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <div class="col-md-offset-2 col-md-10">
-                                                    <input type="submit" value="Save" class="btn btn-default" />
-                                                </div>
+                                <div id="dashletForEdit_@dashlet.Id" data-dashlet-id="@dashlet.Id" class="collapse container" style="background: white; color:black;">
+                                    <form action="/" method="post" class=" text-left form-horizontal col-xs-12">
+                                        <div class=" form-group">
+                                            <label for="dashletForEdit_@dashlet.Id-Title">Title: </label>
+                                            <input type="text" class="form-control" id="dashletForEdit_@dashlet.Id-Title" placeholder="Title" value="@dashlet.Title" />
+                                        </div>
+                                        <div class=" form-group">
+                                            <label for="dashletForEdit_@dashlet.Id-TextType">TextType: </label>
+                                            <input type="text" class="form-control" id="dashletForEdit_@dashlet.Id-TextType" placeholder="TextType" value="@dashlet.TextType" />
+                                        </div>
+                                        <div class=" form-group">
+                                            <label for="dashletForEdit_@dashlet.Id-Title">DataSource: </label>
+                                            <select class="form-control" id="dashletForEdit_@dashlet.Id-DataSourceId">
+                                                @foreach (var ds in Model.DataSources)
+                                                {
+                                                    <option value="@ds.Id">@ds.ConnectionString</option>
+                                                }
+                                            </select>
+                                        </div>
+                                        <div class=" form-group">
+                                            <label for="dashletForEdit_@dashlet.Id-Sql">Sql: </label>
+                                            <input type="text" class="form-control" id="dashletForEdit_@dashlet.Id-Sql" placeholder="Sql" value="@dashlet.Sql" />
+                                        </div>
+                                        <div class=" form-group">
+                                            <label for="dashletForEdit_@dashlet.Id-Styles">Styles: </label>
+                                            <input type="text" class="form-control" id="dashletForEdit_@dashlet.Id-Styles" placeholder="Styles" value="@dashlet.Styles" />
+                                        </div>
+                                        <div class=" form-group">
+                                            <label for="dashletForEdit_@dashlet.Id-TopSubLevel">TopSubLevel: </label>
+                                            <input type="text" class="form-control" id="dashletForEdit_@dashlet.Id-TopSubLevel" placeholder="TopSubLevel" value="@dashlet.TopSubLevel" />
+                                        </div>
+                                        <div class=" form-group">
+                                            <label for="dashletForEdit_@dashlet.Id-BottomSubTitle">BottomSubTitle: </label>
+                                            <input type="text" class="form-control" id="dashletForEdit_@dashlet.Id-BottomSubTitle" placeholder="BottomSubTitle" value="@dashlet.BottomSubTitle" />
+                                        </div>
+                                        <div class=" form-group">
+                                            <label for="dashletForEdit_@dashlet.Id-Position">Position: </label>
+                                            <input type="text" class="form-control" id="dashletForEdit_@dashlet.Id-Position" placeholder="Position" value="@dashlet.Position" />
+                                        </div>
+                                        <div class=" form-group">
+                                            <label for="dashletForEdit_@dashlet.Id-Column">Column: </label>
+                                            <input type="text" class="form-control" id="dashletForEdit_@dashlet.Id-Column" placeholder="Column" value="@dashlet.Column" />
+                                        </div>
+                                        <div class=" form-group">
+                                            <div class="col-xs-12 col-sm-8">
+                                                <button type="button" class="btn btn-default" onclick="updateDashletViaBurger(event)">Change</button>
                                             </div>
                                         </div>
-                                    }
+                                    </form>
                                 </div>
                             </div>
                         }
@@ -523,10 +549,65 @@
                         foreach (var dashlet in Model.DashletsSecondCol)
                         {
                             <div id="dashlet_@dashlet.Id" class="panel panel-primary text-center" data-dashlet-id="@dashlet.Id" style="@dashlet.Styles">
-                                <div class="panel-heading">@dashlet.Title</div>
-                                <div class="panel-body">@dashlet.TextType</div>
+                                <div id="dashletField_@dashlet.Id-Title" class="panel-heading">@dashlet.Title</div>
+                                <div id="dashletField_@dashlet.Id-TextType" class="panel-body">@dashlet.TextType</div>
                                 <div class="panel-body">@Model.DashletsSqlResult[dashlet.Id]</div>
-                                <div class="panel-body">@dashlet.BottomSubTitle</div>
+                                <div id="dashletField_@dashlet.Id-BottomSubTitle" class="panel-body">@dashlet.BottomSubTitle</div>
+                                <div class="icon-settings">
+                                    <i class="fa fa-cog new-ic-padding" aria-hidden="true" data-toggle="collapse" data-target="#dashletForEdit_@dashlet.Id"></i>
+                                    <i class="fa fa-arrow-circle-down new-ic-padding" aria-hidden="true"></i>
+                                    <i class="fa fa-times new-ic-padding" aria-hidden="true"></i>
+                                </div>
+                                <div id="dashletForEdit_@dashlet.Id" data-dashlet-id="@dashlet.Id" class="collapse container" style="background: white; color:black;">
+                                    <form action="/" method="post" class=" text-left form-horizontal col-xs-12">
+                                        <div class=" form-group">
+                                            <label for="dashletForEdit_@dashlet.Id-Title">Title: </label>
+                                            <input type="text" class="form-control" id="dashletForEdit_@dashlet.Id-Title" placeholder="Title" value="@dashlet.Title" />
+                                        </div>
+                                        <div class=" form-group">
+                                            <label for="dashletForEdit_@dashlet.Id-TextType">TextType: </label>
+                                            <input type="text" class="form-control" id="dashletForEdit_@dashlet.Id-TextType" placeholder="TextType" value="@dashlet.TextType" />
+                                        </div>
+                                        <div class=" form-group">
+                                            <label for="dashletForEdit_@dashlet.Id-Title">DataSource: </label>
+                                            <select class="form-control" id="dashletForEdit_@dashlet.Id-DataSourceId">
+                                                @foreach (var ds in Model.DataSources)
+                                                {
+                                                    <option value="@ds.Id">@ds.ConnectionString</option>
+                                                }
+                                            </select>
+                                        </div>
+                                        <div class=" form-group">
+                                            <label for="dashletForEdit_@dashlet.Id-Sql">Sql: </label>
+                                            <input type="text" class="form-control" id="dashletForEdit_@dashlet.Id-Sql" placeholder="Sql" value="@dashlet.Sql" />
+                                        </div>
+                                        <div class=" form-group">
+                                            <label for="dashletForEdit_@dashlet.Id-Styles">Styles: </label>
+                                            <input type="text" class="form-control" id="dashletForEdit_@dashlet.Id-Styles" placeholder="Styles" value="@dashlet.Styles" />
+                                        </div>
+                                        <div class=" form-group">
+                                            <label for="dashletForEdit_@dashlet.Id-TopSubLevel">TopSubLevel: </label>
+                                            <input type="text" class="form-control" id="dashletForEdit_@dashlet.Id-TopSubLevel" placeholder="TopSubLevel" value="@dashlet.TopSubLevel" />
+                                        </div>
+                                        <div class=" form-group">
+                                            <label for="dashletForEdit_@dashlet.Id-BottomSubTitle">BottomSubTitle: </label>
+                                            <input type="text" class="form-control" id="dashletForEdit_@dashlet.Id-BottomSubTitle" placeholder="BottomSubTitle" value="@dashlet.BottomSubTitle" />
+                                        </div>
+                                        <div class=" form-group">
+                                            <label for="dashletForEdit_@dashlet.Id-Position">Position: </label>
+                                            <input type="text" class="form-control" id="dashletForEdit_@dashlet.Id-Position" placeholder="Position" value="@dashlet.Position" />
+                                        </div>
+                                        <div class=" form-group">
+                                            <label for="dashletForEdit_@dashlet.Id-Column">Column: </label>
+                                            <input type="text" class="form-control" id="dashletForEdit_@dashlet.Id-Column" placeholder="Column" value="@dashlet.Column" />
+                                        </div>
+                                        <div class=" form-group">
+                                            <div class="col-xs-12 col-sm-8">
+                                                <button type="button" class="btn btn-default" onclick="updateDashletViaBurger(event)">Change</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
                         }
                     }
@@ -536,10 +617,65 @@
                         foreach (var dashlet in Model.DashletsThirdCol)
                         {
                             <div id="dashlet_@dashlet.Id" class="panel panel-primary text-center" data-dashlet-id="@dashlet.Id" style="@dashlet.Styles">
-                                <div class="panel-heading">@dashlet.Title</div>
-                                <div class="panel-body">@dashlet.TextType</div>
+                                <div id="dashletField_@dashlet.Id-Title" class="panel-heading">@dashlet.Title</div>
+                                <div id="dashletField_@dashlet.Id-TextType" class="panel-body">@dashlet.TextType</div>
                                 <div class="panel-body">@Model.DashletsSqlResult[dashlet.Id]</div>
-                                <div class="panel-body">@dashlet.BottomSubTitle</div>
+                                <div id="dashletField_@dashlet.Id-BottomSubTitle" class="panel-body">@dashlet.BottomSubTitle</div>
+                                <div class="icon-settings">
+                                    <i class="fa fa-cog new-ic-padding" aria-hidden="true" data-toggle="collapse" data-target="#dashletForEdit_@dashlet.Id"></i>
+                                    <i class="fa fa-arrow-circle-down new-ic-padding" aria-hidden="true"></i>
+                                    <i class="fa fa-times new-ic-padding" aria-hidden="true"></i>
+                                </div>
+                                <div id="dashletForEdit_@dashlet.Id" data-dashlet-id="@dashlet.Id" class="collapse container" style="background: white; color:black;">
+                                    <form action="/" method="post" class=" text-left form-horizontal col-xs-12">
+                                        <div class=" form-group">
+                                            <label for="dashletForEdit_@dashlet.Id-Title">Title: </label>
+                                            <input type="text" class="form-control" id="dashletForEdit_@dashlet.Id-Title" placeholder="Title" value="@dashlet.Title" />
+                                        </div>
+                                        <div class=" form-group">
+                                            <label for="dashletForEdit_@dashlet.Id-TextType">TextType: </label>
+                                            <input type="text" class="form-control" id="dashletForEdit_@dashlet.Id-TextType" placeholder="TextType" value="@dashlet.TextType" />
+                                        </div>
+                                        <div class=" form-group">
+                                            <label for="dashletForEdit_@dashlet.Id-Title">DataSource: </label>
+                                            <select class="form-control" id="dashletForEdit_@dashlet.Id-DataSourceId">
+                                                @foreach (var ds in Model.DataSources)
+                                                {
+                                                    <option value="@ds.Id">@ds.ConnectionString</option>
+                                                }
+                                            </select>
+                                        </div>
+                                        <div class=" form-group">
+                                            <label for="dashletForEdit_@dashlet.Id-Sql">Sql: </label>
+                                            <input type="text" class="form-control" id="dashletForEdit_@dashlet.Id-Sql" placeholder="Sql" value="@dashlet.Sql" />
+                                        </div>
+                                        <div class=" form-group">
+                                            <label for="dashletForEdit_@dashlet.Id-Styles">Styles: </label>
+                                            <input type="text" class="form-control" id="dashletForEdit_@dashlet.Id-Styles" placeholder="Styles" value="@dashlet.Styles" />
+                                        </div>
+                                        <div class=" form-group">
+                                            <label for="dashletForEdit_@dashlet.Id-TopSubLevel">TopSubLevel: </label>
+                                            <input type="text" class="form-control" id="dashletForEdit_@dashlet.Id-TopSubLevel" placeholder="TopSubLevel" value="@dashlet.TopSubLevel" />
+                                        </div>
+                                        <div class=" form-group">
+                                            <label for="dashletForEdit_@dashlet.Id-BottomSubTitle">BottomSubTitle: </label>
+                                            <input type="text" class="form-control" id="dashletForEdit_@dashlet.Id-BottomSubTitle" placeholder="BottomSubTitle" value="@dashlet.BottomSubTitle" />
+                                        </div>
+                                        <div class=" form-group">
+                                            <label for="dashletForEdit_@dashlet.Id-Position">Position: </label>
+                                            <input type="text" class="form-control" id="dashletForEdit_@dashlet.Id-Position" placeholder="Position" value="@dashlet.Position" />
+                                        </div>
+                                        <div class=" form-group">
+                                            <label for="dashletForEdit_@dashlet.Id-Column">Column: </label>
+                                            <input type="text" class="form-control" id="dashletForEdit_@dashlet.Id-Column" placeholder="Column" value="@dashlet.Column" />
+                                        </div>
+                                        <div class=" form-group">
+                                            <div class="col-xs-12 col-sm-8">
+                                                <button type="button" class="btn btn-default" onclick="updateDashletViaBurger(event)">Change</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
                         }
                     }

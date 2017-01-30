@@ -22,6 +22,37 @@ namespace MiaBoard.Controllers.Api
             return db.Dashlets;
         }
 
+        // PUT: api/Dashlets/1
+        public IHttpActionResult PutUpdate(int id, Dashlet dashlet)
+        {
+            if (id == 0)
+                return BadRequest();
+
+            var dashletInDb = db.Dashlets.SingleOrDefault(d => d.Id == id);
+
+            try
+            {
+                var dataSourceToChange = db.DataSources.SingleOrDefault(d => d.Id == dashlet.DataSourceId);
+
+                dashletInDb.DataSource = dataSourceToChange;
+                dashletInDb.Title = dashlet.Title;
+                dashletInDb.TextType = dashlet.TextType;
+                dashletInDb.Sql = dashlet.Sql;
+                dashletInDb.Styles = dashlet.Styles;
+                dashletInDb.TopSubLevel = dashlet.TopSubLevel;
+                dashletInDb.BottomSubTitle = dashlet.BottomSubTitle;
+                dashletInDb.Column = dashlet.Column;
+                dashletInDb.Position = dashlet.Position;
+
+                db.SaveChanges();
+            }
+            catch (Exception e) {
+                return InternalServerError(e);
+            }
+
+            return Ok(dashletInDb);
+        }
+
         // GET: api/Dashlets/5
         [ResponseType(typeof(Dashlet))]
         public IHttpActionResult GetDashlet(int id)
