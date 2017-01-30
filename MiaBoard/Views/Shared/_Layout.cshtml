@@ -10,7 +10,44 @@
 
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
 
+        function createDashlet() {
+
+            var $dashlet = $(event.target).parent().parent();
+
+            var _title = $dashlet.find('#newDashletTitle').val();
+            var _textType = $dashlet.find('#newDashletTextType').val();
+            var _styles = $dashlet.find('#newDashletStyles').val();
+            var _dataSourceId = $('#newDashletDataSourceId').val();
+            var _sql = $dashlet.find('#newDashletSQL').val();
+            var _dashboardId = $('#globalSettings #currentDashboard').attr('data-dashboard-id');
+            var _topSubLevel = $dashlet.find('#newDashletTopSubLevel').val();
+            var _bottomSubTitle = $dashlet.find('#newDashletTextColor').val();
+            var _column = $($dashlet.parent()).attr('data-id');
+            var _position = $dashlet.index();
+
+            $.ajax({
+                type: 'post',
+                url: '/api/dashlets/createviadrag',
+                data: {
+                    Title: _title,
+                    TextType: _textType,
+                    Styles: _styles,
+                    DataSourceId: _dataSourceId,
+                    SQL: _sql,
+                    DashboardId: _dashboardId,
+                    TopSubLevel: _topSubLevel,
+                    BottomSubTitle: _bottomSubTitle,
+                    Column: _column,
+                    Position: _position
+                },
+                success: function (data) {
+                    console.log(data);
+                }
+            });
+        }
+    </script>
 </head>
 <body>
     <!-- Navigation -->

@@ -43,6 +43,16 @@ namespace MiaBoard.Controllers.Api
             if (dashlet == null)
                 return BadRequest();
 
+            try {
+                dashlet.Dashboard = db.Dashboards.SingleOrDefault(ds => ds.Id == dashlet.DashboardId);
+                dashlet.DataSource = db.DataSources.SingleOrDefault(ds => ds.Id == dashlet.DataSourceId);
+
+                db.Dashlets.Add(dashlet);
+                db.SaveChanges();
+            } catch(Exception e){
+                return InternalServerError(e);
+            }
+
             return Ok();
         }
 

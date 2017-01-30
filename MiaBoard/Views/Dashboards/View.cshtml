@@ -44,6 +44,7 @@
         $('#dashletHtml').draggable({
             connectToSortable: '.boardWorkspaceContainer',
             helper: function (e) {
+                var selectDataSources = $('#selectDataSources').clone();
                 return $(
                     '<div id="newDashlet" data-dashlet-id="newDashlet" class="panel panel-primary text-center ui-sortable-handle">'
                     + '    <form class="form-horizontal">'
@@ -57,6 +58,14 @@
                     + '            <label for="newDashletTextType" class="control-label col-xs-12 col-sm-3">Text Type: </label>'
                     + '            <div class="col-xs-12 col-sm-9">'
                     + '                <input type="text" class="form-control" id="newDashletTextType" placeholder="Text Type">'
+                    + '            </div>'
+                    + '        </div>'
+                    + '        <div class="form-group">'
+                    + '            <label for="newDashletDataSourceId" class="control-label col-xs-12 col-sm-3">Text Type: </label>'
+                    + '            <div class="col-xs-12 col-sm-9">'
+                    +               '<select id="newDashletDataSourceId">'
+                    +                       selectDataSources[0].innerHTML
+                    +               '</select>'
                     + '            </div>'
                     + '        </div>'
                     + '        <div class="form-group">'
@@ -130,39 +139,6 @@
                 }
             }
         });
-        function createDashlet() {
-
-            var $dashlet = $($('#newDashletTitle').parent().parent().parent().parent());
-            debugger;
-            var _title = $('#newDashletTitle').val();
-            var _textType = $('#newDashletTextType').val();
-            var _dataSourceId = $('#newDashletTextType').val();///////////////
-            var _sql = $('#newDashletSQL').val();
-            var _dashboardId = $('#globalSettings #currentDashboard').attr('data-dashboard-id');
-            var _topSubLevel = $('#newDashletTopSubLevel').val();
-            var _bottomSubTitle = $('#newDashletTextColor').val();
-            var _column = $($dashlet.parent()).attr('data-id');
-            var _position = $dashlet.index();
-
-            $.ajax({
-                type: 'post',
-                url: '/api/dashlets/createviadrag',
-                data: {
-                    Title: _title,
-                    TextType: _textType,
-                    DataSourceId: _dataSourceId,
-                    SQL: _sql,
-                    DashboardId: _dashboardId,
-                    TopSubLevel: _topSubLevel,
-                    BottomSubTitle: _bottomSubTitle,
-                    Column: _column,
-                    Position: _position
-                },
-                success: function (data) {
-                    console.log(data);
-                }
-            });
-        }
     });
 </script>
 <style>
