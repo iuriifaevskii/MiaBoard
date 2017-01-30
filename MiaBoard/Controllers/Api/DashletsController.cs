@@ -36,26 +36,63 @@ namespace MiaBoard.Controllers.Api
             return Ok(dashlet);
         }
 
-        [Route("api/dashlets/position/{id}/{column}/{position}")]
-        [HttpPut]
-        public IHttpActionResult PutDashletList( int id = 0, int column = 0 , int position = 0)
+        [Route("api/dashlets/createviadrag")]
+        [HttpPost]
+        public IHttpActionResult Action(Dashlet dashlet)
+        {
+            if (dashlet == null)
+                return BadRequest();
+
+            return Ok();
+        }
+
+        [Route("api/dashlets/lastid")]
+        [HttpGet]
+        public int GetLastId()
+        {
+            int lastId = db.Dashlets.Max(d => d.Id);
+            return lastId;
+        }
+
+        [Route("api/dashlets/position/{id}/{column}/{position}/{dashboardid}")]
+        [HttpPost]
+        public IHttpActionResult PostDashletList( int id = 0, int column = 0 , int position = 0, int dashboardid = 0)
         {
             if(id == 0 || column == 0)
                 return BadRequest();
 
             var dashletInDb = db.Dashlets.SingleOrDefault(d => d.Id == id);
 
-            if(dashletInDb == null)
-                return NotFound();
-
-            try
+            if (dashletInDb == null)
             {
-                dashletInDb.Position = position;
-                dashletInDb.Column = column;
+                var dashlet = new Dashlet();
+                dashlet.Column = column;
+                dashlet.Position = position;
+                dashlet.DataSource = db.DataSources.Where(d => d.Id == 4).SingleOrDefault();
+                dashlet.Dashboard = db.Dashboards.Where(d => d.Id == dashboardid).SingleOrDefault(); 
+                try
+                {
+                    db.Dashlets.Add(dashlet);
+                    db.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    return InternalServerError(e);
+                }
+            }
+            else
+            {
+                try
+                {
+                    dashletInDb.Position = position;
+                    dashletInDb.Column = column;
 
-                db.SaveChanges();
-            } catch(Exception e) {
-                return InternalServerError(e);
+                    db.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    return InternalServerError(e);
+                }
             }
 
             return Ok();
