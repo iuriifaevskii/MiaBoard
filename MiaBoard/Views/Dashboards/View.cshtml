@@ -19,7 +19,9 @@
 </style>
 <script type="text/javascript">
     $(function () {
-
+        var countJSDashlets = 0;
+        var lastInsertedId = 0;
+        var currentDashboard = $('#globalSettings #currentDashboard').attr('data-dashboard-id');
         function updateListDashlets() {
             var $parentOfColumns = $('#firstSortableColumn').parent().eq(0);
             $($parentOfColumns[0]).children().each(function (columnInRowIndex, columnInRow) {
@@ -29,8 +31,8 @@
                     var dashletColumn = $(columnItem).parent().attr('data-id');
                     var dashletPosition = $(columnItem).index();
                     $.ajax({
-                        type: 'PUT',
-                        url: '/api/dashlets/position/' + dashletId + '/' + dashletColumn + '/' + dashletPosition,
+                        type: 'POST',
+                        url: '/api/dashlets/position/' + dashletId + '/' + dashletColumn + '/' + dashletPosition + '/' + currentDashboard,
                         success: function () {
                             console.log(true);
                         }
@@ -42,14 +44,64 @@
         $('#dashletHtml').draggable({
             connectToSortable: '.boardWorkspaceContainer',
             helper: function (e) {
-                return $('<div id="dashlet_new" class="panel panel-primary ui-sortable-handle width-class text-center" data-dashlet-id="new" >' +
-                           '<div class="panel-heading">test via WEB</div>' +
-                           '<div class="panel-body">test</div>' +
-                           '<div class="panel-body">22079,98333</div>' +
-                           '<div class="panel-body">test</div>' +
-                       '</div>');
+                return $(
+                    '<div id="newDashlet" data-dashlet-id="newDashlet" class="panel panel-primary text-center ui-sortable-handle">'
+                    + '    <form class="form-horizontal">'
+                    + '        <div class="form-group">'
+                    + '            <label for="newDashletTitle" class="control-label col-xs-12 col-sm-3">Title: </label>'
+                    + '            <div class="col-xs-12 col-sm-9">'
+                    + '                <input type="text" class="form-control" id="newDashletTitle" placeholder="Title">'
+                    + '            </div>'
+                    + '        </div>'
+                    + '        <div class="form-group">'
+                    + '            <label for="newDashletTextType" class="control-label col-xs-12 col-sm-3">Text Type: </label>'
+                    + '            <div class="col-xs-12 col-sm-9">'
+                    + '                <input type="text" class="form-control" id="newDashletTextType" placeholder="Text Type">'
+                    + '            </div>'
+                    + '        </div>'
+                    + '        <div class="form-group">'
+                    + '            <label for="newDashletStyles" class="control-label col-xs-12 col-sm-3">Styles: </label>'
+                    + '            <div class="col-xs-12 col-sm-9">'
+                    + '                <input type="text" class="form-control" id="newDashletStyles" placeholder="Styles(text-color:red;font-size:14px)">'
+                    + '            </div>'
+                    + '        </div>'
+                    + '        <div class="form-group">'
+                    + '            <label for="newDashletSQL" class="control-label col-xs-12 col-sm-3">SQL: </label>'
+                    + '            <div class="col-xs-12 col-sm-9">'
+                    + '                <input type="text" class="form-control" id="newDashletSQL" placeholder="SQL query">'
+                    + '            </div>'
+                    + '        </div>'
+                    + '        <div class="form-group">'
+                    + '            <label for="newDashletTopSubLevel" class="control-label col-xs-12 col-sm-3">Top Sub Level: </label>'
+                    + '            <div class="col-xs-12 col-sm-9">'
+                    + '                <input type="text" class="form-control" id="newDashletTopSubLevel" placeholder="Top Sub Level">'
+                    + '            </div>'
+                    + '        </div>'
+                    + '        <div class="form-group">'
+                    + '            <label for="newDashletBottomSubTitle" class="control-label col-xs-12 col-sm-3">Bottom Sub Title: </label>'
+                    + '            <div class="col-xs-12 col-sm-9">'
+                    + '                <input type="text" class="form-control" id="newDashletTextColor" placeholder="Bottom Sub Title">'
+                    + '            </div>'
+                    + '        </div>'
+                    + '        <div class="form-group">'
+                    + '            <label for="newDashletPosition" class="control-label col-xs-12 col-sm-3">Position: </label>'
+                    + '            <div class="col-xs-12 col-sm-9">'
+                    + '                <input type="text" class="form-control" id="newDashletPosition" placeholder="Position">'
+                    + '            </div>'
+                    + '        </div>'
+                    + '        <div class="form-group">'
+                    + '            <label for="newDashletColumn" class="control-label col-xs-12 col-sm-3">Column: </label>'
+                    + '            <div class="col-xs-12 col-sm-9">'
+                    + '                <input type="text" class="form-control" id="newDashletColumn" placeholder="Column">'
+                    + '            </div>'
+                    + '        </div>'
+                    + '        <button onclick="createDashlet()" type="button" class="btn btn-default">Submit</button>'
+                    + '    </form>'
+                    + ' </div>'
+                    );
             }
         });
+
         $('#dashletChart').draggable({
             connectToSortable: '.boardWorkspaceContainer',
             helper: "clone"
@@ -61,10 +113,56 @@
             connectWith: '.col-Container',
             placeholder: 'emptySpace',
             update: function (event, ui) {
-                updateListDashlets();
+                if ($(ui.item[0]).attr('id') == 'newDashlet') {
+                    $.ajax({
+                        type: 'GET',
+                        url: '/api/dashlets/lastid',
+                        success: function (data) {
+                            $('#lastDashletId').attr('data-dashlet-last-id', data);
+                            $('#countJSDashlets').attr('data-dashlets-js-count', ($('#countJSDashlets').attr('data-dashlets-js-count') == 0) ? 1 : parseInt($('#countJSDashlets').attr('data-dashlets-js-count')) + 1);
+                            var inrtementedId = parseInt($('#lastDashletId').attr('data-dashlet-last-id')) + parseInt($('#countJSDashlets').attr('data-dashlets-js-count'));
+                            $('#newDashlet').attr('data-dashlet-id', inrtementedId);
+                            $('#newDashlet').attr('id', 'dashlet_' + inrtementedId);
+                        }
+                    });
+                } else {
+                    updateListDashlets();
+                }
             }
         });
+        function createDashlet() {
 
+            var $dashlet = $($('#newDashletTitle').parent().parent().parent().parent());
+            debugger;
+            var _title = $('#newDashletTitle').val();
+            var _textType = $('#newDashletTextType').val();
+            var _dataSourceId = $('#newDashletTextType').val();///////////////
+            var _sql = $('#newDashletSQL').val();
+            var _dashboardId = $('#globalSettings #currentDashboard').attr('data-dashboard-id');
+            var _topSubLevel = $('#newDashletTopSubLevel').val();
+            var _bottomSubTitle = $('#newDashletTextColor').val();
+            var _column = $($dashlet.parent()).attr('data-id');
+            var _position = $dashlet.index();
+
+            $.ajax({
+                type: 'post',
+                url: '/api/dashlets/createviadrag',
+                data: {
+                    Title: _title,
+                    TextType: _textType,
+                    DataSourceId: _dataSourceId,
+                    SQL: _sql,
+                    DashboardId: _dashboardId,
+                    TopSubLevel: _topSubLevel,
+                    BottomSubTitle: _bottomSubTitle,
+                    Column: _column,
+                    Position: _position
+                },
+                success: function (data) {
+                    console.log(data);
+                }
+            });
+        }
     });
 </script>
 <style>
@@ -223,9 +321,30 @@
         padding: 0;
     }
 </style>
+@* newDashlet styles *@
+<style type="text/css">
+    #newDashlet {
+        display: block;
+        border: 1px solid black;
+        z-index: 1000;
+        position: absolute;
+    }
+</style>
+<div id="globalSettings" style="display: none">
+    <div id="currentDashboard" data-dashboard-id="@Model.Dashboard.Id"></div>
+    <div id="lastDashletId" data-dashlet-last-id="0"></div>
+    <div id="countJSDashlets" data-dashlets-js-count="0"></div>
+    <div id="listDataSources">
+        <select id="selectDataSources">
+            @foreach(var ds in Model.DataSources){
+                <option value="@ds.Id">@ds.ConnectionString</option>
+            }
+        </select>
+    </div>
+</div>
 
 <!-- Navigation Left-->
-<div class="container-fluid left-menu-padding" style="    ">
+<div class="container-fluid left-menu-padding">
     <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 bhoechie-tab-container new-bhoechine-tab">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 bhoechie-tab">
             <!-- flight section -->
@@ -239,7 +358,6 @@
                                 @item.Title
                             </a>
                         </li>
-
                     }
                 </ul>
             </div>
@@ -258,11 +376,6 @@
                 </div>
             </div>
             <div class="panel-body">
-
-
-
-
-
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-4">
@@ -326,8 +439,6 @@
             </div>
         </div>
 
-
-
         <div class="container-fluid sortContainer ui-sortable">
             <div class="row">
                 <div id="firstSortableColumn" data-id="1" class="sortContainer ui-sortable col-sm-4 boardWorkspaceContainer col-Container">
@@ -347,20 +458,6 @@
                                 </div>
                                 <div id="edit_dashlet_@dashlet.Id" class="collapse" style="background: red; height: auto;">
                                     @*@Html.Partial("_DashletEdit", new { id = @dashlet.Id });*@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
                                     @using (Html.BeginForm())
                                     {
@@ -385,9 +482,6 @@
                                                     @Html.ValidationMessageFor(model => model.Dashlet.TextType, "", new { @class = "text-danger" })
                                                 </div>
                                             </div>
-
-
-
                                             @*
                                                 <div class="form-group">
                                                     @Html.LabelFor(model => model.Dashlet.DashboardId, "Dashboard Connect", htmlAttributes: new { @class = "control-label col-md-2 label-toggle-style" })
@@ -443,33 +537,7 @@
                                             </div>
                                         </div>
                                     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                    @*ssss*@
-
-
                                 </div>
-
-
                             </div>
                         }
                     }

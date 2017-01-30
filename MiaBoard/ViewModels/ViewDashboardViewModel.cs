@@ -10,6 +10,7 @@ namespace MiaBoard.ViewModels
     {
         public Dashboard Dashboard { get; set; }
         public List<Dashboard> DashboardList { get; set; }
+        public List<DataSource> DataSources { get; set; }
  
         public IDictionary<int, string> DashletsSqlResult { get; set; }
         //yura comment

@@ -24,6 +24,8 @@ namespace MiaBoard.Controllers
 
             var viewDashboardViewModel = new ViewDashboardViewModel();
 
+            viewDashboardViewModel.DataSources = db.DataSources.ToList();
+
             viewDashboardViewModel.DashletsSqlResult = new Dictionary<int, string>();
             
             viewDashboardViewModel.DashletsFirstCol = new List<Dashlet>();
