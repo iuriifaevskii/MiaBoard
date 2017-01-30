@@ -461,6 +461,7 @@
     <Content Include="Views\Test\User.cshtml" />
     <Content Include="Views\Dashboards\ViewYuraCopy.cshtml" />
     <Content Include="Views\Shared\_DashletEdit.cshtml" />
+    <Content Include="Views\Dashboards\ViewUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

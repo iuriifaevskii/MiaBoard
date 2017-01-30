@@ -95,6 +95,85 @@ namespace MiaBoard.Controllers
             return View(viewDashboardViewModel);
         }
 
+        // GET: Dashboards/View/5
+        public ActionResult ViewUser(int id)
+        {
+            if (id == 0)
+                return HttpNotFound();
+
+            var viewDashboardViewModel = new ViewDashboardViewModel();
+
+            viewDashboardViewModel.DashletsSqlResult = new Dictionary<int, string>();
+
+            viewDashboardViewModel.DashletsFirstCol = new List<Dashlet>();
+            viewDashboardViewModel.DashletsSecondCol = new List<Dashlet>();
+            viewDashboardViewModel.DashletsThirdCol = new List<Dashlet>();
+
+            viewDashboardViewModel.DashboardList = db.Dashboards.ToList();
+            viewDashboardViewModel.Dashboard = db.Dashboards.SingleOrDefault(d => d.Id == id);
+            viewDashboardViewModel.Dashlets = db.Dashlets.Include(d => d.DataSource).Where(d => d.DashboardId == id).OrderBy(d => d.Position).ToList();
+
+
+            foreach (var dashlet in viewDashboardViewModel.Dashlets)
+            {
+                switch (dashlet.DataSource.Type)
+                {
+                    case "MSSQL":
+                        try
+                        {
+                            using (SqlConnection connection = new SqlConnection())
+                            {
+                                connection.ConnectionString = dashlet.DataSource.ConnectionString;
+                                connection.Open();
+
+                                SqlCommand command = new SqlCommand(dashlet.Sql, connection);
+
+                                using (SqlDataReader reader = command.ExecuteReader())
+                                {
+                                    if (reader.Read())
+                                    {
+                                        viewDashboardViewModel.DashletsSqlResult.Add(dashlet.Id, reader[0].ToString());
+                                    }
+                                }
+
+                                connection.Close();
+                            }
+                        }
+                        catch
+                        {
+                            viewDashboardViewModel.DashletsSqlResult.Add(dashlet.Id, "SQL queary is incorrect!");
+                            //continue;
+                            //return Content("Invalid Connection to Database in Dashhlet: " + dashlet.Id);
+                        }
+                        break;
+                    default:
+                        viewDashboardViewModel.DashletsSqlResult.Add(dashlet.Id, "Type of Database is unknown!");
+                        //continue;
+                        //return Content("Invalid Type of Database in Dashhlet: " + dashlet.Id);
+                        break;
+                }
+
+                switch (dashlet.Column)
+                {
+                    case 1:
+                        viewDashboardViewModel.DashletsFirstCol.Add(dashlet);
+                        break;
+                    case 2:
+                        viewDashboardViewModel.DashletsSecondCol.Add(dashlet);
+                        break;
+                    case 3:
+                        viewDashboardViewModel.DashletsThirdCol.Add(dashlet);
+                        break;
+                    default:
+                        Console.WriteLine("Toggle is broke. It's equal to " + dashlet.Column);
+                        break;
+                }
+
+            }
+
+            return View(viewDashboardViewModel);
+        }
+
         // GET: Dashboards
         public ActionResult Index()
         {
