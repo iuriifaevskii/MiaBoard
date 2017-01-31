@@ -17,7 +17,6 @@
     }
 </style>
 <script type="text/javascript">
-
     function deleteDashlet(event) {
         var choice = confirm("Do you really want to remove this dashlet?");
         if (choice) {
@@ -78,7 +77,6 @@
             }
         });
     }
-
     $(function () {
         var countJSDashlets = 0;
         var lastInsertedId = 0;
@@ -107,7 +105,7 @@
             helper: function (e) {
                 var selectDataSources = $('#selectDataSources').clone();
                 return $(
-                    '<div id="newDashlet" data-dashlet-id="newDashlet" class="panel panel-primary text-center ui-sortable-handle">'
+                    '<div id="newDashlet" data-dashlet-id="newDashlet" class="panel panel-primary text-center ui-sortable-handle width-class">'
                     + '    <form class="form-horizontal">'
                     + '        <div class="form-group">'
                     + '            <label for="newDashletTitle" class="control-label col-xs-12 col-sm-3">Title: </label>'
@@ -174,7 +172,7 @@
 
         $('#dashletChart').draggable({
             connectToSortable: '.boardWorkspaceContainer',
-            helper: "clone"
+            helper: function(){ return $('<div>disabled</div>');}
         });
 
         $('.boardWorkspaceContainer').sortable();
@@ -556,7 +554,7 @@
                                 <div class="icon-settings">
                                     <i class="fa fa-cog new-ic-padding" aria-hidden="true" data-toggle="collapse" data-target="#dashletForEdit_@dashlet.Id"></i>
                                     <i class="fa fa-arrow-circle-down new-ic-padding" aria-hidden="true"></i>
-                                    <i class="fa fa-times new-ic-padding" aria-hidden="true"></i>
+                                    <i class="fa fa-times new-ic-padding" aria-hidden="true" onclick="deleteDashlet(event)"></i>
                                 </div>
                                 <div id="dashletForEdit_@dashlet.Id" data-dashlet-id="@dashlet.Id" class="collapse container" style="background: white; color:black;">
                                     <form action="/" method="post" class=" text-left form-horizontal col-xs-12">
@@ -624,7 +622,7 @@
                                 <div class="icon-settings">
                                     <i class="fa fa-cog new-ic-padding" aria-hidden="true" data-toggle="collapse" data-target="#dashletForEdit_@dashlet.Id"></i>
                                     <i class="fa fa-arrow-circle-down new-ic-padding" aria-hidden="true"></i>
-                                    <i class="fa fa-times new-ic-padding" aria-hidden="true"></i>
+                                    <i class="fa fa-times new-ic-padding" aria-hidden="true" onclick="deleteDashlet(event)"></i>
                                 </div>
                                 <div id="dashletForEdit_@dashlet.Id" data-dashlet-id="@dashlet.Id" class="collapse container" style="background: white; color:black;">
                                     <form action="/" method="post" class=" text-left form-horizontal col-xs-12">

@@ -192,6 +192,18 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201701310007070_InitDatabase.cs" />
+    <Compile Include="Migrations\201701310007070_InitDatabase.Designer.cs">
+      <DependentUpon>201701310007070_InitDatabase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201701310019089_InsertDataInMia.cs" />
+    <Compile Include="Migrations\201701310019089_InsertDataInMia.Designer.cs">
+      <DependentUpon>201701310019089_InsertDataInMia.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201701310728400_InsertAllData.cs" />
+    <Compile Include="Migrations\201701310728400_InsertAllData.Designer.cs">
+      <DependentUpon>201701310728400_InsertAllData.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Dashboard.cs" />
@@ -201,8 +213,8 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="ViewModels\DataSourceIndexViewModel.cs" />
-    <Compile Include="ViewModels\ViewDashboardViewModel.cs" />
+    <Compile Include="Views\ViewModels\DataSourceIndexViewModel.cs" />
+    <Compile Include="Views\ViewModels\ViewDashboardViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -324,6 +336,8 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Content\DataTables\css\mixins.scss" />
     <Content Include="Content\DataTables\css\common.scss" />
+    <None Include="Properties\PublishProfiles\MiaDashboard - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\MiaDashboard - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap.min.js" />
@@ -448,7 +462,6 @@
     <Content Include="Views\Dashboards\View.cshtml" />
     <Content Include="Views\DataSources\Edit.cshtml" />
     <Content Include="Views\Test\Index.cshtml" />
-    <Content Include="Views\Dashboards\View - Copy.cshtml" />
     <Content Include="Views\Dashlets\Create.cshtml" />
     <Content Include="Views\Dashlets\Edit.cshtml" />
     <Content Include="Views\Dashlets\Index.cshtml" />
@@ -460,7 +473,7 @@
     <Content Include="Views\Dashboards\ViewUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
+    <Folder Include="Properties\App_Data\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -468,6 +481,17 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201701310007070_InitDatabase.resx">
+      <DependentUpon>201701310007070_InitDatabase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701310019089_InsertDataInMia.resx">
+      <DependentUpon>201701310019089_InsertDataInMia.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701310728400_InsertAllData.resx">
+      <DependentUpon>201701310728400_InsertAllData.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
