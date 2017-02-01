@@ -186,6 +186,7 @@
     <Compile Include="Controllers\DataSourcesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\SuperAdminController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Dtos\DashboardDto.cs" />
     <Compile Include="Dtos\DataSourceDto.cs" />
@@ -471,6 +472,8 @@
     <Content Include="Views\Dashboards\ViewYuraCopy.cshtml" />
     <Content Include="Views\Shared\_DashletEdit.cshtml" />
     <Content Include="Views\Dashboards\ViewUser.cshtml" />
+    <Content Include="Views\SuperAdmin\Index.cshtml" />
+    <Content Include="Views\Shared\_SuperAdminMenuPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\App_Data\" />

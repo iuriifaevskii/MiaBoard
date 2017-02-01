@@ -4,12 +4,13 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<h1>DataSources</h1>
 
+
+<div class="text-center">
+    <button style="font-size:30px" type="button" class="btn btn-info btn-lg btn-create-datasource" data-toggle="modal" data-target="#myModal">Create Datasource</button>
+</div>
 <div class="container">
-    <h2>Modal Example</h2>
-
-    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
+    
     <div class="container">
         @Html.Partial("~/Views/DataSources/_DataSourceForm.cshtml", Model)
     </div>
@@ -27,12 +28,15 @@
         </thead>
         <tbody></tbody>
     </table>
+
 </div>
 @section scripts
 {
     <script>
         $(document).ready(function () {
             var table = $("#dataSources").DataTable({
+                responsive: true,
+                scrollY: 300,
                 ajax: {
                     url: "/api/dataSources",
                     dataSrc: ""

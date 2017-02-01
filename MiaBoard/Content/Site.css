@@ -1052,6 +1052,34 @@ div.bhoechie-tab div.bhoechie-tab-content:not(.active) {
 	margin-top: 35px;
 }
 
+.menu-padding-item
+{
+    padding-top: 25px;
+    padding-bottom: 25px;
+}
+
+    @media (min-width: 0px) and (max-width: 992px) {
+        .menu-padding-item {
+            text-align: center;
+            border-top:0px;
+            border-radius: 0px !important;
+            -moz-border-radius: 0px !important;
+            border: 1px solid #ddd !important;
+        }
+    }
+    .btn-create-datasource {
+        margin-bottom: 20px;
+    }
+    @media (min-width: 0px) and (max-width: 992px) {
+        .btn-create-datasource {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+    }
+
+    .edit-dashlet-btn
+
 
 /******************/
 
@@ -1060,3 +1088,10 @@ div.bhoechie-tab div.bhoechie-tab-content:not(.active) {
 
 
 /******************/
+
+
+.padding-admin
+{
+    padding-left:15px;
+    padding-right:15px;
+}

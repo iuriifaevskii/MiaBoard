@@ -67,7 +67,26 @@
     </nav>
     <!-- End Navigation -->
     <div class="container-fluid">
-        @RenderBody()
+        <!--Yuriy Comment-->
+        @if (User.Identity.Name == "admin@admin.com")
+        {
+            <div class="padding-admin">
+                @Html.Partial("_SuperAdminMenuPartial")
+                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12  new-bhoechine-tab-main">
+                    @RenderBody()
+                </div>
+            </div>
+        }
+        else
+        {
+            @RenderBody()
+        }
+
+
+
+        <!--Yuriy Comment End-->
+        @*@RenderBody()*@
+
     </div>
     @Scripts.Render("~/bundles/lib")
     @RenderSection("scripts", required: false)
