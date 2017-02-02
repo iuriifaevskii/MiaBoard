@@ -4,6 +4,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MiaBoard.Models
 {
+    public class UserDto
+    {
+        public string Login { get; set; }
+        public string Password { get; set; }
+    }
     public class ExternalLoginConfirmationViewModel
     {
         [Required]

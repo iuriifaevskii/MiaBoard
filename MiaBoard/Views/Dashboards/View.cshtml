@@ -288,15 +288,15 @@
                                 </div>
                                 <div id="dashletForEdit_@dashlet.Id" data-dashlet-id="@dashlet.Id" class="collapse container" style="background: white; color:black;">
                                     <form action="/" method="post" class=" text-left form-horizontal col-xs-12">
-                                        <div class=" form-group">
+                                        <div class="form-group">
                                             <label for="dashletForEdit_@dashlet.Id-Title">Title: </label>
                                             <input type="text" class="form-control" id="dashletForEdit_@dashlet.Id-Title" placeholder="Title" value="@dashlet.Title" />
                                         </div>
-                                        <div class=" form-group">
+                                        <div class="form-group">
                                             <label for="dashletForEdit_@dashlet.Id-TextType">TextType: </label>
                                             <input type="text" class="form-control" id="dashletForEdit_@dashlet.Id-TextType" placeholder="TextType" value="@dashlet.TextType" />
                                         </div>
-                                        <div class=" form-group">
+                                        <div class="form-group">
                                             <label for="dashletForEdit_@dashlet.Id-Title">DataSource: </label>
                                             <select class="form-control" id="dashletForEdit_@dashlet.Id-DataSourceId">
                                                 @foreach (var ds in Model.DataSources)
@@ -305,31 +305,31 @@
                                                 }
                                             </select>
                                         </div>
-                                        <div class=" form-group">
+                                        <div class="form-group">
                                             <label for="dashletForEdit_@dashlet.Id-Sql">Sql: </label>
                                             <input type="text" class="form-control" id="dashletForEdit_@dashlet.Id-Sql" placeholder="Sql" value="@dashlet.Sql" />
                                         </div>
-                                        <div class=" form-group">
+                                        <div class="form-group">
                                             <label for="dashletForEdit_@dashlet.Id-Styles">Styles: </label>
                                             <input type="text" class="form-control" id="dashletForEdit_@dashlet.Id-Styles" placeholder="Styles" value="@dashlet.Styles" />
                                         </div>
-                                        <div class=" form-group">
+                                        <div class="form-group">
                                             <label for="dashletForEdit_@dashlet.Id-TopSubLevel">TopSubLevel: </label>
                                             <input type="text" class="form-control" id="dashletForEdit_@dashlet.Id-TopSubLevel" placeholder="TopSubLevel" value="@dashlet.TopSubLevel" />
                                         </div>
-                                        <div class=" form-group">
+                                        <div class="form-group">
                                             <label for="dashletForEdit_@dashlet.Id-BottomSubTitle">BottomSubTitle: </label>
                                             <input type="text" class="form-control" id="dashletForEdit_@dashlet.Id-BottomSubTitle" placeholder="BottomSubTitle" value="@dashlet.BottomSubTitle" />
                                         </div>
-                                        <div class=" form-group">
+                                        <div class="form-group">
                                             <label for="dashletForEdit_@dashlet.Id-Position">Position: </label>
                                             <input type="text" class="form-control" id="dashletForEdit_@dashlet.Id-Position" placeholder="Position" value="@dashlet.Position" />
                                         </div>
-                                        <div class=" form-group">
+                                        <div class="form-group">
                                             <label for="dashletForEdit_@dashlet.Id-Column">Column: </label>
                                             <input type="text" class="form-control" id="dashletForEdit_@dashlet.Id-Column" placeholder="Column" value="@dashlet.Column" />
                                         </div>
-                                        <div class=" form-group">
+                                        <div class="form-group">
                                             <div class="col-xs-12 col-sm-8">
                                                 <button type="button" class="btn btn-default" onclick="updateDashletViaBurger(event)">Change</button>
                                             </div>

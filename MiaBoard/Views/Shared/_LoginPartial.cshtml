@@ -1,4 +1,4 @@
-﻿@using Microsoft.AspNet.Identity
+﻿@*@using Microsoft.AspNet.Identity*@
 @if (Request.IsAuthenticated)
 {
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
@@ -8,9 +8,11 @@
         <ul class="nav navbar-nav navbar-right" id="navbar-right">
             <li id="online-user">
                 <div class="name-user">
-                    @Html.ActionLink(User.Identity.GetUserName(), "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                    @Html.ActionLink(User.Identity.Name, "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
                 </div>
-                <a style="display: inline-block;" id="Logout-Btn" href="javascript:document.getElementById('logoutForm').submit()">LogOut</a>
+                <a href="@Url.Action("LogOut", "Account")" style="display: inline-block;" id="Logout-Btn">LogOut</a>
+                @*@Html.ActionLink("Log out", "LogOut", "Account")*@
+                @*<a style="display: inline-block;" id="Logout-Btn" href="javascript:document.getElementById('logoutForm').submit()">LogOut</a>*@
             </li>
         </ul>
 
