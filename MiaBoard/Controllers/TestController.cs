@@ -180,7 +180,7 @@ namespace MiaBoard.Controllers
 
             return View("~/Views/Dashboards/ViewUserReadOnly.cshtml", model);
         }
-
+        
         public ActionResult ViewCompanyAdmin(int id)
         {
             if (id == 0)

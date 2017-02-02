@@ -472,7 +472,6 @@
     <Content Include="Views\Test\CompanyAdmin.cshtml" />
     <Content Include="Views\Test\SuperAdmin.cshtml" />
     <Content Include="Views\Test\User.cshtml" />
-    <Content Include="Views\Dashboards\ViewYuraCopy.cshtml" />
     <Content Include="Views\Shared\_DashletEdit.cshtml" />
     <Content Include="Views\Dashboards\ViewUser.cshtml" />
     <Content Include="Views\SuperAdmin\Index.cshtml" />
