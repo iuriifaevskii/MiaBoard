@@ -405,7 +405,7 @@
                     <h4 class="own-board-title">@Model.Dashboard.Title</h4>
                 </div>
                 <div class="own-board-btn">
-                    <button type="button" class="btn btn-info text-right">Data Source</button>
+                    <a class="btn btn-info text-right" href="/DataSources/Index">Data Source</a>
                     <button type="button" class="btn btn-info">Security</button>
                 </div>
             </div>
@@ -425,31 +425,8 @@
                                     <i class="glyph-icon icon-file-photo-o fa fa-tachometer"></i>
                                 </div>
 
-                                <div id="demo" class="collapse" style="background:red;">
-                                    <div>Set HTML Options</div>
-                                    <label>First Name</label>
-                                    <input class="span3" placeholder="Your First Name" type="text">
-                                    <label>Last Name</label>
-                                    <input class="span3" placeholder="Your Last Name" type="text">
-                                    <label>Email Address</label>
-                                    <input class="span3" placeholder="Your email address" type="text"> <label>Subject</label>
-                                    <select class="span3" id="subject" name="subject">
-                                        <option selected value="na">
-                                            Choose One:
-                                        </option>
-
-                                        <option value="service">
-                                            General Customer Service
-                                        </option>
-
-                                        <option value="suggestions">
-                                            Suggestions
-                                        </option>
-
-                                        <option value="product">
-                                            Product Support
-                                        </option>
-                                    </select>
+                                <div id="demo" class="collapse">
+                                    <button class="btn btn-info" style="margin:4px">Create Dashlet</button>
                                 </div>
                             </div>
                         </div>
@@ -481,7 +458,7 @@
                             <div id="dashlet_@dashlet.Id" class="panel panel-primary text-center" data-dashlet-id="@dashlet.Id" style="@dashlet.Styles">
                                 <div id="dashletField_@dashlet.Id-Title" class="panel-heading">@dashlet.Title</div>
                                 <div id="dashletField_@dashlet.Id-TextType" class="panel-body">@dashlet.TextType</div>
-                                <div class="panel-body">@Model.DashletsSqlResult[dashlet.Id]</div>
+                                <div class="panel-body">@*@Model.DashletsSqlResult[dashlet.Id]*@</div>
                                 <div id="dashletField_@dashlet.Id-BottomSubTitle" class="panel-body">@dashlet.BottomSubTitle</div>
                                 <div class="icon-settings">
                                     <i class="fa fa-cog new-ic-padding" aria-hidden="true" data-toggle="collapse" data-target="#dashletForEdit_@dashlet.Id"></i>
@@ -549,7 +526,7 @@
                             <div id="dashlet_@dashlet.Id" class="panel panel-primary text-center" data-dashlet-id="@dashlet.Id" style="@dashlet.Styles">
                                 <div id="dashletField_@dashlet.Id-Title" class="panel-heading">@dashlet.Title</div>
                                 <div id="dashletField_@dashlet.Id-TextType" class="panel-body">@dashlet.TextType</div>
-                                <div class="panel-body">@Model.DashletsSqlResult[dashlet.Id]</div>
+                                <div class="panel-body">@*@Model.DashletsSqlResult[dashlet.Id]*@</div>
                                 <div id="dashletField_@dashlet.Id-BottomSubTitle" class="panel-body">@dashlet.BottomSubTitle</div>
                                 <div class="icon-settings">
                                     <i class="fa fa-cog new-ic-padding" aria-hidden="true" data-toggle="collapse" data-target="#dashletForEdit_@dashlet.Id"></i>
@@ -617,7 +594,7 @@
                             <div id="dashlet_@dashlet.Id" class="panel panel-primary text-center" data-dashlet-id="@dashlet.Id" style="@dashlet.Styles">
                                 <div id="dashletField_@dashlet.Id-Title" class="panel-heading">@dashlet.Title</div>
                                 <div id="dashletField_@dashlet.Id-TextType" class="panel-body">@dashlet.TextType</div>
-                                <div class="panel-body">@Model.DashletsSqlResult[dashlet.Id]</div>
+                                <div class="panel-body">@*@Model.DashletsSqlResult[dashlet.Id]*@</div>
                                 <div id="dashletField_@dashlet.Id-BottomSubTitle" class="panel-body">@dashlet.BottomSubTitle</div>
                                 <div class="icon-settings">
                                     <i class="fa fa-cog new-ic-padding" aria-hidden="true" data-toggle="collapse" data-target="#dashletForEdit_@dashlet.Id"></i>
