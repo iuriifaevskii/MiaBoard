@@ -13,7 +13,11 @@ namespace MiaBoard.Controllers
 {
     public class TestController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationDbContext db = null;
+
+        public TestController() {
+                db = new ApplicationDbContext();
+        }
 
         public ActionResult ViewUser(int id)
         {
