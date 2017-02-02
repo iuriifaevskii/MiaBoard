@@ -1077,9 +1077,14 @@ div.bhoechie-tab div.bhoechie-tab-content:not(.active) {
         }
 
     }
-
-    .edit-dashlet-btn
-
+    @media (min-width: 0px) and (max-width: 675px) {
+        .own-board-btn {
+            display: inline-block !important;
+        }
+        .panel-heading {
+            text-align: center;
+        }
+    }
 
 /******************/
 

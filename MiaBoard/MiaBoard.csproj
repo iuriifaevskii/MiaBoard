@@ -214,6 +214,9 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\DashboardViewViewCompanyAdminViewModel.cs" />
+    <Compile Include="ViewModels\DashboardViewViewUserReadOnlyViewModel.cs" />
+    <Compile Include="ViewModels\DashboardViewViewUserViewModel.cs" />
     <Compile Include="ViewModels\DataSourceIndexViewModel.cs" />
     <Compile Include="ViewModels\ViewDashboardViewModel.cs" />
   </ItemGroup>
@@ -473,7 +476,11 @@
     <Content Include="Views\Shared\_DashletEdit.cshtml" />
     <Content Include="Views\Dashboards\ViewUser.cshtml" />
     <Content Include="Views\SuperAdmin\Index.cshtml" />
-    <Content Include="Views\Shared\_SuperAdminMenuPartial.cshtml" />
+    <Content Include="Views\Shared\_LeftMenuSuperAdminPartial.cshtml" />
+    <Content Include="Views\Shared\_LeftMenuUserPartial.cshtml" />
+    <Content Include="Views\Shared\_LeftMenuCompanyAdminPartial.cshtml" />
+    <Content Include="Views\Dashboards\ViewCompanyAdmin.cshtml" />
+    <Content Include="Views\Dashboards\ViewUserReadOnly.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\App_Data\" />
