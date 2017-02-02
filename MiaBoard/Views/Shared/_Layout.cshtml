@@ -71,8 +71,26 @@
         @if (User.Identity.Name == "admin@admin.com")
         {
             <div class="padding-admin">
-                @Html.Partial("_SuperAdminMenuPartial")
+                @Html.Partial("_LeftMenuSuperAdminPartial")
                 <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12  new-bhoechine-tab-main">
+                    @RenderBody()
+                </div>
+            </div>
+        }
+        else if (User.Identity.Name == "user@user.com")
+        {
+            <div class="padding-admin">
+                @Html.Partial("_LeftMenuUserPartial")
+                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12  new-bhoechine-tab-main">
+                    @RenderBody()
+                </div>
+            </div>
+        }
+        else if (User.Identity.Name == "company@company.com")
+        {
+            <div class="padding-admin">
+                @Html.Partial("_LeftMenuCompanyAdminPartial")
+                <div class="col-lg-10 col-md-8 col-sm-12 col-xs-12  new-bhoechine-tab-main">
                     @RenderBody()
                 </div>
             </div>
@@ -92,3 +110,4 @@
     @RenderSection("scripts", required: false)
 </body>
 </html>
+
