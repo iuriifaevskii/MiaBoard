@@ -1,0 +1,53 @@
+﻿@model IQueryable<MiaBoard.Models.UserViewModel>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+
+<p>
+    @Html.ActionLink("Create New User", "Create") | @Html.ActionLink("Create New Role", "AddRole")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            E-Mail
+            @*@Html.DisplayNameFor(model => model.Email)*@
+        </th>
+        <th>
+            Name
+            @*@Html.DisplayNameFor(model => model.Email)*@
+        </th>
+        <th>
+            Roles in system
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.Email
+            </td>
+            <td>
+                @item.FullName
+            </td>
+            <td>
+                @if (item.Roles != null)
+                {
+                    foreach (var r in item.Roles)
+                    {
+                        <span>@r.Name</span>
+                    }
+                }
+
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+            </td>
+        </tr>
+    }
+</table>

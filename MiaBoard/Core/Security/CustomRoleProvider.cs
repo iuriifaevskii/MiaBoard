@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MiaBoard.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -9,6 +10,11 @@ namespace MiaBoard.Core.Security
 {
     public class CustomRoleProvider : RoleProvider
     {
+        private ApplicationDbContext _context;
+        public CustomRoleProvider()
+        {
+            _context = new ApplicationDbContext();
+        }
         public override string ApplicationName
         {
             get
@@ -49,14 +55,23 @@ namespace MiaBoard.Core.Security
 
         public override string[] GetRolesForUser(string username)
         {
-            //var context = DependencyResolver.Current.GetService<IDbContext>();
-            //UserRepository userRepository = new UserRepository(context);
-            //userRepository.GetRolesForUser(username);
-            if (username == "admin@gmail.com")
-                return (new List<string>() { "Admin", "Manager" }).ToArray();
-            return (new List<string>() { "User" }).ToArray();
+            return GetRolesForUserForRoles(username);
         }
-
+        public string[] GetRolesForUserForRoles(string email)
+        {
+            var user = this.FindUserByEmail(email);
+            if (user != null)
+            {
+                return user.Roles.Select(r => r.Name).ToArray();
+            }
+            return null;
+        }
+        public AppUser FindUserByEmail(string email)
+        {
+            AppUser user = null;
+            user = _context.AppUsers.AsQueryable().SingleOrDefault(u => u.Email == email);
+            return user;
+        }
         public override string[] GetUsersInRole(string roleName)
         {
             throw new NotImplementedException();

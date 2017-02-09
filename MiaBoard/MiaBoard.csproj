@@ -45,6 +45,10 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="SimpleCrypto, Version=26.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleCrypto.0.3.30.26\lib\SimpleCrypto.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -188,23 +192,32 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\SuperAdminController.cs" />
     <Compile Include="Controllers\TestController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Core\Security\CustomRoleProvider.cs" />
     <Compile Include="Dtos\DashboardDto.cs" />
     <Compile Include="Dtos\DataSourceDto.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201701310007070_InitDatabase.cs" />
-    <Compile Include="Migrations\201701310007070_InitDatabase.Designer.cs">
-      <DependentUpon>201701310007070_InitDatabase.cs</DependentUpon>
+    <Compile Include="Migrations\201702081122585_InitDatabase.cs" />
+    <Compile Include="Migrations\201702081122585_InitDatabase.Designer.cs">
+      <DependentUpon>201702081122585_InitDatabase.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201701310019089_InsertDataInMia.cs" />
-    <Compile Include="Migrations\201701310019089_InsertDataInMia.Designer.cs">
-      <DependentUpon>201701310019089_InsertDataInMia.cs</DependentUpon>
+    <Compile Include="Migrations\201702081127034_InsertDatabase.cs" />
+    <Compile Include="Migrations\201702081127034_InsertDatabase.Designer.cs">
+      <DependentUpon>201702081127034_InsertDatabase.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201701310728400_InsertAllData.cs" />
-    <Compile Include="Migrations\201701310728400_InsertAllData.Designer.cs">
-      <DependentUpon>201701310728400_InsertAllData.cs</DependentUpon>
+    <Compile Include="Migrations\201702081142371_InsertToDashlets.cs" />
+    <Compile Include="Migrations\201702081142371_InsertToDashlets.Designer.cs">
+      <DependentUpon>201702081142371_InsertToDashlets.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702082014182_Add_UserProfile_Role_User.cs" />
+    <Compile Include="Migrations\201702082014182_Add_UserProfile_Role_User.Designer.cs">
+      <DependentUpon>201702082014182_Add_UserProfile_Role_User.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702082233155_AddUserRoleSecond.cs" />
+    <Compile Include="Migrations\201702082233155_AddUserRoleSecond.Designer.cs">
+      <DependentUpon>201702082233155_AddUserRoleSecond.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -212,9 +225,15 @@
     <Compile Include="Models\Dashlet.cs" />
     <Compile Include="Models\DataSource.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\ListBoxItems.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\AppRole.cs" />
+    <Compile Include="Models\AppUser.cs" />
+    <Compile Include="Models\UserProfile.cs" />
+    <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\CreateUserViewModel.cs" />
     <Compile Include="ViewModels\DashboardViewViewCompanyAdminViewModel.cs" />
     <Compile Include="ViewModels\DashboardViewViewUserReadOnlyViewModel.cs" />
     <Compile Include="ViewModels\DashboardViewViewUserViewModel.cs" />
@@ -481,9 +500,12 @@
     <Content Include="Views\Shared\_LeftMenuCompanyAdminPartial.cshtml" />
     <Content Include="Views\Dashboards\ViewCompanyAdmin.cshtml" />
     <Content Include="Views\Dashboards\ViewUserReadOnly.cshtml" />
+    <Content Include="Views\Users\Index.cshtml" />
+    <Content Include="Views\Users\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\App_Data\" />
+    <Folder Include="Views\User\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -493,14 +515,20 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201701310007070_InitDatabase.resx">
-      <DependentUpon>201701310007070_InitDatabase.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201702081122585_InitDatabase.resx">
+      <DependentUpon>201702081122585_InitDatabase.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201701310019089_InsertDataInMia.resx">
-      <DependentUpon>201701310019089_InsertDataInMia.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201702081127034_InsertDatabase.resx">
+      <DependentUpon>201702081127034_InsertDatabase.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201701310728400_InsertAllData.resx">
-      <DependentUpon>201701310728400_InsertAllData.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201702081142371_InsertToDashlets.resx">
+      <DependentUpon>201702081142371_InsertToDashlets.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702082014182_Add_UserProfile_Role_User.resx">
+      <DependentUpon>201702082014182_Add_UserProfile_Role_User.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702082233155_AddUserRoleSecond.resx">
+      <DependentUpon>201702082233155_AddUserRoleSecond.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

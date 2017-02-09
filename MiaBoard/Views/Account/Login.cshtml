@@ -1,5 +1,4 @@
-﻿@using MiaBoard.Models
-@model LoginViewModel
+﻿@model MiaBoard.Models.LoginViewModel
 @{
     ViewBag.Title = "Log in";
 }
@@ -20,13 +19,14 @@
                             @Html.AntiForgeryToken()
                             <div class="validation-summary-errors" data-valmsg-summary="true">
                                 <div class="text-danger">
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                                     @ViewBag.InvalidLogin
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-md-10 col-md-offset-1">
-                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Email" })
-                                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                                    @Html.TextBoxFor(m => m.Login, new { @class = "form-control", placeholder = "Email" })
+                                    @Html.ValidationMessageFor(m => m.Login, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="form-group">
@@ -38,8 +38,9 @@
                             <div class="form-group">
                                 <div class="col-md-10 col-md-offset-1">
                                     <div style="text-align:left" class="checkbox">
-                                        @Html.CheckBoxFor(m => m.RememberMe)
-                                        @Html.LabelFor(m => m.RememberMe)
+                                        @Html.CheckBoxFor(m => m.IsRememberMe)
+                                        @Html.LabelFor(m => m.IsRememberMe)
+                                        @Html.ValidationMessageFor(model => model.IsRememberMe, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>

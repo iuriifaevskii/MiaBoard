@@ -52,9 +52,12 @@ namespace MiaBoard.Models
         public DbSet<DataSource> DataSources { get; set; }
         public DbSet<Dashboard> Dashboards { get; set; }
         public DbSet<Dashlet> Dashlets { get; set; }
+        public DbSet<AppUser> AppUsers { get; set; }
+        public DbSet<AppRole> AppRoles { get; set; }
+        public DbSet<UserProfile> UserProfiles { get; set; }
 
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+            : base("DefaultConnection1New", throwIfV1Schema: false)
         {
         }
 
