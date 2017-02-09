@@ -23,5 +23,8 @@ namespace MiaBoard.Models
 
         public virtual UserProfile UserProfile { get; set; }
         public virtual ICollection<AppRole> Roles { get; set; }
+        public virtual ICollection<Dashboard> Dashboards { get; set; }
+
+
     }
 }

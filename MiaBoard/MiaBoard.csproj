@@ -219,6 +219,10 @@
     <Compile Include="Migrations\201702082233155_AddUserRoleSecond.Designer.cs">
       <DependentUpon>201702082233155_AddUserRoleSecond.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201702091407446_AddManyToManyToUsersDashboards.cs" />
+    <Compile Include="Migrations\201702091407446_AddManyToManyToUsersDashboards.Designer.cs">
+      <DependentUpon>201702091407446_AddManyToManyToUsersDashboards.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Dashboard.cs" />
@@ -233,6 +237,7 @@
     <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\AddUserToDashboardViewModel.cs" />
     <Compile Include="ViewModels\CreateUserViewModel.cs" />
     <Compile Include="ViewModels\DashboardViewViewCompanyAdminViewModel.cs" />
     <Compile Include="ViewModels\DashboardViewViewUserReadOnlyViewModel.cs" />
@@ -506,6 +511,7 @@
     <Content Include="Views\Users\Create.cshtml" />
     <Content Include="Views\Users\Delete.cshtml" />
     <Content Include="Views\Users\Edit.cshtml" />
+    <Content Include="Views\Users\AddUserToDashboard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\App_Data\" />
@@ -533,6 +539,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201702082233155_AddUserRoleSecond.resx">
       <DependentUpon>201702082233155_AddUserRoleSecond.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702091407446_AddManyToManyToUsersDashboards.resx">
+      <DependentUpon>201702091407446_AddManyToManyToUsersDashboards.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

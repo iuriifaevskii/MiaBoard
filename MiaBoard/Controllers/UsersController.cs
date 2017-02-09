@@ -203,9 +203,43 @@ namespace MiaBoard.Controllers
             return RedirectToAction("Index", "Users");
         }
     
+        public ActionResult AddUserToDashboardView()
+        {
+            return View("AddUserToDashboard");
+        }
 
-
-
+        //[Authorize(Roles = "Admin")]
+        public ActionResult AddUserToDashboard()// GET: Users
+        {
+            AddUserToDashboardViewModel model = new AddUserToDashboardViewModel();
+            //Заповнити всі пости
+            model.ListDashboards = _context.Dashboards.Select(p => new ListBoxItems() { Id = p.Id, Name = p.Title });
+            //Заповнити всі юзери
+            model.ListUsers = _context.AppUsers.Select(p => new ListBoxItems() { Id = p.Id, Name = p.UserProfile.LastName + " " + p.UserProfile.FirstName });
+            return View(model);
+        }
+        [HttpPost]
+        public ActionResult AddUserToDashboard(AddUserToDashboardViewModel model)// GET: Users
+        {
+            if (ModelState.IsValid)
+            {
+                Dashboard findDashboard = _context.Dashboards.SingleOrDefault(p => p.Id == model.DashboardIdSected);
+                if (findDashboard != null)
+                {
+                    AppUser findUser = _context.AppUsers.SingleOrDefault(u => u.Id == model.UserIdSected);
+                    if (findUser != null)
+                    {
+                        findDashboard.AppUsers.Add(findUser);
+                        _context.SaveChanges();
+                    }
+                }
+            }
+            //Заповнити всі пости
+            model.ListDashboards = _context.Dashboards.Select(p => new ListBoxItems() { Id = p.Id, Name = p.Title });
+            //Заповнити всі юзери
+            model.ListUsers = _context.AppUsers.Select(p => new ListBoxItems() { Id = p.Id, Name = p.UserProfile.LastName + " " + p.UserProfile.FirstName });
+            return View(model);
+        }
 
 
 
