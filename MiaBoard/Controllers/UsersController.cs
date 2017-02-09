@@ -24,6 +24,10 @@ namespace MiaBoard.Controllers
                                                       ID = data.Id,
                                                       Email = data.Email,
                                                       FullName = data.UserProfile != null ? data.UserProfile.LastName + " " + data.UserProfile.FirstName + " " + data.UserProfile.MidleName : "",
+                                                      Gender = data.UserProfile.Gender,
+                                                      DateRegistration = data.UserProfile.DateRegistration,
+                                                      DateHired = data.UserProfile.DateHired,
+                                                      ContactNo = data.UserProfile.ContactNo,
                                                       Roles = data.Roles.Select(r => new RoleViewModel() { Id = r.Id, Name = r.Name, })
                                                   };
 

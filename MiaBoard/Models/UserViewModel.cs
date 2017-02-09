@@ -13,6 +13,10 @@ namespace MiaBoard.Models
         public string Email { get; set; }
         [Display(Name = "Full name")]
         public string FullName { get; set; }
+        public int? Gender { get; set; }
+        public DateTime? DateRegistration { get; set; }
+        public DateTime? DateHired { get; set; }
+        public string ContactNo { get; set; }
         public IEnumerable<RoleViewModel> Roles { get; set; }
     }
     public class RoleViewModel
