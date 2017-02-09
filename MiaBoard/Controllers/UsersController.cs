@@ -120,6 +120,89 @@ namespace MiaBoard.Controllers
             }
         }
 
+        public AppUser GetUserById(int id)
+        {
+            return _context.AppUsers.AsQueryable().Where(u => u.Id == id).SingleOrDefault();
+        }
+        public void EditeUser(int id, string email)
+        {
+            AppUser user = GetUserById(id);
+            if (user != null)
+            {
+                if (this.FindUserByEmail(email) == null)
+                {
+                    user.Email = email;
+                    _context.SaveChanges();
+                }
+            }
+        }
+        public bool ChangePassword(int id, string oldPassword, string newPassword)
+        {
+            AppUser user = GetUserById(id);
+            if (user != null)
+            {
+                if (user.Password == oldPassword)
+                {
+                    user.Password = newPassword;
+                    _context.SaveChanges();
+                    return true;
+                }
+            }
+            return false;
+        }
+        public ActionResult Edit(int id)
+        {
+            AppUser user = GetUserById(id);
+            UserEditViewModel model = new UserEditViewModel()
+            {
+                ID = user.Id,
+                Email = user.Email
+            };
+            return View(model);
+        }
+        [HttpPost]
+        public ActionResult Edit(UserEditViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                EditeUser(model.ID, model.Email);
+                ChangePassword(model.ID, model.OldPassword, model.Password);
+            }
+            return RedirectToAction("Index", "Users");
+
+        }
+        [Authorize]
+        public ActionResult Delete(int id)
+        {
+            AppUser user = GetUserById(id);
+            UserInfoViewModel model = new UserInfoViewModel()
+            {
+                ID = user.Id,
+                Email = user.Email
+            };
+            return View(model);
+        }
+
+        public void RemoveUserById(int id)
+        {
+            AppUser user = GetUserById(id);
+            if (user != null)
+            {
+                var userProfile = _context.UserProfiles.SingleOrDefault(x => x.Id == id);
+                _context.UserProfiles.Remove(userProfile);
+                _context.AppUsers.Remove(user);
+                _context.SaveChanges();
+            }
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult Delete(UserInfoViewModel model)
+        {
+            RemoveUserById(model.ID);
+            return RedirectToAction("Index", "Users");
+        }
+    
 
 
 

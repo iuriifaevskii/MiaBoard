@@ -238,6 +238,8 @@
     <Compile Include="ViewModels\DashboardViewViewUserReadOnlyViewModel.cs" />
     <Compile Include="ViewModels\DashboardViewViewUserViewModel.cs" />
     <Compile Include="ViewModels\DataSourceIndexViewModel.cs" />
+    <Compile Include="ViewModels\UserEditViewModel.cs" />
+    <Compile Include="ViewModels\UserInfoViewModel.cs" />
     <Compile Include="ViewModels\ViewDashboardViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -502,6 +504,8 @@
     <Content Include="Views\Dashboards\ViewUserReadOnly.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\Users\Create.cshtml" />
+    <Content Include="Views\Users\Delete.cshtml" />
+    <Content Include="Views\Users\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\App_Data\" />

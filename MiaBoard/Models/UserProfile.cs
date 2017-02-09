@@ -11,6 +11,7 @@ namespace MiaBoard.Models
     {
         [ForeignKey("AppUser")]
         public int Id { get; set; }
+
         [Display(Name = "First Name")]
         [StringLength(255)]
         public string FirstName { get; set; }
