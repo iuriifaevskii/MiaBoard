@@ -239,6 +239,8 @@
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\AddUserToDashboardViewModel.cs" />
     <Compile Include="ViewModels\CreateUserViewModel.cs" />
+    <Compile Include="ViewModels\DashboardDetailViewModel.cs" />
+    <Compile Include="ViewModels\DashboardItemViewModel.cs" />
     <Compile Include="ViewModels\DashboardViewViewCompanyAdminViewModel.cs" />
     <Compile Include="ViewModels\DashboardViewViewUserReadOnlyViewModel.cs" />
     <Compile Include="ViewModels\DashboardViewViewUserViewModel.cs" />
@@ -515,7 +517,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\App_Data\" />
-    <Folder Include="Views\User\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

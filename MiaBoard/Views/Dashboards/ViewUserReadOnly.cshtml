@@ -204,7 +204,8 @@
     .left-menu-padding .nav > li > a:focus {
         background-color: #dff0d8;
     }
-    .left-menu-padding .nav > li > a.selected-dashboard, 
+
+    .left-menu-padding .nav > li > a.selected-dashboard,
     .left-menu-padding .nav > li > a.selected-dashboard:hover,
     .left-menu-padding .nav > li > a.selected-dashboard:focus {
         color: white;
@@ -218,33 +219,33 @@
             <!-- flight section -->
             <div class="bhoechie-tab-content active">
                 <ul class="nav nav-pills nav-stacked user-menu-list readonly-user-menu">
-                    @foreach (var item in Model.DashboardList)
+                    @foreach (var item in Model.DashboardListToUser)
                     {
                         <li>
-                            @{ if (item.Id == Model.Dashboard.Id)
+                            @{ if (item.DashboardId == Model.Dashboard.Id)
                                 {
-                                    <a class="alert alert-success text-center selected-dashboard" href="/test/ViewUserReadOnly/@item.Id">
+                                    <a class="alert alert-success text-center selected-dashboard" href="/test/ViewUserReadOnly/@item.DashboardId">
                                         <i class="fa fa-tachometer fa-fw"></i>
-                                        @item.Title
+                                        @item.DashboardName
                                     </a>
                                 }
                                 else
                                 {
-                                    <a class="alert alert-success text-center" href="/test/ViewUserReadOnly/@item.Id">
+                                    <a class="alert alert-success text-center" href="/test/ViewUserReadOnly/@item.DashboardId">
                                         <i class="fa fa-tachometer fa-fw"></i>
-                                        @item.Title
+                                        @item.DashboardName
                                     </a>
                                 }
                             }
                         </li>
-                    }
+                                }
                 </ul>
             </div>
             <!-- train section -->
         </div>
     </div>
     <div class="col-lg-10 col-md-8 col-sm-12 col-xs-12  new-bhoechine-tab-main">
-        
+
         <div class="container-fluid sortContainer ui-sortable">
             <div class="row">
                 <div id="firstSortableColumn" data-id="1" class="sortContainer ui-sortable col-sm-4 boardWorkspaceContainer col-Container">
