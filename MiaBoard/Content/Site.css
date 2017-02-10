@@ -1294,3 +1294,29 @@ div.bhoechie-tab div.bhoechie-tab-content:not(.active) {
 
 
 /************************/
+
+
+    .left-menu-padding .nav > li > a:hover,
+    .left-menu-padding .nav > li > a:focus {
+        background-color: #dff0d8;
+    }
+
+    .left-menu-padding .nav > li > a.selected-dashboard,
+    .left-menu-padding .nav > li > a.selected-dashboard:hover,
+    .left-menu-padding .nav > li > a.selected-dashboard:focus {
+        color: white;
+        background-color: darkseagreen;
+        border: 1px solid teal;
+    }
+
+    .left-menu-padding .nav > li > a.selected-dashboard-super,
+    .left-menu-padding .nav > li > a.selected-dashboard-super:hover,
+    .left-menu-padding .nav > li > a.selected-dashboard-super:focus {
+        color: white;
+        background-color:  rgb(71, 170, 203);
+        border: 1px solid teal;
+    }
+    
+    .white-super{
+        background:white;
+    }

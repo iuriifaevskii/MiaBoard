@@ -102,14 +102,7 @@ namespace MiaBoard.Controllers
             return View("~/Views/Dashboards/ViewUser.cshtml", model);
         }
 
-        public AppUser FindUserByEmail(string email)
-        {
-            AppUser user = null;
-            user = db.AppUsers.AsQueryable().SingleOrDefault(u => u.Email == email);
-            return user;
-        }
-
-        [Authorize]
+        [Authorize(Roles = "User")]
         public ActionResult ViewUserReadOnly(int id)
         {
             if (id == 0)
