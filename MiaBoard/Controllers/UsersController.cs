@@ -124,7 +124,18 @@ namespace MiaBoard.Controllers
         {
             return _context.AppUsers.AsQueryable().Where(u => u.Id == id).SingleOrDefault();
         }
-        public void EditeUser(int id, string email)
+        public void EditRoleUser(AppUser user, int RoleId)
+        {
+            AppRole role = _context.AppRoles.SingleOrDefault(r => r.Id == RoleId);
+            
+            if (role != null)
+            {
+                role.AppUsers.Remove(user);
+                role.AppUsers.Add(user);
+                _context.SaveChanges();
+            }
+        }
+        public void EditeUser(int id, string email,string firstName,string lastName,string midleName, int gender, DateTime dateHired, string contactNo , int RoleId)
         {
             AppUser user = GetUserById(id);
             if (user != null)
@@ -132,6 +143,13 @@ namespace MiaBoard.Controllers
                 if (this.FindUserByEmail(email) == null)
                 {
                     user.Email = email;
+                    user.UserProfile.FirstName = firstName;
+                    user.UserProfile.LastName = lastName;
+                    user.UserProfile.MidleName = midleName;
+                    user.UserProfile.Gender = gender;
+                    user.UserProfile.DateHired = dateHired;
+                    user.UserProfile.ContactNo = contactNo;
+                    EditRoleUser(user, RoleId);
                     _context.SaveChanges();
                 }
             }
@@ -156,8 +174,17 @@ namespace MiaBoard.Controllers
             UserEditViewModel model = new UserEditViewModel()
             {
                 ID = user.Id,
-                Email = user.Email
+                Email = user.Email,
+                Name = user.UserProfile.FirstName,
+                MidleName = user.UserProfile.MidleName,
+                LastName = user.UserProfile.LastName,
+                Gender = user.UserProfile.Gender,
+                ContactNo = user.UserProfile.ContactNo,
+                DateHired = user.UserProfile.DateHired,
+                
             };
+            var listRoles = GetAllRoles().Select(r => new ListBoxItems() { Id = r.Id, Name = r.Name }).ToList();
+            ViewBag.ListinRoles = new SelectList(listRoles, "Id", "Name", model.RoleId);
             return View(model);
         }
         [HttpPost]
@@ -165,7 +192,7 @@ namespace MiaBoard.Controllers
         {
             if (ModelState.IsValid)
             {
-                EditeUser(model.ID, model.Email);
+                EditeUser(model.ID, model.Email, model.Name, model.LastName, model.MidleName, model.Gender, model.DateHired, model.ContactNo, model.RoleId);   
                 ChangePassword(model.ID, model.OldPassword, model.Password);
             }
             return RedirectToAction("Index", "Users");

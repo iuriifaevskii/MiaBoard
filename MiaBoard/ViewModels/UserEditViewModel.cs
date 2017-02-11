@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MiaBoard.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -11,6 +12,26 @@ namespace MiaBoard.ViewModels
         public int ID { get; set; }
         [Required, Display(Name = "E-mail address"), EmailAddress]
         public string Email { get; set; }
+
+        [Required, Display(Name = "First Name")]
+        public string Name { get; set; }
+
+        [Required, Display(Name = "Midle Name")]
+        public string MidleName { get; set; }
+
+        [Required, Display(Name = "Last Name")]
+        public string LastName { get; set; }
+
+        public int Gender { get; set; }
+
+        [DataType(DataType.Date), Display(Name = "Hired Date")]
+        public DateTime DateHired { get; set; }
+
+        [Required, Display(Name = "Contact Number")]
+        public string ContactNo { get; set; }
+
+        [Required, Display(Name = "Select role")]
+        public int RoleId { get; set; }
 
         [Required, Display(Name = "Odl password"), StringLength(maximumLength: 20, ErrorMessage = "{0} maximum length, {2} minimum lendth", MinimumLength = 6)]
         [DataType(DataType.Password)]

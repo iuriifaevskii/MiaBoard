@@ -1,83 +1,124 @@
 ﻿@model IQueryable<MiaBoard.Models.UserViewModel>
-@{
-    ViewBag.Title = "Index";
-}
 
-<h2>Index</h2>
+<div class="container-fluid left-menu-padding">
+    <!-- Navigation Left-->
+    <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12 bhoechie-tab-container new-bhoechine-tab menu-border-mobile">
+        <div class="col-lg-4 col-md-3 col-sm-4 col-xs-4 bhoechie-tab-menu">
+            <div class="list-group">
+                <a href="#" class="list-group-item active text-center">
+                    <div class="icon-main"><i class="fa fa-globe" aria-hidden="true"></i></div>
+                    <br />Company List
+                </a>
+                <a href="/Dashboards/View/1" class="list-group-item text-center">
+                    <div class="icon-main"><i class="fa fa-tachometer" aria-hidden="true"></i></div>
+                    <br />Dashboard List
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-8 col-md-9 col-sm-8 col-xs-8 bhoechie-tab menu-padding-item white-super">
+            <!-- flight section -->
+            <div class="bhoechie-tab-content active">
+                <ul class="nav nav-pills nav-stacked">
+                    <li><a href="/Roles"><i class="fa fa-users fa-fw"></i>User Groups</a></li>
+                    <li><a href="/Users"><i class="fa fa-user fa-fw"></i>User List</a></li>
+                    <li><a href="/Dashboards"><i class="fa fa-clipboard fa-fw"></i>Dashboard List</a></li>
+                    <li><a href="/DataSources/Index"><i class="fa fa-database fa-fw"></i>Datasource List</a></li>
+                </ul>
+            </div>
+            <!-- train section -->
+            <div class="bhoechie-tab-content">
+            </div>
+        </div>
+    </div>
+    <!-- End Navigation Left-->
+
+    <div class="col-lg-9 col-md-8 col-sm-12 col-xs-12  new-bhoechine-tab-main">
 
 
-<p>
-    @Html.ActionLink("Create New User", "Create") 
-</p>
-<table class="table">
-    <tr>
-        <th>
-            E-Mail
-            @*@Html.DisplayNameFor(model => model.Email)*@
-        </th>
-        <th>
-            Name
-            @*@Html.DisplayNameFor(model => model.Email)*@
-        </th>
-        <th>
-            Gender
-        </th>
-        <th>
-            Date Registration
-        </th>
-        <th>
-            Date Hired
-        </th>
-        <th>
-            Contact Number
-        </th>
-        <th>
-            Roles in system
-        </th>
-        <th></th>
-    </tr>
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @item.Email
-            </td>
-            <td>
-                @item.FullName
-            </td>
-            <td>
-                @if (item.Gender == 0)
-                {
-                    <div>Female</div>
-                }
-                else
-                {
-                    <div>Man</div>
-                }
-            </td>
-            <td>
-                @item.DateRegistration
-            </td>
-            <td>
-                @item.DateHired
-            </td>
-            <td>
-                @item.ContactNo
-            </td>
-            <td>
-                @if (item.Roles != null)
-                {
-                    foreach (var r in item.Roles)
-                    {
-                        <span>@r.Name</span>
-                    }
-                }
+        <p>
+            @Html.ActionLink("Create New User", "Create")
+        </p>
+        <table class="table">
+            <tr>
+                <th>
+                    E-Mail
+                </th>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Gender
+                </th>
+                <th>
+                    Date Registration
+                </th>
+                <th>
+                    Date Hired
+                </th>
+                <th>
+                    Contact Number
+                </th>
+                <th>
+                    Roles in system
+                </th>
+                @*<th>
+                    Dashboards
+                </th>*@
+                <th></th>
+            </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @item.Email
+                    </td>
+                    <td>
+                        @item.FullName
+                    </td>
+                    <td>
+                        @if (item.Gender == 0)
+                        {
+                            <div>Female</div>
+                        }
+                        else
+                        {
+                            <div>Man</div>
+                        }
+                    </td>
+                    <td>
+                        @item.DateRegistration
+                    </td>
+                    <td>
+                        @item.DateHired
+                    </td>
+                    <td>
+                        @item.ContactNo
+                    </td>
+                    <td>
+                        @if (item.Roles != null)
+                        {
+                            foreach (var r in item.Roles)
+                            {
+                                <span>@r.Name</span>
+                            }
+                        }
 
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
-            </td>
-        </tr>
-    }
-</table>
+                    </td>
+                    @*<td>
+                        @if (item.Dashboards != null)
+                        {
+                            foreach (var d in item.Dashboards)
+                            {
+                                @d.Title
+                            }
+                        }
+                    </td>*@
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>

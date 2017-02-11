@@ -25,36 +25,14 @@
             <!-- flight section -->
             <div class="bhoechie-tab-content active">
                 <ul class="nav nav-pills nav-stacked">
-                    <li><a href="#"><i class="fa fa-users fa-fw"></i>User Groups</a></li>
-                    <li><a href="#"><i class="fa fa-user fa-fw"></i>User List</a></li>
-                    <li><a href="#"><i class="fa fa-clipboard fa-fw"></i>Dashboard List</a></li>
+                    <li><a href="/Roles"><i class="fa fa-users fa-fw"></i>User Groups</a></li>
+                    <li><a href="/Users"><i class="fa fa-user fa-fw"></i>User List</a></li>
+                    <li><a href="/Dashboards"><i class="fa fa-clipboard fa-fw"></i>Dashboard List</a></li>
                     <li><a href="/DataSources/Index"><i class="fa fa-database fa-fw"></i>Datasource List</a></li>
                 </ul>
             </div>
             <!-- train section -->
             <div class="bhoechie-tab-content">
-                @*<ul class="nav nav-pills nav-stacked user-menu-list">
-                        @foreach (var item in Model.DashboardList)
-                        {
-                            <li>
-                                @{ if (item.Id == Model.Dashboard.Id)
-                                    {
-                                        <a class="selected-dashboard-super" href="/dashboards/view/@item.Id">
-                                            <i class="fa fa-tachometer fa-fw"></i>
-                                            @item.Title
-                                        </a>
-                                    }
-                                    else
-                                    {
-                                        <a href="/dashboards/view/@item.Id">
-                                            <i class="fa fa-tachometer fa-fw"></i>
-                                            @item.Title
-                                        </a>
-                                    }
-                                }
-                            </li>
-                                    }
-                    </ul>*@
             </div>
         </div>
     </div>

@@ -1,39 +1,71 @@
 ﻿@model MiaBoard.ViewModels.AddUserToDashboardViewModel
-@{
-    ViewBag.Title = "AddUserToDashboard";
-}
-
-<h2>Add User To Dashboard</h2>
-
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-
-    <div class="form-horizontal">
-        <h4>AddUserToPostViewModel</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.UserIdSected, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.UserIdSected, new SelectList(Model.ListUsers, "Id", "Name", Model.UserIdSected))
-                @Html.ValidationMessageFor(model => model.UserIdSected, "", new { @class = "text-danger" })
+<div class="container-fluid left-menu-padding">
+    <!-- Navigation Left-->
+    <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12 bhoechie-tab-container new-bhoechine-tab menu-border-mobile">
+        <div class="col-lg-4 col-md-3 col-sm-4 col-xs-4 bhoechie-tab-menu">
+            <div class="list-group">
+                <a href="#" class="list-group-item active text-center">
+                    <div class="icon-main"><i class="fa fa-globe" aria-hidden="true"></i></div>
+                    <br />Company List
+                </a>
+                <a href="/Dashboards/View/1" class="list-group-item text-center">
+                    <div class="icon-main"><i class="fa fa-tachometer" aria-hidden="true"></i></div>
+                    <br />Dashboard List
+                </a>
             </div>
         </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.DashboardIdSected, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.DashboardIdSected, new SelectList(Model.ListDashboards, "Id", "Name", Model.DashboardIdSected))
-                @Html.ValidationMessageFor(model => model.DashboardIdSected, "", new { @class = "text-danger" })
+        <div class="col-lg-8 col-md-9 col-sm-8 col-xs-8 bhoechie-tab menu-padding-item white-super">
+            <!-- flight section -->
+            <div class="bhoechie-tab-content active">
+                <ul class="nav nav-pills nav-stacked">
+                    <li><a href="/Roles"><i class="fa fa-users fa-fw"></i>User Groups</a></li>
+                    <li><a href="/Users"><i class="fa fa-user fa-fw"></i>User List</a></li>
+                    <li><a href="/Dashboards"><i class="fa fa-clipboard fa-fw"></i>Dashboard List</a></li>
+                    <li><a href="/DataSources/Index"><i class="fa fa-database fa-fw"></i>Datasource List</a></li>
+                </ul>
             </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+            <!-- train section -->
+            <div class="bhoechie-tab-content">
             </div>
         </div>
     </div>
-}
-<div>
-    @Html.ActionLink("Back to List", "Index")
+    <!-- End Navigation Left-->
+
+    <div class="col-lg-9 col-md-8 col-sm-12 col-xs-12  new-bhoechine-tab-main">
+
+        <h2>Add User To Dashboard</h2>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                <h4>AddUserToPostViewModel</h4>
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.UserIdSected, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(model => model.UserIdSected, new SelectList(Model.ListUsers, "Id", "Name", Model.UserIdSected))
+                        @Html.ValidationMessageFor(model => model.UserIdSected, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.DashboardIdSected, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(model => model.DashboardIdSected, new SelectList(Model.ListDashboards, "Id", "Name", Model.DashboardIdSected))
+                        @Html.ValidationMessageFor(model => model.DashboardIdSected, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Create" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+        }
+        <div>
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    </div>
 </div>

@@ -18,6 +18,7 @@ namespace MiaBoard.Models
         public DateTime? DateHired { get; set; }
         public string ContactNo { get; set; }
         public IEnumerable<RoleViewModel> Roles { get; set; }
+        //public IEnumerable<Dashboard> Dashboards { get; set; }
     }
     public class RoleViewModel
     {

@@ -489,7 +489,6 @@
     <Content Include="Views\DataSources\_DataSourceForm.cshtml" />
     <Content Include="Views\Dashboards\Create.cshtml" />
     <Content Include="Views\Dashboards\Delete.cshtml" />
-    <Content Include="Views\Dashboards\Details.cshtml" />
     <Content Include="Views\Dashboards\Edit.cshtml" />
     <Content Include="Views\Dashboards\Index.cshtml" />
     <Content Include="Views\Dashboards\View.cshtml" />
@@ -514,6 +513,15 @@
     <Content Include="Views\Users\Delete.cshtml" />
     <Content Include="Views\Users\Edit.cshtml" />
     <Content Include="Views\Users\AddUserToDashboard.cshtml" />
+    <Content Include="Views\DashboardsForCompany\Index.cshtml" />
+    <Content Include="Views\DashboardsForCompany\Edit.cshtml" />
+    <Content Include="Views\DashboardsForCompany\Delete.cshtml" />
+    <Content Include="Views\DashboardsForCompany\Create.cshtml" />
+    <Content Include="Views\UsersForCompany\AddUserToDashboard.cshtml" />
+    <Content Include="Views\UsersForCompany\Create.cshtml" />
+    <Content Include="Views\UsersForCompany\Delete.cshtml" />
+    <Content Include="Views\UsersForCompany\Edit.cshtml" />
+    <Content Include="Views\UsersForCompany\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\App_Data\" />
