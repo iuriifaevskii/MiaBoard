@@ -1,33 +1,66 @@
 ﻿@model IEnumerable<MiaBoard.Models.AppRole>
 
-@{
-    ViewBag.Title = "Index";
-}
+<div class="container-fluid left-menu-padding">
+    <!-- Navigation Left-->
+    <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12 bhoechie-tab-container new-bhoechine-tab menu-border-mobile">
+        <div class="col-lg-4 col-md-3 col-sm-4 col-xs-4 bhoechie-tab-menu">
+            <div class="list-group">
+                <a href="#" class="list-group-item active text-center">
+                    <div class="icon-main"><i class="fa fa-globe" aria-hidden="true"></i></div>
+                    <br />Company List
+                </a>
+                <a href="/Dashboards/View/1" class="list-group-item text-center">
+                    <div class="icon-main"><i class="fa fa-tachometer" aria-hidden="true"></i></div>
+                    <br />Dashboard List
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-8 col-md-9 col-sm-8 col-xs-8 bhoechie-tab menu-padding-item white-super">
+            <!-- flight section -->
+            <div class="bhoechie-tab-content active">
+                <ul class="nav nav-pills nav-stacked">
+                    <li><a class="selected-dashboard-super" href="/AppRoles"><i class="fa fa-users fa-fw"></i>User Groups</a></li>
+                    <li><a href="/Users"><i class="fa fa-user fa-fw"></i>User List</a></li>
+                    <li><a href="/Dashboards"><i class="fa fa-clipboard fa-fw"></i>Dashboard List</a></li>
+                    <li><a href="/DataSources/Index"><i class="fa fa-database fa-fw"></i>Datasource List</a></li>
+                </ul>
+            </div>
+            <!-- train section -->
+            <div class="bhoechie-tab-content">
+            </div>
+        </div>
+    </div>
+    <!-- End Navigation Left-->
 
-<h2>Index</h2>
+    <div class="col-lg-9 col-md-8 col-sm-12 col-xs-12  new-bhoechine-tab-main">
+        <h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th></th>
-    </tr>
+        <p>
+            @Html.ActionLink("Create New", "Create")
+        </p>
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th></th>
+            </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    </td>
+                </tr>
+            }
 
-</table>
+        </table>
+        <a href="/Users/AddUserToRole">Add User To Role</a>
+    </div>
+</div>
