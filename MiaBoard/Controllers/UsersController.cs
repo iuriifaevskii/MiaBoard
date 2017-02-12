@@ -272,7 +272,38 @@ namespace MiaBoard.Controllers
         {
             return View("AddUserToRole");
         }
-
+        //[Authorize(Roles = "Admin")]
+        public ActionResult AddUserToRole()// GET: Users
+        {
+            AddUserToRoleViewModel model = new AddUserToRoleViewModel();
+            //Заповнити всі пости
+            model.ListRoles = _context.AppRoles.Select(p => new ListBoxItems() { Id = p.Id, Name = p.Name });
+            //Заповнити всі юзери
+            model.ListUsers = _context.AppUsers.Select(p => new ListBoxItems() { Id = p.Id, Name = p.UserProfile.LastName + " " + p.UserProfile.FirstName });
+            return View(model);
+        }
+        [HttpPost]
+        public ActionResult AddUserToRole(AddUserToRoleViewModel model)// GET: Users
+        {
+            if (ModelState.IsValid)
+            {
+                AppRole findRole = _context.AppRoles.SingleOrDefault(p => p.Id == model.RoleIdSected);
+                if (findRole != null)
+                {
+                    AppUser findUser = _context.AppUsers.SingleOrDefault(u => u.Id == model.UserIdSected);
+                    if (findUser != null)
+                    {
+                        findRole.AppUsers.Add(findUser);
+                        _context.SaveChanges();
+                    }
+                }
+            }
+            //Заповнити всі пости
+            model.ListRoles = _context.AppRoles.Select(p => new ListBoxItems() { Id = p.Id, Name = p.Name });
+            //Заповнити всі юзери
+            model.ListUsers = _context.AppUsers.Select(p => new ListBoxItems() { Id = p.Id, Name = p.UserProfile.LastName + " " + p.UserProfile.FirstName });
+            return View(model);
+        }
 
 
 
