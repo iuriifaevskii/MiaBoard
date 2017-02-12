@@ -12,6 +12,7 @@ using MiaBoard.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Collections.Generic;
 using System.Web.Security;
+using MiaBoard.ViewModels;
 
 namespace MiaBoard.Controllers
 {
@@ -95,9 +96,24 @@ namespace MiaBoard.Controllers
             }
             return user;
         }
-        public AppUser CreateUser(string email, string password, string lastName, string name, string midleName, int gender, DateTime dateHired, string contactNo)
+        public AppUser UserRegistration(string email, string password)
         {
-            AppUser user = this.CreateUser(email, password);
+            AppUser user = null;
+            if (this.FindUserByEmail(email) == null)
+            {
+                user = new AppUser() { Email = email, Password = password };
+                var crypto = new SimpleCrypto.PBKDF2();
+                user.Password = crypto.Compute(user.Password);
+                user.PasswordSalt = crypto.Salt;
+                _context.AppUsers.Add(user);
+                _context.SaveChanges();
+            }
+            return user;
+        }
+        public AppUser CreateUser(string email, string password, string lastName, string name, string midleName, int gender, DateTime ? dateHired, string contactNo)
+        {
+
+            AppUser user = UserRegistration(email, password);
             if (user != null)
             {
                 UserProfile userProf = new UserProfile()
@@ -105,19 +121,43 @@ namespace MiaBoard.Controllers
                     Id = user.Id,
                     //User = user,
                     FirstName = name,
-                    MidleName = midleName,  //add this field in view
+                    MidleName = midleName,
                     LastName = lastName,
-                    Gender = gender,        //add this field in view
-                                            //SecondName = secondName //delete this field in view
+                    Gender = gender,
                     DateRegistration = DateTime.Now,
-                    DateHired = dateHired,  //add this field in view
-                    ContactNo = contactNo,  //add this field in view
+                    DateHired = dateHired,
+                    ContactNo = contactNo,
                 };
                 _context.UserProfiles.Add(userProf);
-                _context.SaveChanges();
+                _context.SaveChanges(); ;
             }
-        
+
             return user;
+        }
+        public ActionResult Register()
+        {
+            return View();
+        }
+       
+        [HttpPost]
+        public ActionResult Register(CreateUserViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = CreateUser(model.Email, model.Password, model.LastName, model.FirstName, model.MidleName, model.Gender, model.DateHired, model.ContactNo);
+                if (user != null)
+                {
+                    AddRoleUser(user, 2);
+                    return RedirectToAction("Login", "Account");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "user with the same Email already exists");
+                }
+                model.RoleId = 2;
+
+            }
+            return View(model);
         }
         public AppUser GetUserById(int id)
         {

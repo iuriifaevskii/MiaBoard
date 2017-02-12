@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -24,8 +25,9 @@ namespace MiaBoard.ViewModels
 
         public int Gender { get; set; }
 
-        [DataType(DataType.Date), Display(Name = "Hired Date")]
-        public DateTime DateHired { get; set; }
+        [Display(Name = "Hired Date")]
+        [Column(TypeName = "DateTime2")]
+        public DateTime ? DateHired { get; set; }
 
         [Required, Display(Name = "Contact Number")]
         public string ContactNo { get; set; }

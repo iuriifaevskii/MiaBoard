@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -26,14 +27,14 @@ namespace MiaBoard.ViewModels
         public int Gender { get; set; }
 
         [Display(Name = "Registration Date")]
-        [DataType(DataType.Date)]
+        [Column(TypeName = "DateTime2")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime DateRegistration { get; set; }
+        public DateTime ? DateRegistration { get; set; }
 
         [Display(Name = "Hired Date")]
-        [DataType(DataType.Date)]
+        [Column(TypeName = "DateTime2")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime DateHired { get; set; }
+        public DateTime ? DateHired { get; set; }
 
         [Display(Name = "Contact Number")]
         [StringLength(50)]

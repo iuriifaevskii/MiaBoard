@@ -27,12 +27,12 @@ namespace MiaBoard.Models
 
         public int Gender { get; set; }
 
-        [DataType(DataType.Date)]
-        public DateTime DateRegistration { get; set; }
+        [Column(TypeName = "DateTime2")]
+        public DateTime? DateRegistration { get; set; }
 
         [Display(Name = "Hired Date")]
-        [DataType(DataType.Date)]
-        public DateTime DateHired { get; set; }
+        [Column(TypeName = "DateTime2")]
+        public DateTime? DateHired { get; set; }
 
         [Display(Name = "Contact Number")]
         [StringLength(50)]

@@ -223,6 +223,14 @@
     <Compile Include="Migrations\201702091407446_AddManyToManyToUsersDashboards.Designer.cs">
       <DependentUpon>201702091407446_AddManyToManyToUsersDashboards.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201702121435266_FixDateTime.cs" />
+    <Compile Include="Migrations\201702121435266_FixDateTime.Designer.cs">
+      <DependentUpon>201702121435266_FixDateTime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702121450441_FixDateTime2.cs" />
+    <Compile Include="Migrations\201702121450441_FixDateTime2.Designer.cs">
+      <DependentUpon>201702121450441_FixDateTime2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Dashboard.cs" />
@@ -238,6 +246,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\AddUserToDashboardViewModel.cs" />
+    <Compile Include="ViewModels\AddUserToRoleViewModel.cs" />
     <Compile Include="ViewModels\CreateUserViewModel.cs" />
     <Compile Include="ViewModels\DashboardDetailViewModel.cs" />
     <Compile Include="ViewModels\DashboardItemViewModel.cs" />
@@ -522,6 +531,7 @@
     <Content Include="Views\UsersForCompany\Delete.cshtml" />
     <Content Include="Views\UsersForCompany\Edit.cshtml" />
     <Content Include="Views\UsersForCompany\Index.cshtml" />
+    <Content Include="Views\Users\AddUserToRole.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\App_Data\" />
@@ -551,6 +561,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201702091407446_AddManyToManyToUsersDashboards.resx">
       <DependentUpon>201702091407446_AddManyToManyToUsersDashboards.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702121435266_FixDateTime.resx">
+      <DependentUpon>201702121435266_FixDateTime.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702121450441_FixDateTime2.resx">
+      <DependentUpon>201702121450441_FixDateTime2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

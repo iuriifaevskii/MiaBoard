@@ -86,7 +86,7 @@ namespace MiaBoard.Controllers
             }
             return user;
         }
-        public AppUser CreateUser(string email, string password, string lastName, string name, string midleName, int gender,DateTime dateRegistration,DateTime dateHired,string contactNo)
+        public AppUser CreateUser(string email, string password, string lastName, string name, string midleName, int gender,DateTime ? dateRegistration,DateTime ? dateHired,string contactNo)
         {
 
             AppUser user = UserRegistration(email, password);
@@ -135,7 +135,7 @@ namespace MiaBoard.Controllers
                 _context.SaveChanges();
             }
         }
-        public void EditeUser(int id, string email,string firstName,string lastName,string midleName, int gender, DateTime dateHired, string contactNo , int RoleId)
+        public void EditeUser(int id, string email,string firstName,string lastName,string midleName, int gender, DateTime ? dateHired, string contactNo , int RoleId)
         {
             AppUser user = GetUserById(id);
             if (user != null)
@@ -266,6 +266,11 @@ namespace MiaBoard.Controllers
             //Заповнити всі юзери
             model.ListUsers = _context.AppUsers.Select(p => new ListBoxItems() { Id = p.Id, Name = p.UserProfile.LastName + " " + p.UserProfile.FirstName });
             return View(model);
+        }
+
+        public ActionResult AddUserToRoleView()
+        {
+            return View("AddUserToRole");
         }
 
 
