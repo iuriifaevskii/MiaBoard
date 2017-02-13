@@ -195,6 +195,7 @@
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Core\Security\CustomRoleProvider.cs" />
+    <Compile Include="CustomRoleInLayout.cs" />
     <Compile Include="Dtos\DashboardDto.cs" />
     <Compile Include="Dtos\DataSourceDto.cs" />
     <Compile Include="Global.asax.cs">

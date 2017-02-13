@@ -9,7 +9,8 @@
             <li id="online-user">
                 <div class="name-user">
                     <!--I will write Helper findUserForRole for redirect depend role-->
-                    @Html.ActionLink(User.Identity.Name, "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                    @Html.UserToRole(User.Identity.Name)
+                    @*@Html.ActionLink(User.Identity.Name, "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })*@
                     <!--(End) I will write Helper findUserForRole for redirect depend role-->
                 </div>
                 <a href="@Url.Action("LogOut", "Account")" style="display: inline-block;" id="Logout-Btn">LogOut</a>
@@ -20,7 +21,6 @@
 }
 else
 {
-
     <ul class="nav navbar-nav navbar-right">
         <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink", @class = "btn-flat nav-bar-Login-text" })</li>
         <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "btn btn-primary waves-effect waves-light btn-flat-two" })</li>
