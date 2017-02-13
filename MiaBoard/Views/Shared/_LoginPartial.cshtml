@@ -8,11 +8,11 @@
         <ul class="nav navbar-nav navbar-right" id="navbar-right">
             <li id="online-user">
                 <div class="name-user">
+                    <!--I will write Helper findUserForRole for redirect depend role-->
                     @Html.ActionLink(User.Identity.Name, "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                    <!--(End) I will write Helper findUserForRole for redirect depend role-->
                 </div>
                 <a href="@Url.Action("LogOut", "Account")" style="display: inline-block;" id="Logout-Btn">LogOut</a>
-                @*@Html.ActionLink("Log out", "LogOut", "Account")*@
-                @*<a style="display: inline-block;" id="Logout-Btn" href="javascript:document.getElementById('logoutForm').submit()">LogOut</a>*@
             </li>
         </ul>
 

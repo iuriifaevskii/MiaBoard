@@ -293,8 +293,17 @@ namespace MiaBoard.Controllers
                     AppUser findUser = _context.AppUsers.SingleOrDefault(u => u.Id == model.UserIdSected);
                     if (findUser != null)
                     {
-                        findRole.AppUsers.Add(findUser);
-                        _context.SaveChanges();
+                        if (findUser.Roles.Count() >= 1)
+                        {
+                            
+                            Response.Write("<script>alert('User will not have a few roles!');</script>");
+
+                        }
+                        else
+                        {
+                            findRole.AppUsers.Add(findUser);
+                            _context.SaveChanges();
+                        }
                     }
                 }
             }

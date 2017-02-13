@@ -533,7 +533,6 @@
     <Content Include="Views\UsersForCompany\Edit.cshtml" />
     <Content Include="Views\UsersForCompany\Index.cshtml" />
     <Content Include="Views\Users\AddUserToRole.cshtml" />
-    <Content Include="Views\AppRoles\Delete.cshtml" />
     <Content Include="Views\AppRoles\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>

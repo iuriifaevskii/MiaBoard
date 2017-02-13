@@ -38,7 +38,29 @@ namespace MiaBoard.Controllers
                 if (LoginTrue(model.Login, model.Password))
                 {
                     FormsAuthentication.SetAuthCookie(model.Login, model.IsRememberMe);
-                    return RedirectToAction("Index", "Home");
+                    var user = this.FindUserByEmail(model.Login);
+                    if (user != null)
+                    {
+                        if((user.Roles.Where(r => r.Name == "SuperAdmin")).Count() == 1)
+                        {
+                            return RedirectToAction("Index", "AppRoles");
+                        }
+                        else if((user.Roles.Where(r => r.Name == "User")).Count() == 1)
+                        {
+                            return RedirectToAction("ViewUserReadOnly", "Test");
+                        }
+                        else if ((user.Roles.Where(r => r.Name == "CompanyAdmin")).Count() == 1)
+                        {
+                            return RedirectToAction("CompanyAdmin", "CompanyAdmin");
+                        }
+                        else if ((user.Roles.Where(r => r.Name == "UserDashletEditor")).Count() == 1)
+                        {
+                            return RedirectToAction("UserDashletEditor", "UserDashletEditor");
+                        }
+
+                    }
+
+                    
                 }
                 else
                 {
@@ -50,7 +72,7 @@ namespace MiaBoard.Controllers
         public ActionResult LogOut()
         {
             FormsAuthentication.SignOut();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "Account");
         }
 
         public bool LoginTrue(string email, string password)

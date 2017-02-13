@@ -103,7 +103,7 @@ namespace MiaBoard.Controllers
         }
 
         [Authorize(Roles = "User")]
-        public ActionResult ViewUserReadOnly(int id)
+        public ActionResult ViewUserReadOnly(int? id)
         {
             if (id == 0)
                 return HttpNotFound();
