@@ -132,42 +132,42 @@ namespace MiaBoard.Controllers
 
             foreach (var dashlet in model.Dashlets)
             {
-                //switch (dashlet.DataSource.Type)
-                //{
-                //    case "MSSQL":
-                //        try
-                //        {
-                //            using (SqlConnection connection = new SqlConnection())
-                //            {
-                //                connection.ConnectionString = dashlet.DataSource.ConnectionString;
-                //                connection.Open();
+                switch (dashlet.DataSource.Type)
+                {
+                    case "MSSQL":
+                        try
+                        {
+                            using (SqlConnection connection = new SqlConnection())
+                            {
+                                connection.ConnectionString = dashlet.DataSource.ConnectionString;
+                                connection.Open();
 
-                //                SqlCommand command = new SqlCommand(dashlet.Sql, connection);
+                                SqlCommand command = new SqlCommand(dashlet.Sql, connection);
 
-                //                using (SqlDataReader reader = command.ExecuteReader())
-                //                {
-                //                    if (reader.Read())
-                //                    {
-                //                        viewDashboardViewModel.DashletsSqlResult.Add(dashlet.Id, reader[0].ToString());
-                //                    }
-                //                }
+                                using (SqlDataReader reader = command.ExecuteReader())
+                                {
+                                    if (reader.Read())
+                                    {
+                                        model.DashletsSqlResult.Add(dashlet.Id, reader[0].ToString());
+                                    }
+                                }
 
-                //                connection.Close();
-                //            }
-                //        }
-                //        catch
-                //        {
-                //            viewDashboardViewModel.DashletsSqlResult.Add(dashlet.Id,"SQL queary is incorrect!");
-                //            //continue;
-                //            //return Content("Invalid Connection to Database in Dashhlet: " + dashlet.Id);
-                //        }
-                //        break;
-                //    default:
-                //        viewDashboardViewModel.DashletsSqlResult.Add(dashlet.Id, "Type of Database is unknown!");
-                //        //continue;
-                //        //return Content("Invalid Type of Database in Dashhlet: " + dashlet.Id);
-                //        break;
-                //}
+                                connection.Close();
+                            }
+                        }
+                        catch
+                        {
+                            model.DashletsSqlResult.Add(dashlet.Id,"SQL queary is incorrect!");
+                            //continue;
+                            //return Content("Invalid Connection to Database in Dashhlet: " + dashlet.Id);
+                        }
+                        break;
+                    default:
+                        model.DashletsSqlResult.Add(dashlet.Id, "Type of Database is unknown!");
+                        //continue;
+                        //return Content("Invalid Type of Database in Dashhlet: " + dashlet.Id);
+                        break;
+                }
 
                 switch (dashlet.Column)
                 {
