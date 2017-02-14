@@ -57,7 +57,7 @@ namespace MiaBoard.Models
         public DbSet<UserProfile> UserProfiles { get; set; }
 
         public ApplicationDbContext()
-            : base("DefaultConnection1New", throwIfV1Schema: false)
+            : base("KostetskiyDefaultConnection", throwIfV1Schema: false)
         {
         }
 

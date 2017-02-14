@@ -193,6 +193,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\SuperAdminController.cs" />
     <Compile Include="Controllers\TestController.cs" />
+    <Compile Include="ViewModels\UserEditYaroslavViewModel.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Core\Security\CustomRoleProvider.cs" />
     <Compile Include="CustomRoleInLayout.cs" />
@@ -201,37 +202,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201702081122585_InitDatabase.cs" />
-    <Compile Include="Migrations\201702081122585_InitDatabase.Designer.cs">
-      <DependentUpon>201702081122585_InitDatabase.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201702081127034_InsertDatabase.cs" />
-    <Compile Include="Migrations\201702081127034_InsertDatabase.Designer.cs">
-      <DependentUpon>201702081127034_InsertDatabase.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201702081142371_InsertToDashlets.cs" />
-    <Compile Include="Migrations\201702081142371_InsertToDashlets.Designer.cs">
-      <DependentUpon>201702081142371_InsertToDashlets.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201702082014182_Add_UserProfile_Role_User.cs" />
-    <Compile Include="Migrations\201702082014182_Add_UserProfile_Role_User.Designer.cs">
-      <DependentUpon>201702082014182_Add_UserProfile_Role_User.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201702082233155_AddUserRoleSecond.cs" />
-    <Compile Include="Migrations\201702082233155_AddUserRoleSecond.Designer.cs">
-      <DependentUpon>201702082233155_AddUserRoleSecond.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201702091407446_AddManyToManyToUsersDashboards.cs" />
-    <Compile Include="Migrations\201702091407446_AddManyToManyToUsersDashboards.Designer.cs">
-      <DependentUpon>201702091407446_AddManyToManyToUsersDashboards.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201702121435266_FixDateTime.cs" />
-    <Compile Include="Migrations\201702121435266_FixDateTime.Designer.cs">
-      <DependentUpon>201702121435266_FixDateTime.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201702121450441_FixDateTime2.cs" />
-    <Compile Include="Migrations\201702121450441_FixDateTime2.Designer.cs">
-      <DependentUpon>201702121450441_FixDateTime2.cs</DependentUpon>
+    <Compile Include="Migrations\201702132155582_smth.cs" />
+    <Compile Include="Migrations\201702132155582_smth.Designer.cs">
+      <DependentUpon>201702132155582_smth.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -535,6 +508,7 @@
     <Content Include="Views\UsersForCompany\Index.cshtml" />
     <Content Include="Views\Users\AddUserToRole.cshtml" />
     <Content Include="Views\AppRoles\Index.cshtml" />
+    <Content Include="Views\Users\EditYaroslav.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\App_Data\" />
@@ -547,29 +521,8 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201702081122585_InitDatabase.resx">
-      <DependentUpon>201702081122585_InitDatabase.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702081127034_InsertDatabase.resx">
-      <DependentUpon>201702081127034_InsertDatabase.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702081142371_InsertToDashlets.resx">
-      <DependentUpon>201702081142371_InsertToDashlets.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702082014182_Add_UserProfile_Role_User.resx">
-      <DependentUpon>201702082014182_Add_UserProfile_Role_User.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702082233155_AddUserRoleSecond.resx">
-      <DependentUpon>201702082233155_AddUserRoleSecond.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702091407446_AddManyToManyToUsersDashboards.resx">
-      <DependentUpon>201702091407446_AddManyToManyToUsersDashboards.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702121435266_FixDateTime.resx">
-      <DependentUpon>201702121435266_FixDateTime.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702121450441_FixDateTime2.resx">
-      <DependentUpon>201702121450441_FixDateTime2.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201702132155582_smth.resx">
+      <DependentUpon>201702132155582_smth.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -10,6 +10,36 @@ namespace MiaBoard.Controllers
 {
     public class UsersController : Controller
     {
+        public ActionResult EditYaroslav(int id)
+        {
+            if(id == 0)
+                return HttpNotFound();
+            var viewModel = new AppUser();
+            var userInDb = _context.AppUsers.SingleOrDefault(x => x.Id == id);
+            userInDb.UserProfile = _context.UserProfiles.SingleOrDefault(x=>x.Id == id);
+
+            if (userInDb == null)
+                return HttpNotFound();
+
+            return View(userInDb);
+        }
+        [HttpPost]
+        public ActionResult EditYaroslav(AppUser user)
+        {
+            if (user == null)
+                return HttpNotFound();
+
+            var userInDb = _context.AppUsers.SingleOrDefault(x => x.Id == user.Id);
+
+            if (userInDb == null)
+                return HttpNotFound();
+
+            userInDb.Email = user.Email;
+            userInDb.UserProfile.FirstName = user.UserProfile.FirstName;
+            _context.SaveChanges();
+
+            return View("Index");
+        }
         private ApplicationDbContext _context;
         public UsersController()
         {
@@ -135,7 +165,8 @@ namespace MiaBoard.Controllers
                 _context.SaveChanges();
             }
         }
-        public void EditeUser(int id, string email,string firstName,string lastName,string midleName, int gender, DateTime ? dateHired, string contactNo , int RoleId)
+
+        public void EditeUser(int id, string email, string firstName, string lastName, string midleName, int gender, DateTime? dateHired, string contactNo, int RoleId)
         {
             AppUser user = GetUserById(id);
             if (user != null)
@@ -170,7 +201,8 @@ namespace MiaBoard.Controllers
         }
         public ActionResult Edit(int id)
         {
-            AppUser user = GetUserById(id);
+            //AppUser user = GetUserById(id);
+            var user = _context.AppUsers.SingleOrDefault(x => x.Id == id);
             UserEditViewModel model = new UserEditViewModel()
             {
                 ID = user.Id,

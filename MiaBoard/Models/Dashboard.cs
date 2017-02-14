@@ -9,8 +9,11 @@ namespace MiaBoard.Models
     {
         public int Id { get; set; }
         public string Title { get; set; }
+
+        public int IdOwner { get; set; }
+        public int IdDashboardAdmin{ get; set; }
+
         public virtual ICollection<AppUser> AppUsers { get; set; }
-        
 
     }
 }

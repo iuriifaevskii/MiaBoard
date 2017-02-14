@@ -17,28 +17,35 @@ namespace MiaBoard.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Dashboards/View/5
-        public ActionResult View(int id)
+        [Authorize]
+        public ActionResult View(int? id)
         {
             if (id == 0)
                 return HttpNotFound();
 
-            var viewDashboardViewModel = new ViewDashboardViewModel();
+            var model = new ViewDashboardViewModel();
+            var userEmail = HttpContext.User.Identity.Name;
+            var user = db.AppUsers.SingleOrDefault(u => u.Email == userEmail);
 
-            viewDashboardViewModel.DataSources = new List<DataSource>();
+            model.Dashlets = new List<Dashlet>();
+            model.DataSources = new List<DataSource>();
+            model.DashletsSqlResult = new Dictionary<int, string>();
+            model.DashletsFirstCol = new List<Dashlet>();
+            model.DashletsSecondCol = new List<Dashlet>();
+            model.DashletsThirdCol = new List<Dashlet>();
 
-            viewDashboardViewModel.DashletsSqlResult = new Dictionary<int, string>();
+            model.Dashboard = db.Dashboards.SingleOrDefault(d => d.Id == id);
 
-            viewDashboardViewModel.DashletsFirstCol = new List<Dashlet>();
-            viewDashboardViewModel.DashletsSecondCol = new List<Dashlet>();
-            viewDashboardViewModel.DashletsThirdCol = new List<Dashlet>();
+            model.DataSources = db.DataSources.ToList();
+            model.DashboardList = db.Dashboards.ToList();
+            model.Dashboard = db.Dashboards.SingleOrDefault(d => d.Id == id);
+            model.Dashlets = db.Dashlets.Include(d => d.DataSource).Where(d => d.DashboardId == id).OrderBy(d => d.Position).ToList();
 
-            viewDashboardViewModel.DataSources = db.DataSources.ToList();
-            viewDashboardViewModel.DashboardList = db.Dashboards.ToList();
-            viewDashboardViewModel.Dashboard = db.Dashboards.SingleOrDefault(d => d.Id == id);
-            viewDashboardViewModel.Dashlets = db.Dashlets.Include(d => d.DataSource).Where(d => d.DashboardId == id).OrderBy(d => d.Position).ToList();
+            model.ID = user.Id;
+            model.Email = user.Email;
+            model.DashboardListToUser = user.Dashboards.Select(p => new DashboardItemViewModel() { DashboardId = p.Id, DashboardName = p.Title }).ToList();
 
-
-            foreach (var dashlet in viewDashboardViewModel.Dashlets)
+            foreach (var dashlet in model.Dashlets)
             {
                 switch (dashlet.DataSource.Type)
                 {
@@ -56,7 +63,7 @@ namespace MiaBoard.Controllers
                                 {
                                     if (reader.Read())
                                     {
-                                        viewDashboardViewModel.DashletsSqlResult.Add(dashlet.Id, reader[0].ToString());
+                                        model.DashletsSqlResult.Add(dashlet.Id, reader[0].ToString());
                                     }
                                 }
 
@@ -65,13 +72,13 @@ namespace MiaBoard.Controllers
                         }
                         catch
                         {
-                            viewDashboardViewModel.DashletsSqlResult.Add(dashlet.Id,"SQL queary is incorrect!");
+                            model.DashletsSqlResult.Add(dashlet.Id, "SQL queary is incorrect!");
                             //continue;
                             //return Content("Invalid Connection to Database in Dashhlet: " + dashlet.Id);
                         }
                         break;
                     default:
-                        viewDashboardViewModel.DashletsSqlResult.Add(dashlet.Id, "Type of Database is unknown!");
+                        model.DashletsSqlResult.Add(dashlet.Id, "Type of Database is unknown!");
                         //continue;
                         //return Content("Invalid Type of Database in Dashhlet: " + dashlet.Id);
                         break;
@@ -80,13 +87,13 @@ namespace MiaBoard.Controllers
                 switch (dashlet.Column)
                 {
                     case 1:
-                        viewDashboardViewModel.DashletsFirstCol.Add(dashlet);
+                        model.DashletsFirstCol.Add(dashlet);
                         break;
                     case 2:
-                        viewDashboardViewModel.DashletsSecondCol.Add(dashlet);
+                        model.DashletsSecondCol.Add(dashlet);
                         break;
                     case 3:
-                        viewDashboardViewModel.DashletsThirdCol.Add(dashlet);
+                        model.DashletsThirdCol.Add(dashlet);
                         break;
                     default:
                         Console.WriteLine("Toggle is broke. It's equal to " + dashlet.Column);
@@ -95,7 +102,34 @@ namespace MiaBoard.Controllers
 
             }
 
-            return View(viewDashboardViewModel);
+            var currentDashboard = user.Dashboards.SingleOrDefault(x => x.Id == model.Dashboard.Id);
+            model.Dashlets = db.Dashlets.Include(m => m.DataSource).Where(d => d.DashboardId == id).OrderBy(d => d.Position).ToList();
+            bool haveReadOnlyPermision = user.Dashboards.SingleOrDefault(x => x.Id == id) != null ? true : false;
+
+            if (user != null)                           
+            {
+                if ((user.Roles.Where(r => r.Name == "SuperAdmin")).Count() == 1 )
+                {
+                    return View(model);
+                }
+                else if (model.Dashboard.IdOwner == user.Id)
+                {
+                    return View("ViewCompanyAdmin", model);
+                }
+                else if (model.Dashboard.IdDashboardAdmin == user.Id)
+                {
+                    return View("UserDashletEditor", model);
+                }
+                else if ((user.Roles.Where(r => r.Name == "User")).Count() == 1 && haveReadOnlyPermision)
+                {
+                    return View("ViewUserReadOnly", model);
+                }
+                else {
+                    return RedirectToAction("index", "home", null);
+                }
+            }
+
+            return RedirectToAction("index", "home", null);
         }
 
         // GET: Dashboards/View/5
