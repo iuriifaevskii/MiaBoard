@@ -12,41 +12,43 @@ using MiaBoard.ViewModels;
 
 namespace MiaBoard.Controllers
 {
+    [Authorize]
     public class DashboardsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Dashboards/View/5
-        [Authorize]
         public ActionResult View(int? id)
         {
             if (id == 0)
                 return HttpNotFound();
 
             var model = new ViewDashboardViewModel();
-            var userEmail = HttpContext.User.Identity.Name;
-            var user = db.AppUsers.SingleOrDefault(u => u.Email == userEmail);
-
             model.Dashlets = new List<Dashlet>();
             model.DataSources = new List<DataSource>();
             model.DashletsSqlResult = new Dictionary<int, string>();
             model.DashletsFirstCol = new List<Dashlet>();
             model.DashletsSecondCol = new List<Dashlet>();
             model.DashletsThirdCol = new List<Dashlet>();
-            model.Dashboard = db.Dashboards.SingleOrDefault(d => d.Id == id);
+
+            var userEmail = HttpContext.User.Identity.Name;
+            var user = db.AppUsers.SingleOrDefault(u => u.Email == userEmail);
+
 
             model.IsCompanyAdmin = (user.Roles.Where(r => r.Name == "CompanyAdmin")).Count() == 1;
-            model.IsUser = (user.Roles.Where(r => r.Name == "User")).Count() == 1;
             model.IsSuperAdmin = (user.Roles.Where(r => r.Name == "SuperAdmin")).Count() == 1;
+            model.IsUser = (user.Roles.Where(r => r.Name == "User")).Count() == 1;
 
-            model.DataSources = db.DataSources.ToList();
-            model.DashboardList = db.Dashboards.ToList();
             model.Dashboard = db.Dashboards.SingleOrDefault(d => d.Id == id);
-            model.Dashlets = db.Dashlets.Include(d => d.DataSource).Where(d => d.DashboardId == id).OrderBy(d => d.Position).ToList();
-
-            model.ID = user.Id;
-            model.Email = user.Email;
+            model.DashboardList = db.Dashboards.ToList();
             model.DashboardListToUser = user.Dashboards.Select(p => new DashboardItemViewModel() { DashboardId = p.Id, DashboardName = p.Title }).ToList();
+            model.DataSources = db.DataSources.ToList();
+
+            model.Dashlets = db.Dashlets.Include(m => m.DataSource).Where(d => d.DashboardId == id).OrderBy(d => d.Position).ToList();
+
+            model.CurrentUser = user;
+            model.Email = user.Email;
+            model.ID = user.Id;
 
             foreach (var dashlet in model.Dashlets)
             {
@@ -105,69 +107,106 @@ namespace MiaBoard.Controllers
 
             }
 
-            model.CurrentUser = user;
-            model.Dashlets = db.Dashlets.Include(m => m.DataSource).Where(d => d.DashboardId == id).OrderBy(d => d.Position).ToList();
-            bool haveReadOnlyPermision = user.Dashboards.SingleOrDefault(x => x.Id == id) != null ? true : false;
-
-            if (user != null)                           
-            {
-                if (id == null) {
-                    if (model.IsSuperAdmin)
-                    {
-                        return RedirectToAction("Index", "AppRoles");
-                    }
-                    else if (model.IsUser)
-                    {
-                        var allowedDashboards = model.DashboardList.Where(x => x.IdDashboardAdmin == user.Id);
-
-                        if(allowedDashboards == null)
-                            return RedirectToAction("index", "home", null);
-                        model.DashboardList = allowedDashboards.ToList();
-                        return View("AllowedList", model);
-                    }
-                    else if (model.IsCompanyAdmin)
-                    {
-                        var allowedDashboards = model.DashboardList.Where(x => x.IdOwner == user.Id);
-
-                        if (allowedDashboards == null)
-                            return RedirectToAction("index", "home", null);
-                        model.DashboardList = allowedDashboards.ToList();
-
-                        return View("AllowedList", model);
-                    }
-                    else if ((user.Roles.Where(r => r.Name == "UserDashletEditor")).Count() == 1)
-                    {
-                        return RedirectToAction("UserDashletEditor", "UserDashletEditor");
-                    }
-                }
-
+            if(id == null){
                 if (model.IsSuperAdmin)
                 {
-                    return View(model);
+                    return RedirectToAction("index", "dashboards");
                 }
-                else if (model.IsCompanyAdmin)
-                {
-                    var allowedDashboards = model.DashboardList.Where(x => x.IdDashboardAdmin == user.Id);
-
-                    if (allowedDashboards == null)
-                        return RedirectToAction("index", "home", null);
-
-                    model.DashboardList = allowedDashboards.ToList();
-
-                    return View("ViewCompanyAdmin", model);
+                else if(model.IsCompanyAdmin){
+                    return RedirectToAction("index", "dashboards");
                 }
-                else if (model.Dashboard.IdDashboardAdmin == user.Id)
-                {
-                    return View("ViewUser", model);
+                else if(model.IsUser){
+                    return RedirectToAction("index", "dashboards");
                 }
-                else if ((user.Roles.Where(r => r.Name == "User")).Count() == 1 && haveReadOnlyPermision)
+                else {
+                    return Content("else if id == null");
+                }
+            }
+
+            model.IsOwner = model.Dashboard.IdOwner == user.Id;
+            model.IsDashboardAdmin = model.Dashboard.IdDashboardAdmin == user.Id;
+
+            if (model.IsSuperAdmin)
+            {
+                return View(model);
+            }
+            else if (model.IsOwner)
+            {
+                model.DashboardList = model.DashboardList.Where(x => x.IdOwner == user.Id).ToList();
+                return View("ViewCompanyAdmin", model);
+            }
+            else if (model.IsDashboardAdmin)
+            {
+                model.DashboardList = model.DashboardList.Where(x => x.IdDashboardAdmin == user.Id).ToList();
+
+                return View("ViewUser", model);
+            }
+            else if (model.IsUser)
+            {
+                var isAllowedDashboard = user.Dashboards.SingleOrDefault(x => x.Id == id);
+                if (isAllowedDashboard != null)
                 {
                     return View("ViewUserReadOnly", model);
                 }
                 else {
-                    return RedirectToAction("index", "home", null);
+                    return Content("else if id != null && isUser");
                 }
             }
+
+            //bool haveReadOnlyPermision = user.Dashboards.SingleOrDefault(x => x.Id == id) != null ? true : false;
+            //if (user != null)                           
+            //{
+            //    if (id == null) {
+            //        if (model.IsSuperAdmin)
+            //        {
+            //            return RedirectToAction("Index", "AppRoles");
+            //        }
+            //        else if (model.IsUser)
+            //        {
+            //            var allowedDashboards = model.DashboardList.Where(x => x.IdDashboardAdmin == user.Id);
+            //            if(allowedDashboards == null)
+            //                return RedirectToAction("index", "home", null);
+            //            model.DashboardList = allowedDashboards.ToList();
+            //            return View("AllowedList", model);
+            //        }
+            //        else if (model.IsCompanyAdmin)
+            //        {
+            //            var allowedDashboards = model.DashboardList.Where(x => x.IdOwner == user.Id);
+            //            if (allowedDashboards == null)
+            //                return RedirectToAction("index", "home", null);
+            //            model.DashboardList = allowedDashboards.ToList();
+            //            return View("AllowedList", model);
+            //        }
+            //        else if ((user.Roles.Where(r => r.Name == "UserDashletEditor")).Count() == 1)
+            //        {
+            //            return RedirectToAction("UserDashletEditor", "UserDashletEditor");
+            //        }
+            //    }
+            //    model.DataSources = db.DataSources.Where(x => x.OwnerId == db.Dashboards.SingleOrDefault(z => z.Id == id).IdOwner).ToList();
+            //    if (model.IsSuperAdmin)
+            //    {
+            //        return View(model);
+            //    }
+            //    else if (model.IsCompanyAdmin)
+            //    {
+            //        var allowedDashboards = model.DashboardList.Where(x => x.IdDashboardAdmin == user.Id);
+            //        if (allowedDashboards == null)
+            //            return RedirectToAction("index", "home", null);
+            //        model.DashboardList = allowedDashboards.ToList();
+            //        return View("ViewCompanyAdmin", model);
+            //    }
+            //    else if (model.Dashboard.IdDashboardAdmin == user.Id)
+            //    {
+            //        return View("ViewUser", model);
+            //    }
+            //    else if ((user.Roles.Where(r => r.Name == "User")).Count() == 1 && haveReadOnlyPermision)
+            //    {
+            //        return View("ViewUserReadOnly", model);
+            //    }
+            //    else {
+            //        return RedirectToAction("index", "home", null);
+            //    }
+            //}
 
             return RedirectToAction("index", "home", null);
         }
@@ -275,7 +314,32 @@ namespace MiaBoard.Controllers
         // GET: Dashboards/Create
         public ActionResult Create()
         {
-            return View();
+            var model = new DashboardCreateViewModel();
+            var usersList = db.AppUsers.ToList();
+
+            List<AppUser> candidatsCompanyAdminList = new List<AppUser>();
+            List<AppUser> candidatsDashboardAdminList = new List<AppUser>();
+
+            foreach(var item in usersList){
+                var role = item.Roles.ToList();
+                if(role[0].Name == "CompanyAdmin"){
+                    item.UserProfile = db.UserProfiles.SingleOrDefault(x => x.Id == item.Id);
+                    candidatsCompanyAdminList.Add(item);
+                }
+                else if (role[0].Name == "User")
+                {
+                    item.UserProfile = db.UserProfiles.SingleOrDefault(x => x.Id == item.Id);
+                    candidatsDashboardAdminList.Add(item);
+                }
+            }
+
+            var companyCAList = candidatsCompanyAdminList.Select(r => new ListBoxItems() { Id = r.Id, Name = r.UserProfile.FirstName + " " + r.UserProfile.LastName }).ToList();
+            var candidatsDAList = candidatsDashboardAdminList.Select(r => new ListBoxItems() { Id = r.Id, Name = r.UserProfile.FirstName + " " + r.UserProfile.LastName }).ToList();
+
+            ViewBag.CandidatsCompanyAdmin = new SelectList(companyCAList, "Id", "Name", 0);
+            ViewBag.CandidatsDashboardAdmin = new SelectList(candidatsDAList, "Id", "Name", 0);
+
+            return View(model);
         }
 
         // POST: Dashboards/Create

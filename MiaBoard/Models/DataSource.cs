@@ -33,5 +33,7 @@ namespace MiaBoard.Models
         [Display(Name = "Database Name")]
         public string DatabaseName { get; set; }
 
+        public int OwnerId { get; set; }
+
     }
 }

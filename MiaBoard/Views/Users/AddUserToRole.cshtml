@@ -32,7 +32,7 @@
     <!-- End Navigation Left-->
 
     <div class="col-lg-9 col-md-8 col-sm-12 col-xs-12  new-bhoechine-tab-main">
-        <p class="text-center style-size-roles" >Attached to the role of the user</p>
+        <p class="text-center style-size-roles">Attached to the role of the user</p>
         @using (Html.BeginForm())
         {
             @Html.AntiForgeryToken()
@@ -46,7 +46,7 @@
                         @Html.ValidationMessageFor(model => model.UserIdSected, "", new { @class = "text-danger" })
                     </div>
                     <div class="col-md-2">
-                        </div>
+                    </div>
                 </div>
                 <div class="form-group">
                     @Html.LabelFor(model => model.RoleIdSected, htmlAttributes: new { @class = "control-label col-md-2 style-size-roles-content" })

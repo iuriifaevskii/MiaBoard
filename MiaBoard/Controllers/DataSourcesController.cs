@@ -8,6 +8,7 @@ using System.Web.Mvc;
 
 namespace MiaBoard.Controllers
 {
+    [Authorize]
     public class DataSourcesController : Controller
     {
         //

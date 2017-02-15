@@ -205,12 +205,12 @@
             <!-- flight section -->
             <div class="bhoechie-tab-content active">
                 <ul class="nav nav-pills nav-stacked user-menu-list">
-                    @foreach (var item in Model.DashboardListToUser)
+                    @foreach (var item in Model.DashboardList)
                     {
                         <li>
-                            <a class="alert alert-success text-center" href="/dashboards/view/@item.DashboardId">
+                            <a class="alert alert-success text-center" href="/dashboards/view/@item.Id">
                                 <i class="fa fa-tachometer fa-fw"></i>
-                                @item.DashboardName
+                                @item.Title
                             </a>
                         </li>
                     }
@@ -224,10 +224,6 @@
             <div class="panel-heading ">
                 <div class="text-center">
                     <h4 class="own-board-title">@Model.Dashboard.Title</h4>
-                </div>
-                <div class="own-board-btn">
-                    <a class="btn btn-info text-right" href="/DataSources/Index">Data Source</a>
-                    <button type="button" class="btn btn-info">Security</button>
                 </div>
             </div>
             <div class="panel-body">
@@ -279,7 +275,7 @@
                             <div id="dashlet_@dashlet.Id" class="panel panel-primary text-center" data-dashlet-id="@dashlet.Id" style="@dashlet.Styles">
                                 <div id="dashletField_@dashlet.Id-Title" class="panel-heading">@dashlet.Title</div>
                                 <div id="dashletField_@dashlet.Id-TextType" class="panel-body">@dashlet.TextType</div>
-                                <div class="panel-body">@*@Model.DashletsSqlResult[dashlet.Id]*@</div>
+                                <div class="panel-body">@Model.DashletsSqlResult[dashlet.Id]</div>
                                 <div id="dashletField_@dashlet.Id-BottomSubTitle" class="panel-body">@dashlet.BottomSubTitle</div>
                                 <div class="icon-settings">
                                     <i class="fa fa-cog new-ic-padding" aria-hidden="true" data-toggle="collapse" data-target="#dashletForEdit_@dashlet.Id"></i>
@@ -347,7 +343,7 @@
                             <div id="dashlet_@dashlet.Id" class="panel panel-primary text-center" data-dashlet-id="@dashlet.Id" style="@dashlet.Styles">
                                 <div id="dashletField_@dashlet.Id-Title" class="panel-heading">@dashlet.Title</div>
                                 <div id="dashletField_@dashlet.Id-TextType" class="panel-body">@dashlet.TextType</div>
-                                <div class="panel-body">@*@Model.DashletsSqlResult[dashlet.Id]*@</div>
+                                <div class="panel-body">@Model.DashletsSqlResult[dashlet.Id]</div>
                                 <div id="dashletField_@dashlet.Id-BottomSubTitle" class="panel-body">@dashlet.BottomSubTitle</div>
                                 <div class="icon-settings">
                                     <i class="fa fa-cog new-ic-padding" aria-hidden="true" data-toggle="collapse" data-target="#dashletForEdit_@dashlet.Id"></i>
@@ -415,7 +411,7 @@
                             <div id="dashlet_@dashlet.Id" class="panel panel-primary text-center" data-dashlet-id="@dashlet.Id" style="@dashlet.Styles">
                                 <div id="dashletField_@dashlet.Id-Title" class="panel-heading">@dashlet.Title</div>
                                 <div id="dashletField_@dashlet.Id-TextType" class="panel-body">@dashlet.TextType</div>
-                                <div class="panel-body">@*@Model.DashletsSqlResult[dashlet.Id]*@</div>
+                                <div class="panel-body">@Model.DashletsSqlResult[dashlet.Id]</div>
                                 <div id="dashletField_@dashlet.Id-BottomSubTitle" class="panel-body">@dashlet.BottomSubTitle</div>
                                 <div class="icon-settings">
                                     <i class="fa fa-cog new-ic-padding" aria-hidden="true" data-toggle="collapse" data-target="#dashletForEdit_@dashlet.Id"></i>

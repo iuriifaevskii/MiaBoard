@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace MiaBoard.Controllers
 {
+    [Authorize]
     public class SuperAdminController : Controller
     {
         // GET: SuperAdmin
@@ -13,7 +14,5 @@ namespace MiaBoard.Controllers
         {
             return View();
         }
-
-
     }
 }

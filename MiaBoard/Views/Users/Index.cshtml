@@ -1,5 +1,23 @@
 ﻿@model IQueryable<MiaBoard.Models.UserViewModel>
+<style>
+    .user-table-style {
+        border: 1px solid #dddddd;
+    }
 
+        .user-table-style tbody > tr > th {
+            border: 1px solid #dddddd;
+            vertical-align: middle;
+        }
+
+        .user-table-style tbody > tr > td {
+            border: 1px solid #dddddd;
+            vertical-align: middle;
+        }
+
+        .user-table-style td {
+            border: 1px solid #dddddd;
+        }
+</style>
 <div class="container-fluid left-menu-padding">
     <!-- Navigation Left-->
     <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12 bhoechie-tab-container new-bhoechine-tab menu-border-mobile">
@@ -35,90 +53,99 @@
     <div class="col-lg-9 col-md-8 col-sm-12 col-xs-12  new-bhoechine-tab-main">
 
 
-        <p>
-           <a href="/Users/Create" style="font-size:30px" type="button" class="btn btn-info btn-lg btn-create-datasource">Create New User</a>
+        <p class="text-center">
+            <a href="/Users/Create" style="font-size:30px" type="button" class="btn btn-info btn-lg btn-create-datasource">Create New User</a>
         </p>
-        <table class="table">
-            <tr>
-                <th>
-                    E-Mail
-                </th>
-                <th>
-                    Name
-                </th>
-                <th>
-                    Gender
-                </th>
-                <th>
-                    Date Registration
-                </th>
-                <th>
-                    Date Hired
-                </th>
-                <th>
-                    Contact Number
-                </th>
-                <th>
-                    Roles in system
-                </th>
-                @*<th>
-                    Dashboards
-                </th>*@
-                <th></th>
-            </tr>
-            @foreach (var item in Model)
-            {
+        <div style="overflow-x:auto;">
+            <table class="table user-table-style">
                 <tr>
-                    <td>
-                        @item.Email
-                    </td>
-                    <td>
-                        @item.FullName
-                    </td>
-                    <td>
-                        @if (item.Gender == 0)
-                        {
-                            <div>Female</div>
-                        }
-                        else
-                        {
-                            <div>Man</div>
-                        }
-                    </td>
-                    <td>
-                        @item.DateRegistration
-                    </td>
-                    <td>
-                        @item.DateHired
-                    </td>
-                    <td>
-                        @item.ContactNo
-                    </td>
-                    <td>
-                        @if (item.Roles != null)
-                        {
-                            foreach (var r in item.Roles)
-                            {
-                                <span>@r.Name</span>
-                            }
-                        }
-
-                    </td>
-                    @*<td>
-                        @if (item.Dashboards != null)
-                        {
-                            foreach (var d in item.Dashboards)
-                            {
-                                @d.Title
-                            }
-                        }
-                    </td>*@
-                    <td>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
-                        @Html.ActionLink("Delete", "Delete", new { id = item.ID })
-                    </td>
+                    <th>
+                        E-Mail
+                    </th>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Gender
+                    </th>
+                    <th>
+                        Date Registration
+                    </th>
+                    <th>
+                        Date Hired
+                    </th>
+                    <th>
+                        Contact Number
+                    </th>
+                    <th>
+                        Role
+                    </th>
+                    <th>
+                        Edit
+                    </th>
+                    <th>
+                        Delete
+                    </th>
+                    @*<th>
+                            Dashboards
+                        </th>*@
                 </tr>
-            }
-        </table>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @item.Email
+                        </td>
+                        <td>
+                            @item.FullName
+                        </td>
+                        <td>
+                            @if (item.Gender == 0)
+                            {
+                                <div>Female</div>
+                            }
+                            else
+                            {
+                                <div>Man</div>
+                            }
+                        </td>
+                        <td>
+                            @item.DateRegistration
+                        </td>
+                        <td>
+                            @item.DateHired
+                        </td>
+                        <td>
+                            @item.ContactNo
+                        </td>
+                        <td>
+                            @if (item.Roles != null)
+                            {
+                                foreach (var r in item.Roles)
+                                {
+                                    <span>@r.Name</span>
+                                }
+                            }
+
+                        </td>
+                        @*<td>
+                                @if (item.Dashboards != null)
+                                {
+                                    foreach (var d in item.Dashboards)
+                                    {
+                                        @d.Title
+                                    }
+                                }
+                            </td>*@
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { id = item.ID })
+                        </td>
+                        <td>
+                            @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
     </div>
 </div>

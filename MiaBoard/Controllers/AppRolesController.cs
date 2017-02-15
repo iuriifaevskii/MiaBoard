@@ -10,6 +10,7 @@ using MiaBoard.Models;
 
 namespace MiaBoard.Controllers
 {
+    [Authorize]
     public class AppRolesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

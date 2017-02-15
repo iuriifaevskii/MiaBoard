@@ -1337,3 +1337,7 @@ div.bhoechie-tab div.bhoechie-tab-content:not(.active) {
         /*border: 1px solid #5bc0de;*/
         border:none;
     }
+
+    table.dataTable.dtr-inline.collapsed > tbody > tr > td:first-child:before, table.dataTable.dtr-inline.collapsed > tbody > tr > th:first-child:before {
+    background-color: #428bca;
+}

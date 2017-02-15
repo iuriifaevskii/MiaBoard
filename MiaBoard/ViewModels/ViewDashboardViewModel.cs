@@ -31,5 +31,9 @@ namespace MiaBoard.ViewModels
         public string Email { get; set; }
         public IEnumerable<DashboardItemViewModel> DashboardListToUser { get; set; }
 
+
+        public bool IsDashboardAdmin { get; set; }
+
+        public bool IsOwner { get; set; }
     }
 }

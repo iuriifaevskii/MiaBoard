@@ -1,5 +1,22 @@
 ﻿@model IEnumerable<MiaBoard.Models.Dashboard>
+<style>
+    .user-table-style {
+        border: 1px solid #dddddd;
+    }
+        .user-table-style tbody > tr > th {
+            border: 1px solid #dddddd;
+            vertical-align: middle;
+        }
 
+        .user-table-style tbody > tr > td {
+            border: 1px solid #dddddd;
+            vertical-align: middle;
+        }
+
+        .user-table-style td {
+            border: 1px solid #dddddd;
+        }
+</style>
 <div class="container-fluid left-menu-padding">
     <!-- Navigation Left-->
     <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12 bhoechie-tab-container new-bhoechine-tab menu-border-mobile">
@@ -37,55 +54,59 @@
             <a href="/Dashboards/Create" style="font-size:30px" type="button" class="btn btn-info btn-lg btn-create-datasource">Create New Dashboard</a>
             <a href="/Users/AddUserToDashboard" style="font-size:30px" type="button" class="btn btn-info btn-lg btn-create-datasource">Add user to dashboard</a>
         </p>
-        <table class="table">
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Title)
-                </th>
-                <th></th>
-            </tr>
-
-            @foreach (var item in Model)
-            {
+        <div style="overflow-x:auto;">
+            <table class="table user-table-style">
                 <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Title)
-
-
-                    </td>
-                    <td>
-                        @foreach (var user in item.AppUsers)
-                        {
-                            <p>@user.Email</p>
-                        }
-                    </td>
-                    <td>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                    </td>
+                    <th>Dashboard name</th>
+                    <th>Users attached to the dashboard</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
                 </tr>
-            }
 
-        </table>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Title)
+
+
+                        </td>
+                        <td>
+                            @foreach (var user in item.AppUsers)
+                            {
+                                <p>@user.Email</p>
+                            }
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+                        </td>
+                        <td>
+                            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
     </div>
 </div>
 
 <script>
-        /******************/
-        /* Navigation Left*/
-        /******************/
+    /******************/
+    /* Navigation Left*/
+    /******************/
 
-        $(document).ready(function () {
-            $("div.bhoechie-tab-menu>div.list-group>a").click(function (e) {
-                $(this).siblings('a.active').removeClass("active");
-                $(this).addClass("active");
-                var index = $(this).index();
-                $("div.bhoechie-tab>div.bhoechie-tab-content").removeClass("active");
-                $("div.bhoechie-tab>div.bhoechie-tab-content").eq(index).addClass("active");
-            });
+    $(document).ready(function () {
+        $("div.bhoechie-tab-menu>div.list-group>a").click(function (e) {
+            $(this).siblings('a.active').removeClass("active");
+            $(this).addClass("active");
+            var index = $(this).index();
+            $("div.bhoechie-tab>div.bhoechie-tab-content").removeClass("active");
+            $("div.bhoechie-tab>div.bhoechie-tab-content").eq(index).addClass("active");
         });
+    });
 
-        /**********************/
-        /* End Navigation Left*/
-        /**********************/
+    /**********************/
+    /* End Navigation Left*/
+    /**********************/
 </script>

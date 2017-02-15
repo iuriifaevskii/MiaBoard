@@ -32,7 +32,7 @@
     <!-- End Navigation Left-->
 
     <div class="col-lg-9 col-md-8 col-sm-12 col-xs-12  new-bhoechine-tab-main">
-
+        <p class="text-center style-size-roles">Attached to the dashboard of the user</p>
         @using (Html.BeginForm())
         {
             @Html.AntiForgeryToken()
@@ -40,28 +40,29 @@
             <div class="form-horizontal">
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="form-group">
-                    @Html.LabelFor(model => model.UserIdSected, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.DropDownListFor(model => model.UserIdSected, new SelectList(Model.ListUsers, "Id", "Name", Model.UserIdSected))
+                    @Html.LabelFor(model => model.UserIdSected, htmlAttributes: new { @class = "control-label col-md-3 style-size-roles-content" })
+                    <div class="col-md-7">
+                        @Html.DropDownListFor(model => model.UserIdSected, new SelectList(Model.ListUsers, "Id", "Name", Model.UserIdSected), new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.UserIdSected, "", new { @class = "text-danger" })
                     </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.DashboardIdSected, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.DropDownListFor(model => model.DashboardIdSected, new SelectList(Model.ListDashboards, "Id", "Name", Model.DashboardIdSected))
-                        @Html.ValidationMessageFor(model => model.DashboardIdSected, "", new { @class = "text-danger" })
+                    <div class="col-md-2">
                     </div>
                 </div>
                 <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
+                    @Html.LabelFor(model => model.DashboardIdSected, htmlAttributes: new { @class = "control-label col-md-3 style-size-roles-content" })
+                    <div class="col-md-7">
+                        @Html.DropDownListFor(model => model.DashboardIdSected, new SelectList(Model.ListDashboards, "Id", "Name", Model.DashboardIdSected), new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.DashboardIdSected, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-2">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-3 col-md-10">
                         <input type="submit" style="font-size:30px" class="btn btn-info btn-lg btn-create-datasource" value="Attach" />
                     </div>
                 </div>
             </div>
         }
-        <div>
-            @Html.ActionLink("Back to List", "Index")
-        </div>
     </div>
 </div>

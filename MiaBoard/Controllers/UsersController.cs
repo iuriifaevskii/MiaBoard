@@ -8,6 +8,7 @@ using System.Web.Mvc;
 
 namespace MiaBoard.Controllers
 {
+    [Authorize]
     public class UsersController : Controller
     {
         public ActionResult EditYaroslav(int id)

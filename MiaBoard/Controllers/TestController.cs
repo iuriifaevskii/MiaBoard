@@ -11,6 +11,7 @@ using MiaBoard.Models;
 using MiaBoard.ViewModels;
 namespace MiaBoard.Controllers
 {
+    [Authorize]
     public class TestController : Controller
     {
         private ApplicationDbContext db = null;
