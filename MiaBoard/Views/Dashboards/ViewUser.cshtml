@@ -1,4 +1,4 @@
-﻿@model MiaBoard.ViewModels.DashboardViewViewUserViewModel
+﻿@model MiaBoard.ViewModels.ViewDashboardViewModel
 
 <script type="text/javascript">
     function deleteDashlet(event) {
@@ -205,12 +205,12 @@
             <!-- flight section -->
             <div class="bhoechie-tab-content active">
                 <ul class="nav nav-pills nav-stacked user-menu-list">
-                    @foreach (var item in Model.DashboardList)
+                    @foreach (var item in Model.DashboardListToUser)
                     {
                         <li>
-                            <a class="alert alert-success text-center" href="/dashboards/view/@item.Id">
+                            <a class="alert alert-success text-center" href="/dashboards/view/@item.DashboardId">
                                 <i class="fa fa-tachometer fa-fw"></i>
-                                @item.Title
+                                @item.DashboardName
                             </a>
                         </li>
                     }

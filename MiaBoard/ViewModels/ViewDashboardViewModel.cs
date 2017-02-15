@@ -19,6 +19,11 @@ namespace MiaBoard.ViewModels
         //yura comment
         public List<Dashlet> Dashlets { get; set; }
 
+        public AppUser CurrentUser{ get; set; }
+        public bool IsCompanyAdmin { get; set; }
+        public bool IsUser { get; set; }
+        public bool IsSuperAdmin { get; set; }
+
         public List<Dashlet> DashletsFirstCol { get; set; }
         public List<Dashlet> DashletsSecondCol { get; set; }
         public List<Dashlet> DashletsThirdCol { get; set; }

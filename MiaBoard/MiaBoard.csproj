@@ -509,6 +509,7 @@
     <Content Include="Views\Users\AddUserToRole.cshtml" />
     <Content Include="Views\AppRoles\Index.cshtml" />
     <Content Include="Views\Users\EditYaroslav.cshtml" />
+    <Content Include="Views\Dashboards\AllowedList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\App_Data\" />

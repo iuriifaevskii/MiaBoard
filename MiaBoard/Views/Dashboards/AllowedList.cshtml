@@ -1,0 +1,160 @@
+﻿@model MiaBoard.ViewModels.ViewDashboardViewModel
+
+<div class="container-fluid left-menu-padding">
+    <!-- Navigation Left-->
+    @{
+        if (Model.IsSuperAdmin)
+        {
+            <div class="col-lg-4 col-md-3 col-sm-4 col-xs-4 bhoechie-tab-menu">
+                <div class="list-group">
+                    <a href="/AppRoles" class="list-group-item  text-center">
+                        <div class="icon-main"><i class="fa fa-globe" aria-hidden="true"></i></div>
+                        <br />Company List
+                    </a>
+                    <a href="#" class="list-group-item active text-center">
+                        <div class="icon-main"><i class="fa fa-tachometer" aria-hidden="true"></i></div>
+                        <br />Dashboard List
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-8 col-md-9 col-sm-8 col-xs-8 bhoechie-tab menu-padding-item white-super">
+                <!-- flight section -->
+                <div class="bhoechie-tab-content ">
+                    <ul class="nav nav-pills nav-stacked">
+                        <li><a href="/Groups"><i class="fa fa-users fa-fw"></i>User Groups</a></li>
+                        <li><a href="/Users"><i class="fa fa-user fa-fw"></i>User List</a></li>
+                        <li><a href="/Dashboards"><i class="fa fa-clipboard fa-fw"></i>Dashboard List</a></li>
+                        <li><a href="/DataSources/Index"><i class="fa fa-database fa-fw"></i>Datasource List</a></li>
+                    </ul>
+                </div>
+                <!-- train section -->
+                <div class="bhoechie-tab-content active">
+                    <ul class="nav nav-pills nav-stacked user-menu-list">
+                        @foreach (var item in Model.DashboardList)
+                        {
+                            <li>
+                                @{ if (item.Id == Model.Dashboard.Id)
+                                 {
+                                    <a class="selected-dashboard-super" href="/dashboards/view/@item.Id">
+                                        <i class="fa fa-tachometer fa-fw"></i>
+                                        @item.Title
+                                    </a>
+                                 }
+                                 else
+                                 {
+                                    <a href="/dashboards/view/@item.Id">
+                                        <i class="fa fa-tachometer fa-fw"></i>
+                                        @item.Title
+                                    </a>
+                                 }
+                                }
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        }
+        if (Model.IsCompanyAdmin)
+        {
+            <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 bhoechie-tab-container new-bhoechine-tab">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 bhoechie-tab">
+                    <!-- flight section -->
+                    <div class="bhoechie-tab-content active">
+                        <ul class="nav nav-pills nav-stacked">
+                            <li><a href="/"><i class="fa fa-users fa-fw"></i>User Groups</a></li>
+                            <li><a href="/"><i class="fa fa-user fa-fw"></i>User List</a></li>
+                            <li><a href="/dashboards/view"><i class=" fa fa-clipboard fa-fw"></i>Dashboard List</a></li>
+                            <li><a href="/dataSources/index"><i class="fa fa-database fa-fw"></i>Datasource List</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        }
+        if (Model.IsUser)
+        {
+            <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 bhoechie-tab-container new-bhoechine-tab">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 bhoechie-tab">
+                    <!-- flight section -->
+                    <div class="bhoechie-tab-content active">
+                        <ul class="nav nav-pills nav-stacked user-menu-list readonly-user-menu">
+                            @foreach (var item in Model.DashboardListToUser)
+                            {
+                                <li>
+                                        <a class="alert alert-success text-center" href="/test/ViewUserReadOnly/@item.DashboardId">
+                                            <i class="fa fa-tachometer fa-fw"></i>
+                                            @item.DashboardName
+                                        </a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                    <!-- train section -->
+                </div>
+            </div>
+        }
+     }
+
+    <!-- End Navigation Left-->
+
+    <div class="col-lg-9 col-md-8 col-sm-12 col-xs-12  new-bhoechine-tab-main">
+        <h2>Dashboard List</h2>
+
+        @if(Model.IsCompanyAdmin){
+        <p>
+            @Html.ActionLink("Create New", "Create")
+        </p>
+        }
+        <table class="table">
+            <tr>
+                <th>
+                    Title
+                </th>
+                <th>
+                </th>
+            </tr>
+
+            @foreach (var item in Model.DashboardList)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @foreach (var user in item.AppUsers)
+                        {
+                            <p>@user.Email</p>
+                        }
+                    </td>
+                    @if(Model.IsCompanyAdmin){
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    </td>
+                    }
+                </tr>
+            }
+
+        </table>
+        <a href="/Users/AddUserToDashboard">Add user to dashboard</a>
+    </div>
+</div>
+
+<script>
+        /******************/
+        /* Navigation Left*/
+        /******************/
+
+        $(document).ready(function () {
+            $("div.bhoechie-tab-menu>div.list-group>a").click(function (e) {
+                $(this).siblings('a.active').removeClass("active");
+                $(this).addClass("active");
+                var index = $(this).index();
+                $("div.bhoechie-tab>div.bhoechie-tab-content").removeClass("active");
+                $("div.bhoechie-tab>div.bhoechie-tab-content").eq(index).addClass("active");
+            });
+        });
+
+        /**********************/
+        /* End Navigation Left*/
+        /**********************/
+</script>
