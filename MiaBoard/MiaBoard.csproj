@@ -193,6 +193,14 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\SuperAdminController.cs" />
     <Compile Include="Controllers\TestController.cs" />
+    <Compile Include="Migrations\201702150021031_initdatabase.cs" />
+    <Compile Include="Migrations\201702150021031_initdatabase.Designer.cs">
+      <DependentUpon>201702150021031_initdatabase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702150026242_insertdatabase.cs" />
+    <Compile Include="Migrations\201702150026242_insertdatabase.Designer.cs">
+      <DependentUpon>201702150026242_insertdatabase.cs</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\UserEditYaroslavViewModel.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Core\Security\CustomRoleProvider.cs" />
@@ -201,10 +209,6 @@
     <Compile Include="Dtos\DataSourceDto.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201702132155582_smth.cs" />
-    <Compile Include="Migrations\201702132155582_smth.Designer.cs">
-      <DependentUpon>201702132155582_smth.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -522,8 +526,11 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201702132155582_smth.resx">
-      <DependentUpon>201702132155582_smth.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201702150021031_initdatabase.resx">
+      <DependentUpon>201702150021031_initdatabase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702150026242_insertdatabase.resx">
+      <DependentUpon>201702150026242_insertdatabase.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
