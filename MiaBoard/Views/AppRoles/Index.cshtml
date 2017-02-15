@@ -17,6 +17,7 @@
         </div>
         <div class="col-lg-8 col-md-9 col-sm-8 col-xs-8 bhoechie-tab menu-padding-item white-super">
             <!-- flight section -->
+            
             <div class="bhoechie-tab-content active">
                 <ul class="nav nav-pills nav-stacked">
                     <li><a class="selected-dashboard-super" href="/AppRoles/Index"><i class="fa fa-users fa-fw"></i>User Groups</a></li>
@@ -33,24 +34,27 @@
     <!-- End Navigation Left-->
 
     <div class="col-lg-9 col-md-8 col-sm-12 col-xs-12  new-bhoechine-tab-main">
-        <table class="table">
+        <div class="text-center">
+            <a href="/Users/AddUserToRole" style="font-size:30px" type="button" class="btn btn-info btn-lg btn-create-datasource" @*data-toggle="modal" data-target="#myModal"*@>Attached to the role of the user</a>
+        </div>
+        <table class="table super-table-style">
             <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Name)
+                <th class="style-size-roles">
+                    The names of roles
                 </th>
-                <th></th>
+            
             </tr>
 
             @foreach (var item in Model)
             {
                 <tr>
-                    <td>
+                    <td class="style-size-roles-content">
                         @Html.DisplayFor(modelItem => item.Name)
                     </td>
                 </tr>
             }
 
         </table>
-        <a href="/Users/AddUserToRole">Add User To Role</a>
+
     </div>
 </div>

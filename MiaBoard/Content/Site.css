@@ -1320,3 +1320,20 @@ div.bhoechie-tab div.bhoechie-tab-content:not(.active) {
     .white-super{
         background:white;
     }
+    .style-size-roles{
+        font-size: 25px;
+        color: #5bc0de;
+        /*border: 1px solid #5bc0de !important;*/
+        border:none !important;
+    }
+    .style-size-roles-content{
+        font-size: 20px;
+    }
+    .super-table-style,
+    .super-table-style tr,
+    .super-table-style tr th,
+    .super-table-style tr td
+    {
+        /*border: 1px solid #5bc0de;*/
+        border:none;
+    }

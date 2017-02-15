@@ -33,10 +33,9 @@
     <!-- End Navigation Left-->
 
     <div class="col-lg-9 col-md-8 col-sm-12 col-xs-12  new-bhoechine-tab-main">
-        <h2>Dashboard List</h2>
-
-        <p>
-            @Html.ActionLink("Create New", "Create")
+        <p class="text-center">
+            <a href="/Dashboards/Create" style="font-size:30px" type="button" class="btn btn-info btn-lg btn-create-datasource">Create New Dashboard</a>
+            <a href="/Users/AddUserToDashboard" style="font-size:30px" type="button" class="btn btn-info btn-lg btn-create-datasource">Add user to dashboard</a>
         </p>
         <table class="table">
             <tr>
@@ -68,7 +67,6 @@
             }
 
         </table>
-        <a href="/Users/AddUserToDashboard">Add user to dashboard</a>
     </div>
 </div>
 
