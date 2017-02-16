@@ -195,11 +195,13 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\SuperAdminController.cs" />
     <Compile Include="Controllers\TestController.cs" />
-    <Compile Include="Migrations\201702151130033_addOwnerIdToDataSource.cs" />
-    <Compile Include="Migrations\201702151130033_addOwnerIdToDataSource.Designer.cs">
-      <DependentUpon>201702151130033_addOwnerIdToDataSource.cs</DependentUpon>
+    <Compile Include="Migrations\201702161033355_init.cs" />
+    <Compile Include="Migrations\201702161033355_init.Designer.cs">
+      <DependentUpon>201702161033355_init.cs</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\DashboardCreateViewModel.cs" />
+    <Compile Include="ViewModels\DashboardEditViewModel.cs" />
+    <Compile Include="ViewModels\DashboardIndexViewModel.cs" />
     <Compile Include="ViewModels\UserEditYaroslavViewModel.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Core\Security\CustomRoleProvider.cs" />
@@ -233,8 +235,10 @@
     <Compile Include="ViewModels\DashboardViewViewUserViewModel.cs" />
     <Compile Include="ViewModels\DataSourceIndexViewModel.cs" />
     <Compile Include="ViewModels\UserEditViewModel.cs" />
+    <Compile Include="ViewModels\UserIndexViewModel.cs" />
     <Compile Include="ViewModels\UserInfoViewModel.cs" />
     <Compile Include="ViewModels\ViewDashboardViewModel.cs" />
+    <Compile Include="ViewModels\_DataSourcesCreateViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -513,6 +517,9 @@
     <Content Include="Views\AppRoles\Index.cshtml" />
     <Content Include="Views\Users\EditYaroslav.cshtml" />
     <Content Include="Views\Dashboards\AllowedList.cshtml" />
+    <Content Include="Views\DataSources\_DataSourceFormSuperAdmin.cshtml" />
+    <Content Include="Views\Shared\Errors\Error_403.cshtml" />
+    <Content Include="Views\Shared\Errors\Error_404.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\App_Data\" />
@@ -525,8 +532,8 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201702151130033_addOwnerIdToDataSource.resx">
-      <DependentUpon>201702151130033_addOwnerIdToDataSource.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201702161033355_init.resx">
+      <DependentUpon>201702161033355_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

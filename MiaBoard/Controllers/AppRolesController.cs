@@ -18,6 +18,14 @@ namespace MiaBoard.Controllers
         // GET: AppRoles
         public ActionResult Index()
         {
+            var userEmail = HttpContext.User.Identity.Name;
+            var user = db.AppUsers.SingleOrDefault(u => u.Email == userEmail);
+
+            if ((user.Roles.Where(r => r.Name == "User")).Count() == 1)
+            {
+                return RedirectToAction("index", "dashboards");
+            }
+
             return View(db.AppRoles.ToList());
         }
         

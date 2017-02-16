@@ -42,7 +42,13 @@
                         @Html.TextBoxFor(m => m.NewDataSource.ConnectionString, new { @class = "form-control text-center" })
                         @Html.ValidationMessageFor(m => m.NewDataSource.ConnectionString)
                     </div>
-                    @Html.HiddenFor(x => x.NewDataSource.OwnerId, new { Value = Model.CurrentUser.Id });
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.NewDataSource.OwnerId, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(model => model.NewDataSource.OwnerId, (MultiSelectList)ViewBag.CandidatsCompanyAdmin, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.NewDataSource.OwnerId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
                     @Html.AntiForgeryToken()
                     <div class="modal-body text-center">
                         <button type="submit" class="btn btn-primary js-update">Save</button>

@@ -1,10 +1,9 @@
-﻿@model MiaBoard.Models.DataSource
+﻿@model MiaBoard.ViewModels.DataSourceIndexViewModel
 
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 
 <div class="container-fluid left-menu-padding">
     <!-- Navigation Left-->
@@ -42,9 +41,8 @@
             <button style="font-size:30px" type="button" class="btn btn-info btn-lg btn-create-datasource" data-toggle="modal" data-target="#myModal">Create Datasource</button>
         </div>
         <div class="container">
-
             <div class="container">
-                @Html.Partial("~/Views/DataSources/_DataSourceForm.cshtml", Model)
+                @Html.Partial((Model.IsSuperAdmin) ? "~/Views/DataSources/_DataSourceFormSuperAdmin.cshtml" : "~/Views/DataSources/_DataSourceForm.cshtml", Model.NewDataSource)
             </div>
             <table id="dataSources" class="table table-bordered table-hover">
                 <thead>
@@ -55,12 +53,12 @@
                         <th>User Name</th>
                         <th>Password</th>
                         <th>ConnectionString</th>
+                        <th>Edit</th>
                         <th>Delete</th>
                     </tr>
                 </thead>
                 <tbody></tbody>
             </table>
-
         </div>
     </div>
 </div>
@@ -72,15 +70,12 @@
                     responsive: true,
                     scrollY: 300,
                     ajax: {
-                        url: "/api/dataSources",
+                        url: "/api/datasources/getbyuserid/"+@Model.CurrentUser.Id,
                         dataSrc: ""
                     },
                     columns: [
                         {
-                            data: "type",
-                            render: function (data, type, dataSource) {
-                                return "<a href='/DataSources/Edit/" + dataSource.id + "'>" + dataSource.type + "</a>";
-                            }
+                            data: "type"
                         },
                         {
                             data: "serverName"
@@ -100,25 +95,31 @@
                         {
                             data: "id",
                             render: function (data) {
-                                return "<button class = 'btn-link js-delete' data-dataSource-id=" + data + ">Delete</button>";
+                                return "<a class='btn-link' href='/datasources/edit/" + data + "'>Edit</a>";
+                            }
+                        },
+                        {
+                            data: "id",
+                            render: function (data) {
+                                return "<button class='btn-link js-delete' data-dataSource-id=" + data + ">Delete</button>";
                             }
                         }
                     ]
                 });
-            });
-            $("#dataSources").on("click", ".js-delete", function () {
-                var button = $(this);
+                $("#dataSources").on("click", ".js-delete", function () {
+                    var button = $(this);
 
-                bootbox.confirm("Are you sure you want to delete this dataSource?", function (result) {
-                    if (result) {
-                        $.ajax({
-                            url: "/api/dataSources/" + button.attr("data-dataSource-id"),
-                            method: "DELETE",
-                            success: function () {
-                                table.row(button.parents("tr")).remove().draw();
-                            }
-                        });
-                    }
+                    bootbox.confirm("Are you sure you want to delete this dataSource?", function (result) {
+                        if (result) {
+                            $.ajax({
+                                url: "/api/dataSources/" + button.attr("data-dataSource-id"),
+                                method: "DELETE",
+                                success: function () {
+                                   table.row(button.parents("tr")).remove().draw();
+                                }
+                            });
+                        }
+                    });
                 });
             });
         </script>

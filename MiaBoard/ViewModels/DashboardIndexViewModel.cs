@@ -6,15 +6,15 @@ using System.Web;
 
 namespace MiaBoard.ViewModels
 {
-    public class DataSourceIndexViewModel
+    public class DashboardIndexViewModel
     {
+        public List<Dashboard> DashboardsList { get; set; }
         public AppUser CurrentUser { get; set; }
-        public _DataSourcesCreateViewModel NewDataSource { get; set; }
-        public DataSource UpdateDataSource { get; set; }
-        public IEnumerable<DataSource> DataSources { get; set; }
 
         public bool IsCompanyAdmin { get; set; }
 
         public bool IsSuperAdmin { get; set; }
+
+        public bool IsUser { get; set; }
     }
 }

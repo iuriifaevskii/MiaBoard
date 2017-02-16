@@ -17,5 +17,11 @@ namespace MiaBoard.ViewModels
         [Display(Name = "Attach Dashboard")]
         public int DashboardIdSected { get; set; }
 
+
+        public bool IsCompanyAdmin { get; set; }
+
+        public bool IsSuperAdmin { get; set; }
+
+        public bool IsUser { get; set; }
     }
 }

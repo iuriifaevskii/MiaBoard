@@ -11,6 +11,9 @@ namespace MiaBoard.Controllers
     [Authorize]
     public class UsersController : Controller
     {
+
+        private ApplicationDbContext _context;
+
         public ActionResult EditYaroslav(int id)
         {
             if(id == 0)
@@ -24,6 +27,7 @@ namespace MiaBoard.Controllers
 
             return View(userInDb);
         }
+
         [HttpPost]
         public ActionResult EditYaroslav(AppUser user)
         {
@@ -41,11 +45,12 @@ namespace MiaBoard.Controllers
 
             return View("Index");
         }
-        private ApplicationDbContext _context;
+
         public UsersController()
         {
             _context = new ApplicationDbContext();
         }
+
         // GET: Users
         public ActionResult Index()
         {
@@ -62,7 +67,30 @@ namespace MiaBoard.Controllers
                                                       Roles = data.Roles.Select(r => new RoleViewModel() { Id = r.Id, Name = r.Name, })
                                                   };
 
-            return View(listUsers);
+            var viewModel = new UserIndexViewModel();
+
+            var userEmail = HttpContext.User.Identity.Name;
+            var user = _context.AppUsers.SingleOrDefault(u => u.Email == userEmail);
+
+            viewModel.IsCompanyAdmin = (user.Roles.Where(r => r.Name == "CompanyAdmin")).Count() == 1;
+            viewModel.IsSuperAdmin = (user.Roles.Where(r => r.Name == "SuperAdmin")).Count() == 1;
+            viewModel.IsUser = (user.Roles.Where(r => r.Name == "User")).Count() == 1;
+            
+            viewModel.CurrentUser = user;
+
+            if(viewModel.IsUser){
+                return RedirectToAction("View", "Dashboards", null);
+            }
+            if (viewModel.IsCompanyAdmin)
+            {
+                viewModel.UsersList = _context.AppUsers.ToList();
+            }
+            if (viewModel.IsSuperAdmin)
+            {
+                viewModel.UsersList = _context.AppUsers.ToList();
+            }
+
+            return View(viewModel);
         }
 
         public ActionResult Create()
@@ -186,6 +214,7 @@ namespace MiaBoard.Controllers
                 }
             }
         }
+
         public bool ChangePassword(int id, string oldPassword, string newPassword)
         {
             AppUser user = GetUserById(id);
@@ -200,6 +229,7 @@ namespace MiaBoard.Controllers
             }
             return false;
         }
+
         public ActionResult Edit(int id)
         {
             //AppUser user = GetUserById(id);
@@ -220,6 +250,7 @@ namespace MiaBoard.Controllers
             ViewBag.ListinRoles = new SelectList(listRoles, "Id", "Name", model.RoleId);
             return View(model);
         }
+
         [HttpPost]
         public ActionResult Edit(UserEditViewModel model)
         {
@@ -231,6 +262,7 @@ namespace MiaBoard.Controllers
             return RedirectToAction("Index", "Users");
 
         }
+
         [Authorize]
         public ActionResult Delete(int id)
         {
@@ -269,17 +301,46 @@ namespace MiaBoard.Controllers
         }
 
         //[Authorize(Roles = "Admin")]
-        public ActionResult AddUserToDashboard()// GET: Users
+        public ActionResult AddUserToDashboard()
         {
-            AddUserToDashboardViewModel model = new AddUserToDashboardViewModel();
-            //Заповнити всі пости
-            model.ListDashboards = _context.Dashboards.Select(p => new ListBoxItems() { Id = p.Id, Name = p.Title });
-            //Заповнити всі юзери
-            model.ListUsers = _context.AppUsers.Select(p => new ListBoxItems() { Id = p.Id, Name = p.UserProfile.LastName + " " + p.UserProfile.FirstName });
+            var model = new AddUserToDashboardViewModel();
+            var userEmail = HttpContext.User.Identity.Name;
+            var user = _context.AppUsers.SingleOrDefault(u => u.Email == userEmail);
+
+            model.IsCompanyAdmin = (user.Roles.Where(r => r.Name == "CompanyAdmin")).Count() == 1;
+            model.IsSuperAdmin = (user.Roles.Where(r => r.Name == "SuperAdmin")).Count() == 1;
+            model.IsUser = (user.Roles.Where(r => r.Name == "User")).Count() == 1;
+
+            if (model.IsUser)
+                return HttpNotFound();
+
+            var usersList = _context.AppUsers.ToList();
+
+            List<AppUser> candidatsReadOnly= new List<AppUser>();
+
+            foreach (var item in usersList)
+            {
+                var role = item.Roles.ToList();
+                if (role[0].Name == "User")
+                {
+                    item.UserProfile = _context.UserProfiles.SingleOrDefault(x => x.Id == item.Id);
+                    candidatsReadOnly.Add(item);
+                }
+            }
+
+            var companyROList = candidatsReadOnly.Select(r => new ListBoxItems() { Id = r.Id, Name = r.UserProfile.FirstName + " " + r.UserProfile.LastName });
+
+            model.ListDashboards = model.IsSuperAdmin 
+                ? _context.Dashboards.Select(p => new ListBoxItems() { Id = p.Id, Name = p.Title })
+                : _context.Dashboards.Where(x => x.IdOwner == user.Id).Select(p => new ListBoxItems() { Id = p.Id, Name = p.Title });
+
+            model.ListUsers = companyROList;
+            
             return View(model);
         }
+
         [HttpPost]
-        public ActionResult AddUserToDashboard(AddUserToDashboardViewModel model)// GET: Users
+        public ActionResult AddUserToDashboard(AddUserToDashboardViewModel model)
         {
             if (ModelState.IsValid)
             {

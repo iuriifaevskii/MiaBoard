@@ -15,8 +15,44 @@ namespace MiaBoard.Controllers
         // GET: /DataSources/
         public ActionResult Index()
         {
+            var model = new DataSourceIndexViewModel();
+            
+            model.CurrentUser = new AppUser();
+            model.DataSources = new List<DataSource>();
+            model.NewDataSource = new _DataSourcesCreateViewModel();
+            model.UpdateDataSource = new DataSource();
 
-            return View();
+            var userEmail = HttpContext.User.Identity.Name;
+            var user = _context.AppUsers.SingleOrDefault(u => u.Email == userEmail);
+            
+            model.CurrentUser = user;
+            model.NewDataSource.CurrentUser = user;
+
+            model.IsSuperAdmin = (user.Roles.Where(r => r.Name == "SuperAdmin")).Count() == 1;
+            model.IsCompanyAdmin = (user.Roles.Where(r => r.Name == "CompanyAdmin")).Count() == 1;
+
+            if (!model.IsSuperAdmin && !model.IsCompanyAdmin)
+                return HttpNotFound();
+
+            var usersList = _context.AppUsers.ToList();
+
+            List<AppUser> candidatsCompanyAdminList = new List<AppUser>();
+
+            foreach (var item in usersList)
+            {
+                var role = item.Roles.ToList();
+                if (role[0].Name == "CompanyAdmin")
+                {
+                    item.UserProfile = _context.UserProfiles.SingleOrDefault(x => x.Id == item.Id);
+                    candidatsCompanyAdminList.Add(item);
+                }
+            }
+
+            var companyCAList = candidatsCompanyAdminList.Select(r => new ListBoxItems() { Id = r.Id, Name = r.UserProfile.FirstName + " " + r.UserProfile.LastName }).ToList();
+
+            ViewBag.CandidatsCompanyAdmin = new SelectList(companyCAList, "Id", "Name", 0);
+
+            return View(model);
         }
 
         private ApplicationDbContext _context;
@@ -28,35 +64,66 @@ namespace MiaBoard.Controllers
         {
             _context.Dispose();
         }
-        public ActionResult New()
-        {
-            var dataSources = new DataSource();
-            
-            return View("Index", dataSources);
-        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         //public ActionResult Save(DataSource dataSource)
-        public ActionResult Save(DataSource dataSource)
+        public ActionResult Save(_DataSourcesCreateViewModel _viewModel)
         {
             
             if(!ModelState.IsValid)
             {
-                var dataSourcesModel = dataSource;
-                return View("Index", dataSourcesModel);
+                var model = new DataSourceIndexViewModel();
+
+                model.CurrentUser = new AppUser();
+                model.DataSources = new List<DataSource>();
+                model.NewDataSource = new _DataSourcesCreateViewModel();
+                model.UpdateDataSource = new DataSource();
+
+                var userEmail = HttpContext.User.Identity.Name;
+                var user = _context.AppUsers.SingleOrDefault(u => u.Email == userEmail);
+
+                model.CurrentUser = user;
+                model.NewDataSource.CurrentUser = user;
+
+                model.IsSuperAdmin = (user.Roles.Where(r => r.Name == "SuperAdmin")).Count() == 1;
+                model.IsCompanyAdmin = (user.Roles.Where(r => r.Name == "CompanyAdmin")).Count() == 1;
+
+                if (!model.IsSuperAdmin && !model.IsCompanyAdmin)
+                    return HttpNotFound();
+
+                var usersList = _context.AppUsers.ToList();
+
+                List<AppUser> candidatsCompanyAdminList = new List<AppUser>();
+
+                foreach (var item in usersList)
+                {
+                    var role = item.Roles.ToList();
+                    if (role[0].Name == "CompanyAdmin")
+                    {
+                        item.UserProfile = _context.UserProfiles.SingleOrDefault(x => x.Id == item.Id);
+                        candidatsCompanyAdminList.Add(item);
+                    }
+                }
+
+                var companyCAList = candidatsCompanyAdminList.Select(r => new ListBoxItems() { Id = r.Id, Name = r.UserProfile.FirstName + " " + r.UserProfile.LastName }).ToList();
+
+                ViewBag.CandidatsCompanyAdmin = new SelectList(companyCAList, "Id", "Name", 0);
+
+                return View("Index", model);
             }
 
-            if (dataSource.Id == 0)
-                _context.DataSources.Add(dataSource);
+            if (_viewModel.NewDataSource.Id == 0)
+                _context.DataSources.Add(_viewModel.NewDataSource);
             else
             {
-                var dataSourceInDb = _context.DataSources.Single(c => c.Id == dataSource.Id);
-                dataSourceInDb.Type = dataSource.Type;
-                dataSourceInDb.UserName = dataSource.UserName;
-                dataSourceInDb.ServerName = dataSource.ServerName;
-                dataSourceInDb.Password = dataSource.Password;
-                dataSourceInDb.DatabaseName = dataSource.DatabaseName;
-                dataSourceInDb.ConnectionString = dataSource.ConnectionString;
+                var dataSourceInDb = _context.DataSources.Single(c => c.Id == _viewModel.NewDataSource.Id);
+                dataSourceInDb.Type = _viewModel.NewDataSource.Type;
+                dataSourceInDb.UserName = _viewModel.NewDataSource.UserName;
+                dataSourceInDb.ServerName = _viewModel.NewDataSource.ServerName;
+                dataSourceInDb.Password = _viewModel.NewDataSource.Password;
+                dataSourceInDb.DatabaseName = _viewModel.NewDataSource.DatabaseName;
+                dataSourceInDb.ConnectionString = _viewModel.NewDataSource.ConnectionString;
             }
 
             _context.SaveChanges();

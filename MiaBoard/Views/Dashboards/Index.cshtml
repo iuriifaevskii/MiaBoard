@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MiaBoard.Models.Dashboard>
+﻿@model MiaBoard.ViewModels.DashboardIndexViewModel
 <style>
     .user-table-style {
         border: 1px solid #dddddd;
@@ -36,10 +36,19 @@
             <!-- flight section -->
             <div class="bhoechie-tab-content active">
                 <ul class="nav nav-pills nav-stacked">
-                    <li><a href="/AppRoles/Index"><i class="fa fa-users fa-fw"></i>User Groups</a></li>
-                    <li><a href="/Users/Index"><i class="fa fa-user fa-fw"></i>User List</a></li>
+                    @if (!Model.IsUser)
+                    {
+                        <li><a href="/AppRoles/Index"><i class="fa fa-users fa-fw"></i>User Groups</a></li>
+                    }
+                    @if (!Model.IsUser)
+                    {
+                        <li><a href="/Users/Index"><i class="fa fa-user fa-fw"></i>User List</a></li>
+                    }
                     <li><a class="selected-dashboard-super" href="/Dashboards/Index"><i class="fa fa-clipboard fa-fw"></i>Dashboard List</a></li>
-                    <li><a href="/DataSources/Index"><i class="fa fa-database fa-fw"></i>Datasource List</a></li>
+                    @if (!Model.IsUser)
+                    {
+                        <li><a href="/DataSources/Index"><i class="fa fa-database fa-fw"></i>Datasource List</a></li>
+                    }
                 </ul>
             </div>
             <!-- train section -->
@@ -51,8 +60,12 @@
 
     <div class="col-lg-9 col-md-8 col-sm-12 col-xs-12  new-bhoechine-tab-main">
         <p class="text-center">
-            <a href="/Dashboards/Create" style="font-size:30px" type="button" class="btn btn-info btn-lg btn-create-datasource">Create New Dashboard</a>
-            <a href="/Users/AddUserToDashboard" style="font-size:30px" type="button" class="btn btn-info btn-lg btn-create-datasource">Add user to dashboard</a>
+            @{
+                if(Model.IsCompanyAdmin || Model.IsSuperAdmin){
+                    <a href="/Dashboards/Create" style="font-size:30px" type="button" class="btn btn-info btn-lg btn-create-datasource">Create Dashboard</a>
+                    <a href="/Users/AddUserToDashboard" style="font-size:30px" type="button" class="btn btn-info btn-lg btn-create-datasource">Access to Dashboards</a>
+                }
+            }
         </p>
         <div style="overflow-x:auto;">
             <table class="table user-table-style">
@@ -63,7 +76,7 @@
                     <th>Delete</th>
                 </tr>
 
-                @foreach (var item in Model)
+                @foreach (var item in Model.DashboardsList)
                 {
                     <tr>
                         <td>

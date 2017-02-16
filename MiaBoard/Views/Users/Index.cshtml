@@ -1,4 +1,4 @@
-﻿@model IQueryable<MiaBoard.Models.UserViewModel>
+﻿@model MiaBoard.ViewModels.UserIndexViewModel
 <style>
     .user-table-style {
         border: 1px solid #dddddd;
@@ -40,7 +40,9 @@
                     <li><a href="/AppRoles/Index"><i class="fa fa-users fa-fw"></i>User Groups</a></li>
                     <li><a class="selected-dashboard-super" href="/Users/Index"><i class="fa fa-user fa-fw"></i>User List</a></li>
                     <li><a href="/Dashboards/Index"><i class="fa fa-clipboard fa-fw"></i>Dashboard List</a></li>
-                    <li><a href="/DataSources/Index"><i class="fa fa-database fa-fw"></i>Datasource List</a></li>
+                    @if(!Model.IsUser){
+                        <li><a href="/DataSources/Index"><i class="fa fa-database fa-fw"></i>Datasource List</a></li>
+                    }
                 </ul>
             </div>
             <!-- train section -->
@@ -54,7 +56,9 @@
 
 
         <p class="text-center">
-            <a href="/Users/Create" style="font-size:30px" type="button" class="btn btn-info btn-lg btn-create-datasource">Create New User</a>
+            @if(!Model.IsUser){
+                <a href="/Users/Create" style="font-size:30px" type="button" class="btn btn-info btn-lg btn-create-datasource">Create New User</a>
+            }
         </p>
         <div style="overflow-x:auto;">
             <table class="table user-table-style">
@@ -63,7 +67,13 @@
                         E-Mail
                     </th>
                     <th>
-                        Name
+                        First Name
+                    </th>
+                    <th>
+                        Middle Name
+                    </th>
+                    <th>
+                        Last Name
                     </th>
                     <th>
                         Gender
@@ -86,21 +96,24 @@
                     <th>
                         Delete
                     </th>
-                    @*<th>
-                            Dashboards
-                        </th>*@
                 </tr>
-                @foreach (var item in Model)
+                @foreach (var item in Model.UsersList)
                 {
                     <tr>
                         <td>
                             @item.Email
                         </td>
                         <td>
-                            @item.FullName
+                            @item.UserProfile.FirstName
                         </td>
                         <td>
-                            @if (item.Gender == 0)
+                            @item.UserProfile.MidleName
+                        </td>
+                        <td>
+                            @item.UserProfile.LastName
+                        </td>
+                        <td>
+                            @if (item.UserProfile.Gender == 0)
                             {
                                 <div>Female</div>
                             }
@@ -110,13 +123,13 @@
                             }
                         </td>
                         <td>
-                            @item.DateRegistration
+                            @item.UserProfile.DateRegistration
                         </td>
                         <td>
-                            @item.DateHired
+                            @item.UserProfile.DateHired
                         </td>
                         <td>
-                            @item.ContactNo
+                            @item.UserProfile.ContactNo
                         </td>
                         <td>
                             @if (item.Roles != null)
@@ -126,22 +139,22 @@
                                     <span>@r.Name</span>
                                 }
                             }
-
                         </td>
-                        @*<td>
-                                @if (item.Dashboards != null)
+                        <td>
+                            @{
+                                if (Model.IsSuperAdmin || item.Id == Model.CurrentUser.Id)
                                 {
-                                    foreach (var d in item.Dashboards)
-                                    {
-                                        @d.Title
-                                    }
+                                    @Html.ActionLink("Edit", "Edit", new { id = item.Id })
                                 }
-                            </td>*@
-                        <td>
-                            @Html.ActionLink("Edit", "Edit", new { id = item.ID })
+                            }
                         </td>
                         <td>
-                            @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                            @{
+                                if (Model.IsSuperAdmin || item.Id == Model.CurrentUser.Id)
+                                {
+                                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                                }
+                            }
                         </td>
                     </tr>
                 }

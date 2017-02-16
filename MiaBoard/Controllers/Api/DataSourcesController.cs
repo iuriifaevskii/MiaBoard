@@ -29,6 +29,22 @@ namespace MiaBoard.Controllers.Api
             return Ok(dataSourceDtos);
         }
 
+        [HttpGet]
+        [Route("api/datasources/getbyuserid/{id:int}")]
+        public IHttpActionResult GetDataSourcesByUserId(int id)
+        {
+            if (id == 0 || id == null)
+                return BadRequest();
+            
+            AppUser user = _context.AppUsers.SingleOrDefault(X => X.Id == id);
+
+            var allDataSources = (user.Roles.Where(r => r.Name == "SuperAdmin")).Count() == 1 
+                ? _context.DataSources.ToList().Select(Mapper.Map<DataSource, DataSourceDto>)
+                : _context.DataSources.Where(X => X.OwnerId == id).ToList().Select(Mapper.Map<DataSource, DataSourceDto>);
+
+            return Ok(allDataSources);
+        }
+
         // GET /api/DataSources/1
         public IHttpActionResult GetDataSource(int id)
         {

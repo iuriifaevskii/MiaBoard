@@ -34,7 +34,6 @@ namespace MiaBoard.Controllers
             var userEmail = HttpContext.User.Identity.Name;
             var user = db.AppUsers.SingleOrDefault(u => u.Email == userEmail);
 
-
             model.IsCompanyAdmin = (user.Roles.Where(r => r.Name == "CompanyAdmin")).Count() == 1;
             model.IsSuperAdmin = (user.Roles.Where(r => r.Name == "SuperAdmin")).Count() == 1;
             model.IsUser = (user.Roles.Where(r => r.Name == "User")).Count() == 1;
@@ -42,13 +41,30 @@ namespace MiaBoard.Controllers
             model.Dashboard = db.Dashboards.SingleOrDefault(d => d.Id == id);
             model.DashboardList = db.Dashboards.ToList();
             model.DashboardListToUser = user.Dashboards.Select(p => new DashboardItemViewModel() { DashboardId = p.Id, DashboardName = p.Title }).ToList();
-            model.DataSources = db.DataSources.ToList();
 
             model.Dashlets = db.Dashlets.Include(m => m.DataSource).Where(d => d.DashboardId == id).OrderBy(d => d.Position).ToList();
 
             model.CurrentUser = user;
             model.Email = user.Email;
             model.ID = user.Id;
+
+            if(id == null){
+                if (model.IsSuperAdmin)
+                {
+                    return RedirectToAction("index", "dashboards");
+                }
+                else if(model.IsCompanyAdmin){
+                    return RedirectToAction("index", "dashboards");
+                }
+                else if(model.IsUser){
+                    return RedirectToAction("index", "dashboards");
+                }
+                else {
+                    return HttpNotFound();
+                }
+            }
+
+            model.DataSources = db.DataSources.Where(x => x.OwnerId == model.Dashboard.IdOwner).ToList();
 
             foreach (var dashlet in model.Dashlets)
             {
@@ -107,22 +123,6 @@ namespace MiaBoard.Controllers
 
             }
 
-            if(id == null){
-                if (model.IsSuperAdmin)
-                {
-                    return RedirectToAction("index", "dashboards");
-                }
-                else if(model.IsCompanyAdmin){
-                    return RedirectToAction("index", "dashboards");
-                }
-                else if(model.IsUser){
-                    return RedirectToAction("index", "dashboards");
-                }
-                else {
-                    return Content("else if id == null");
-                }
-            }
-
             model.IsOwner = model.Dashboard.IdOwner == user.Id;
             model.IsDashboardAdmin = model.Dashboard.IdDashboardAdmin == user.Id;
 
@@ -149,64 +149,9 @@ namespace MiaBoard.Controllers
                     return View("ViewUserReadOnly", model);
                 }
                 else {
-                    return Content("else if id != null && isUser");
+                    return HttpNotFound();
                 }
             }
-
-            //bool haveReadOnlyPermision = user.Dashboards.SingleOrDefault(x => x.Id == id) != null ? true : false;
-            //if (user != null)                           
-            //{
-            //    if (id == null) {
-            //        if (model.IsSuperAdmin)
-            //        {
-            //            return RedirectToAction("Index", "AppRoles");
-            //        }
-            //        else if (model.IsUser)
-            //        {
-            //            var allowedDashboards = model.DashboardList.Where(x => x.IdDashboardAdmin == user.Id);
-            //            if(allowedDashboards == null)
-            //                return RedirectToAction("index", "home", null);
-            //            model.DashboardList = allowedDashboards.ToList();
-            //            return View("AllowedList", model);
-            //        }
-            //        else if (model.IsCompanyAdmin)
-            //        {
-            //            var allowedDashboards = model.DashboardList.Where(x => x.IdOwner == user.Id);
-            //            if (allowedDashboards == null)
-            //                return RedirectToAction("index", "home", null);
-            //            model.DashboardList = allowedDashboards.ToList();
-            //            return View("AllowedList", model);
-            //        }
-            //        else if ((user.Roles.Where(r => r.Name == "UserDashletEditor")).Count() == 1)
-            //        {
-            //            return RedirectToAction("UserDashletEditor", "UserDashletEditor");
-            //        }
-            //    }
-            //    model.DataSources = db.DataSources.Where(x => x.OwnerId == db.Dashboards.SingleOrDefault(z => z.Id == id).IdOwner).ToList();
-            //    if (model.IsSuperAdmin)
-            //    {
-            //        return View(model);
-            //    }
-            //    else if (model.IsCompanyAdmin)
-            //    {
-            //        var allowedDashboards = model.DashboardList.Where(x => x.IdDashboardAdmin == user.Id);
-            //        if (allowedDashboards == null)
-            //            return RedirectToAction("index", "home", null);
-            //        model.DashboardList = allowedDashboards.ToList();
-            //        return View("ViewCompanyAdmin", model);
-            //    }
-            //    else if (model.Dashboard.IdDashboardAdmin == user.Id)
-            //    {
-            //        return View("ViewUser", model);
-            //    }
-            //    else if ((user.Roles.Where(r => r.Name == "User")).Count() == 1 && haveReadOnlyPermision)
-            //    {
-            //        return View("ViewUserReadOnly", model);
-            //    }
-            //    else {
-            //        return RedirectToAction("index", "home", null);
-            //    }
-            //}
 
             return RedirectToAction("index", "home", null);
         }
@@ -293,7 +238,35 @@ namespace MiaBoard.Controllers
         // GET: Dashboards
         public ActionResult Index()
         {
-            return View(db.Dashboards.ToList());
+            var viewModel = new DashboardIndexViewModel();
+            viewModel.CurrentUser = new AppUser();
+            viewModel.DashboardsList = new List<Dashboard>();
+
+            var userEmail = HttpContext.User.Identity.Name;
+            var user = db.AppUsers.SingleOrDefault(u => u.Email == userEmail);
+
+            viewModel.IsCompanyAdmin = (user.Roles.Where(r => r.Name == "CompanyAdmin")).Count() == 1;
+            viewModel.IsSuperAdmin = (user.Roles.Where(r => r.Name == "SuperAdmin")).Count() == 1;
+            viewModel.IsUser = (user.Roles.Where(r => r.Name == "User")).Count() == 1;
+
+            if (!viewModel.IsCompanyAdmin && !viewModel.IsSuperAdmin && !viewModel.IsUser)
+                return View("~/Views/Shared/Error_403.cshtml");
+
+            viewModel.CurrentUser = user;
+
+            if (viewModel.IsUser)
+            {
+                viewModel.DashboardsList = db.Dashboards.Where(x => x.IdDashboardAdmin == user.Id).ToList();
+            }
+            else if (viewModel.IsCompanyAdmin) {
+                viewModel.DashboardsList = db.Dashboards.Where(x => x.IdOwner == user.Id).ToList();
+            }
+            
+            if(viewModel.IsSuperAdmin){
+                viewModel.DashboardsList = db.Dashboards.ToList();
+            }
+
+            return View(viewModel);
         }
 
         // GET: Dashboards/Details/5
@@ -342,9 +315,6 @@ namespace MiaBoard.Controllers
             return View(model);
         }
 
-        // POST: Dashboards/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Title")] Dashboard dashboard)
@@ -362,16 +332,29 @@ namespace MiaBoard.Controllers
         // GET: Dashboards/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (id == null)
-            {
+            if (id == null)            
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Dashboard dashboard = db.Dashboards.Find(id);
-            if (dashboard == null)
-            {
+
+            var viewModel = new DashboardEditViewModel();
+            viewModel.CurrentUser = new AppUser();
+            viewModel.Dashboard = new Dashboard();
+
+            viewModel.Dashboard = db.Dashboards.SingleOrDefault(x => x.Id == id);
+
+            if (viewModel.Dashboard == null)
                 return HttpNotFound();
-            }
-            return View(dashboard);
+
+            var userEmail = HttpContext.User.Identity.Name;
+            var user = db.AppUsers.SingleOrDefault(u => u.Email == userEmail);
+
+            viewModel.IsCompanyAdmin = (user.Roles.Where(r => r.Name == "CompanyAdmin")).Count() == 1;
+            viewModel.IsSuperAdmin = (user.Roles.Where(r => r.Name == "SuperAdmin")).Count() == 1;
+            viewModel.IsUser = (user.Roles.Where(r => r.Name == "User")).Count() == 1;
+
+            if (viewModel.IsUser && viewModel.Dashboard.IdDashboardAdmin != user.Id)
+                return HttpNotFound();
+
+            return View(viewModel);
         }
 
         // POST: Dashboards/Edit/5
@@ -379,15 +362,15 @@ namespace MiaBoard.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Title")] Dashboard dashboard)
+        public ActionResult Edit([Bind(Include = "Id,Title")] DashboardEditViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(dashboard).State = EntityState.Modified;
+                db.Entry(viewModel.Dashboard).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(dashboard);
+            return View(viewModel);
         }
 
         // GET: Dashboards/Delete/5
