@@ -14,38 +14,6 @@ namespace MiaBoard.Controllers
 
         private ApplicationDbContext _context;
 
-        public ActionResult EditYaroslav(int id)
-        {
-            if(id == 0)
-                return HttpNotFound();
-            var viewModel = new AppUser();
-            var userInDb = _context.AppUsers.SingleOrDefault(x => x.Id == id);
-            userInDb.UserProfile = _context.UserProfiles.SingleOrDefault(x=>x.Id == id);
-
-            if (userInDb == null)
-                return HttpNotFound();
-
-            return View(userInDb);
-        }
-
-        [HttpPost]
-        public ActionResult EditYaroslav(AppUser user)
-        {
-            if (user == null)
-                return HttpNotFound();
-
-            var userInDb = _context.AppUsers.SingleOrDefault(x => x.Id == user.Id);
-
-            if (userInDb == null)
-                return HttpNotFound();
-
-            userInDb.Email = user.Email;
-            userInDb.UserProfile.FirstName = user.UserProfile.FirstName;
-            _context.SaveChanges();
-
-            return View("Index");
-        }
-
         public UsersController()
         {
             _context = new ApplicationDbContext();
@@ -78,8 +46,9 @@ namespace MiaBoard.Controllers
             
             viewModel.CurrentUser = user;
 
-            if(viewModel.IsUser){
-                return RedirectToAction("View", "Dashboards", null);
+            if (viewModel.IsUser)
+            {
+                viewModel.UsersList = _context.AppUsers.Where(x => x.Id == user.Id).ToList();
             }
             if (viewModel.IsCompanyAdmin)
             {
@@ -232,8 +201,10 @@ namespace MiaBoard.Controllers
 
         public ActionResult Edit(int id)
         {
-            //AppUser user = GetUserById(id);
             var user = _context.AppUsers.SingleOrDefault(x => x.Id == id);
+            var userEmail = HttpContext.User.Identity.Name;
+            var currentUser = _context.AppUsers.SingleOrDefault(u => u.Email == userEmail);
+
             UserEditViewModel model = new UserEditViewModel()
             {
                 ID = user.Id,
@@ -244,23 +215,101 @@ namespace MiaBoard.Controllers
                 Gender = user.UserProfile.Gender,
                 ContactNo = user.UserProfile.ContactNo,
                 DateHired = user.UserProfile.DateHired,
-                
+                RoleId = user.Roles.ToList()[0].Id
             };
+
+            model.IsCompanyAdmin = (currentUser.Roles.Where(r => r.Name == "CompanyAdmin")).Count() == 1;
+            model.IsSuperAdmin = (currentUser.Roles.Where(r => r.Name == "SuperAdmin")).Count() == 1;
+            model.IsUser = (currentUser.Roles.Where(r => r.Name == "User")).Count() == 1;
+
             var listRoles = GetAllRoles().Select(r => new ListBoxItems() { Id = r.Id, Name = r.Name }).ToList();
             ViewBag.ListinRoles = new SelectList(listRoles, "Id", "Name", model.RoleId);
-            return View(model);
+
+            if (model.IsUser)
+            {
+                if (id == currentUser.Id)
+                    return View("~/Views/Users/EditUser.cshtml", model);
+                else
+                    return View("~/Views/Shared/Errors/Error_403.cshtml");
+            }
+
+            if (model.IsCompanyAdmin)
+            {
+                if (id == currentUser.Id)
+                    return View("~/Views/Users/EditUser.cshtml", model);
+                else
+                    return View("~/Views/Shared/Errors/Error_403.cshtml");
+            }
+
+            if (model.IsUser)
+                return View("~/Views/Users/EditUser.cshtml", model);
+            else
+                return View(model);
         }
 
         [HttpPost]
         public ActionResult Edit(UserEditViewModel model)
         {
+            var userEmail = HttpContext.User.Identity.Name;
+            var currentUser = _context.AppUsers.SingleOrDefault(u => u.Email == userEmail);
+
+            model.IsCompanyAdmin = (currentUser.Roles.Where(r => r.Name == "CompanyAdmin")).Count() == 1;
+            model.IsSuperAdmin = (currentUser.Roles.Where(r => r.Name == "SuperAdmin")).Count() == 1;
+            model.IsUser = (currentUser.Roles.Where(r => r.Name == "User")).Count() == 1;
+
             if (ModelState.IsValid)
             {
-                EditeUser(model.ID, model.Email, model.Name, model.LastName, model.MidleName, model.Gender, model.DateHired, model.ContactNo, model.RoleId);   
-                ChangePassword(model.ID, model.OldPassword, model.Password);
-            }
-            return RedirectToAction("Index", "Users");
+                var userInDb = _context.AppUsers.SingleOrDefault(x => x.Id == model.ID);
+                var userNewRole = new AppRole();
+                var userRoles = userInDb.Roles.ToList();
+                var userOldRole = userRoles[0];
+                userNewRole = _context.AppRoles.SingleOrDefault(x => x.Id == model.RoleId);
 
+                if (!String.IsNullOrEmpty(model.Name))
+                    userInDb.UserProfile.FirstName = model.Name;
+                
+                if (!String.IsNullOrEmpty(model.MidleName))
+                    userInDb.UserProfile.MidleName = model.MidleName;
+                
+                if (!String.IsNullOrEmpty(model.LastName))
+                    userInDb.UserProfile.LastName = model.LastName;
+                
+                if (!String.IsNullOrEmpty(model.DateHired.ToString()))
+                    userInDb.UserProfile.DateHired = model.DateHired;
+
+                if (!String.IsNullOrEmpty(model.ContactNo.ToString()))
+                    userInDb.UserProfile.ContactNo = model.ContactNo;
+
+                userInDb.Roles.Remove(userOldRole);
+                userInDb.Roles.Add(userNewRole);
+                userInDb.UserProfile.Gender = model.Gender;
+
+                if (!String.IsNullOrEmpty(model.OldPassword) &&
+                    !String.IsNullOrEmpty(model.Password) &&
+                    !String.IsNullOrEmpty(model.ConfirmPassword))
+                {
+                    if (userInDb.Password == model.OldPassword)
+                    {
+                        userInDb.Password = model.Password;
+                    }
+                }
+
+                try
+                {
+                    _context.SaveChanges();
+                } catch(Exception e){
+                    model.ExceptionMessage = e.Message;
+                }
+
+            }
+
+            var listRoles = GetAllRoles().Select(r => new ListBoxItems() { Id = r.Id, Name = r.Name }).ToList();
+            ViewBag.ListinRoles = new SelectList(listRoles, "Id", "Name", model.RoleId);
+
+            if (model.IsUser)
+                return View("~/Views/Users/EditUser.cshtml", model);
+            else
+                return View(model);
         }
 
         [Authorize]
@@ -312,7 +361,7 @@ namespace MiaBoard.Controllers
             model.IsUser = (user.Roles.Where(r => r.Name == "User")).Count() == 1;
 
             if (model.IsUser)
-                return HttpNotFound();
+                return View("~/Views/Shared/Errors/Error_403.cshtml");
 
             var usersList = _context.AppUsers.ToList();
 

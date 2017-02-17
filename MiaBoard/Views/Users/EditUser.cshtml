@@ -1,4 +1,4 @@
-﻿@model MiaBoard.ViewModels.CreateUserViewModel
+﻿@model MiaBoard.ViewModels.UserEditViewModel
 <div class="container-fluid left-menu-padding">
     <!-- Navigation Left-->
     <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12 bhoechie-tab-container new-bhoechine-tab menu-border-mobile">
@@ -8,7 +8,7 @@
                     <div class="icon-main"><i class="fa fa-globe" aria-hidden="true"></i></div>
                     <br />Company List
                 </a>
-                <a href="/Dashboards/View" class="list-group-item text-center">
+                <a href="/dashboards/view" class="list-group-item text-center">
                     <div class="icon-main"><i class="fa fa-tachometer" aria-hidden="true"></i></div>
                     <br />Dashboard List
                 </a>
@@ -18,10 +18,15 @@
             <!-- flight section -->
             <div class="bhoechie-tab-content active">
                 <ul class="nav nav-pills nav-stacked">
-                    <li><a href="/AppRoles/Index"><i class="fa fa-users fa-fw"></i>User Groups</a></li>
-                    <li><a href="/Users/Index"><i class="fa fa-user fa-fw"></i>User List</a></li>
-                    <li><a href="/Dashboards/Index"><i class="fa fa-clipboard fa-fw"></i>Dashboard List</a></li>
-                    <li><a href="/DataSources/Index"><i class="fa fa-database fa-fw"></i>Datasource List</a></li>
+                    @if(Model.IsCompanyAdmin){
+                        <li><a href="/approles/index"><i class="fa fa-users fa-fw"></i>User Groups</a></li>
+                    }
+                    <li><a class="selected-dashboard-super" href="/users/index"><i class="fa fa-user fa-fw"></i>User List</a></li>
+                    <li><a href="/dashboards/index"><i class="fa fa-clipboard fa-fw"></i>Dashboard List</a></li>
+                    @if (Model.IsCompanyAdmin)
+                    {
+                        <li><a href="/dataSources/index"><i class="fa fa-database fa-fw"></i>Datasource List</a></li>
+                    }
                 </ul>
             </div>
             <!-- train section -->
@@ -32,26 +37,52 @@
     <!-- End Navigation Left-->
 
     <div class="col-lg-9 col-md-8 col-sm-12 col-xs-12  new-bhoechine-tab-main">
-        <p class="text-center style-size-roles">Create user</p>
+        <p class="text-center style-size-roles">Edit user</p>
+
         @using (Html.BeginForm())
         {
             <div class="form-horizontal">
-
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @if (!String.IsNullOrEmpty(Model.ExceptionMessage))
+                {
+                    @Model.ExceptionMessage
+                }
+                @Html.HiddenFor(model => model.ID)
+                @Html.HiddenFor(model => model.Email)
+                @Html.HiddenFor(model => model.DateHired)
+                @Html.HiddenFor(model => model.RoleId)
                 <div class="form-group">
                     @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-8">
-                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", Disabled = "disabled" } })
                         @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
                     </div>
                     <div class="col-md-2">
                     </div>
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.DateHired, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-8">
-                        @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                        @Html.TextBoxFor(model => model.DateHired, new { @type = "date", @class = "form-control", Disabled = "disabled" })
+                        @Html.ValidationMessageFor(model => model.DateHired, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-2">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-2" for="RoleId">First Name </label>
+                    <div class="col-md-8">
+                        @Html.DropDownListFor(model => model.RoleId, (MultiSelectList)ViewBag.ListinRoles, new { @class = "form-control", Disabled = "disabled" })
+                        @Html.ValidationMessageFor(model => model.RoleId, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-2">
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                     </div>
                     <div class="col-md-2">
                     </div>
@@ -74,30 +105,11 @@
                     <div class="col-md-2">
                     </div>
                 </div>
-
                 <div class="form-group">
                     @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
                         @Html.RadioButtonFor(model => model.Gender, "1", new { @checked = true }) Male  <br />
                         @Html.RadioButtonFor(model => model.Gender, "0", new { @checked = true }) Female
-                    </div>
-                    <div class="col-md-2">
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.DateRegistration, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-8">
-                        @Html.TextBoxFor(model => model.DateRegistration, new { @class = "form-control", type = "date" })
-                        @Html.ValidationMessageFor(model => model.DateRegistration, "", new { @class = "text-danger" })
-                    </div>
-                    <div class="col-md-2">
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.DateHired, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-8">
-                        @Html.TextBoxFor(model => model.DateHired, new { @type = "date", @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.DateHired, "", new { @class = "text-danger" })
                     </div>
                     <div class="col-md-2">
                     </div>
@@ -112,16 +124,16 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(model => model.RoleId, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.OldPassword, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-8">
-                        @Html.DropDownListFor(model => model.RoleId, (MultiSelectList)ViewBag.LisRoles, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.RoleId, "", new { @class = "text-danger" })
+                        @Html.EditorFor(model => model.OldPassword, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.OldPassword, "", new { @class = "text-danger" })
                     </div>
                     <div class="col-md-2">
                     </div>
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.Password, new { @class = "control-label col-md-2" })
                     <div class="col-md-8">
                         @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
@@ -130,7 +142,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(model => model.ConfirmPassword, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.ConfirmPassword, new { @class = "control-label col-md-2" })
                     <div class="col-md-8">
                         @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
@@ -140,14 +152,16 @@
                 </div>
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Create" style="font-size:30px" class="btn btn-info btn-lg btn-create-datasource" />
+                        <input type="submit" value="Edit" style="font-size:30px" class="btn btn-info btn-lg btn-create-datasource" />
                     </div>
                 </div>
             </div>
         }
+        <div>
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+        @section Scripts {
+            @Scripts.Render("~/bundles/jqueryval")
+        }
     </div>
 </div>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}

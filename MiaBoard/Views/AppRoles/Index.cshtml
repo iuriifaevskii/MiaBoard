@@ -1,5 +1,4 @@
 ﻿@model IEnumerable<MiaBoard.Models.AppRole>
-
 <div class="container-fluid left-menu-padding">
     <!-- Navigation Left-->
     <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12 bhoechie-tab-container new-bhoechine-tab menu-border-mobile">
@@ -9,7 +8,7 @@
                     <div class="icon-main"><i class="fa fa-globe" aria-hidden="true"></i></div>
                     <br />Company List
                 </a>
-                <a href="/Dashboards/View/1" class="list-group-item text-center">
+                <a href="/Dashboards/View" class="list-group-item text-center">
                     <div class="icon-main"><i class="fa fa-tachometer" aria-hidden="true"></i></div>
                     <br />Dashboard List
                 </a>
@@ -32,19 +31,16 @@
         </div>
     </div>
     <!-- End Navigation Left-->
-
     <div class="col-lg-9 col-md-8 col-sm-12 col-xs-12  new-bhoechine-tab-main">
-        <div class="text-center">
-            <a href="/Users/AddUserToRole" style="font-size:30px" type="button" class="btn btn-info btn-lg btn-create-datasource" @*data-toggle="modal" data-target="#myModal"*@>Attached to the role of the user</a>
-        </div>
+        @*<div class="text-center">
+            <a href="/Users/AddUserToRole" style="font-size:30px" type="button" class="btn btn-info btn-lg btn-create-datasource" >Attached to the role of the user</a>
+        </div>*@
         <table class="table super-table-style">
             <tr>
                 <th class="style-size-roles">
                     The names of roles
                 </th>
-            
             </tr>
-
             @foreach (var item in Model)
             {
                 <tr>
@@ -53,8 +49,6 @@
                     </td>
                 </tr>
             }
-
         </table>
-
     </div>
 </div>

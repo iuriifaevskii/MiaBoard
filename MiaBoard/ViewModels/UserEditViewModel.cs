@@ -35,15 +35,34 @@ namespace MiaBoard.ViewModels
         [Required, Display(Name = "Select role")]
         public int RoleId { get; set; }
 
-        [Required, Display(Name = "Odl password"), StringLength(maximumLength: 20, ErrorMessage = "{0} maximum length, {2} minimum lendth", MinimumLength = 6)]
+        [Display(Name = "Old password"), StringLength(maximumLength: 20, ErrorMessage = "{1} maximum length, {2} minimum length", MinimumLength = 6)]
         [DataType(DataType.Password)]
         public string OldPassword { get; set; }
 
-        [Required, Display(Name = "Password"), StringLength(maximumLength: 20, ErrorMessage = "{0} maximum length, {2} minimum lendth", MinimumLength = 6)]
+        [Display(Name = "Password"), StringLength(maximumLength: 20, ErrorMessage = "{1} maximum length, {2} minimum length", MinimumLength = 6)]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
-        [DataType(DataType.Password), Display(Name = "Confirm password"), Compare("Password", ErrorMessage = "Пароль має співпадати")]
+        [DataType(DataType.Password), Display(Name = "Confirm password"), Compare("Password", ErrorMessage = "Confirmation password should be same!")]
         public string ConfirmPassword { get; set; }
+
+        public string ExceptionMessage { get; set; }
+
+        //[Required, Display(Name = "Odl password"), StringLength(maximumLength: 20, ErrorMessage = "{0} maximum length, {2} minimum lendth", MinimumLength = 6)]
+        //[DataType(DataType.Password)]
+        //public string OldPassword { get; set; }
+
+        //[Required, Display(Name = "Password"), StringLength(maximumLength: 20, ErrorMessage = "{0} maximum length, {2} minimum lendth", MinimumLength = 6)]
+        //[DataType(DataType.Password)]
+        //public string Password { get; set; }
+
+        //[DataType(DataType.Password), Display(Name = "Confirm password"), Compare("Password", ErrorMessage = "Пароль має співпадати")]
+        //public string ConfirmPassword { get; set; }
+
+        public bool IsCompanyAdmin { get; set; }
+
+        public bool IsSuperAdmin { get; set; }
+
+        public bool IsUser { get; set; }
     }
 }

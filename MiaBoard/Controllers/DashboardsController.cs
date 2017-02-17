@@ -60,7 +60,7 @@ namespace MiaBoard.Controllers
                     return RedirectToAction("index", "dashboards");
                 }
                 else {
-                    return HttpNotFound();
+                    return HttpNotFound("Undefiend role");
                 }
             }
 
@@ -149,7 +149,7 @@ namespace MiaBoard.Controllers
                     return View("ViewUserReadOnly", model);
                 }
                 else {
-                    return HttpNotFound();
+                    return View("~/Views/Shared/Errors/Error_NotFound_Available_Dashboard.cshtml");
                 }
             }
 
@@ -266,6 +266,9 @@ namespace MiaBoard.Controllers
                 viewModel.DashboardsList = db.Dashboards.ToList();
             }
 
+            if (viewModel.DashboardsList.Count == 0)
+                return View("~/Views/Shared/Errors/Error_NotFound_Available_Dashboard.cshtml");
+
             return View(viewModel);
         }
 
@@ -336,8 +339,35 @@ namespace MiaBoard.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
             var viewModel = new DashboardEditViewModel();
+            var model = new DashboardCreateViewModel();
+            var usersList = db.AppUsers.ToList();
+
+            List<AppUser> candidatsCompanyAdminList = new List<AppUser>();
+            List<AppUser> candidatsDashboardAdminList = new List<AppUser>();
+
             viewModel.CurrentUser = new AppUser();
             viewModel.Dashboard = new Dashboard();
+
+            foreach (var item in usersList)
+            {
+                var role = item.Roles.ToList();
+                if (role[0].Name == "CompanyAdmin")
+                {
+                    item.UserProfile = db.UserProfiles.SingleOrDefault(x => x.Id == item.Id);
+                    candidatsCompanyAdminList.Add(item);
+                }
+                else if (role[0].Name == "User")
+                {
+                    item.UserProfile = db.UserProfiles.SingleOrDefault(x => x.Id == item.Id);
+                    candidatsDashboardAdminList.Add(item);
+                }
+            }
+
+            var companyCAList = candidatsCompanyAdminList.Select(r => new ListBoxItems() { Id = r.Id, Name = r.UserProfile.FirstName + " " + r.UserProfile.LastName }).ToList();
+            var candidatsDAList = candidatsDashboardAdminList.Select(r => new ListBoxItems() { Id = r.Id, Name = r.UserProfile.FirstName + " " + r.UserProfile.LastName }).ToList();
+
+            ViewBag.CandidatsCompanyAdmin = new SelectList(companyCAList, "Id", "Name", 0);
+            ViewBag.CandidatsDashboardAdmin = new SelectList(candidatsDAList, "Id", "Name", 0);
 
             viewModel.Dashboard = db.Dashboards.SingleOrDefault(x => x.Id == id);
 
@@ -352,7 +382,7 @@ namespace MiaBoard.Controllers
             viewModel.IsUser = (user.Roles.Where(r => r.Name == "User")).Count() == 1;
 
             if (viewModel.IsUser && viewModel.Dashboard.IdDashboardAdmin != user.Id)
-                return HttpNotFound();
+                return View("~/Views/Shared/Errors/Error_403.cshtml");
 
             return View(viewModel);
         }
@@ -362,7 +392,7 @@ namespace MiaBoard.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Title")] DashboardEditViewModel viewModel)
+        public ActionResult Edit(DashboardEditViewModel viewModel)
         {
             if (ModelState.IsValid)
             {

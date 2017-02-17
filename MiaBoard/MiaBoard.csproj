@@ -241,6 +241,7 @@
     <Compile Include="ViewModels\_DataSourcesCreateViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="404.html" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\DataTables\css\autoFill.bootstrap.css" />
@@ -515,11 +516,13 @@
     <Content Include="Views\UsersForCompany\Index.cshtml" />
     <Content Include="Views\Users\AddUserToRole.cshtml" />
     <Content Include="Views\AppRoles\Index.cshtml" />
-    <Content Include="Views\Users\EditYaroslav.cshtml" />
     <Content Include="Views\Dashboards\AllowedList.cshtml" />
     <Content Include="Views\DataSources\_DataSourceFormSuperAdmin.cshtml" />
     <Content Include="Views\Shared\Errors\Error_403.cshtml" />
-    <Content Include="Views\Shared\Errors\Error_404.cshtml" />
+    <None Include="Views\Shared\Errors\Error_404.cshtml" />
+    <Content Include="Views\Shared\Errors\Error_NotFound_Available_Dashboard.cshtml" />
+    <Content Include="Views\Shared\Errors\Error_500.cshtml" />
+    <Content Include="Views\Users\EditUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\App_Data\" />

@@ -32,7 +32,7 @@ namespace MiaBoard.Controllers
             model.IsCompanyAdmin = (user.Roles.Where(r => r.Name == "CompanyAdmin")).Count() == 1;
 
             if (!model.IsSuperAdmin && !model.IsCompanyAdmin)
-                return HttpNotFound();
+                return View("~/Views/Shared/Errors/Error_403.cshtml");
 
             var usersList = _context.AppUsers.ToList();
 
@@ -90,7 +90,7 @@ namespace MiaBoard.Controllers
                 model.IsCompanyAdmin = (user.Roles.Where(r => r.Name == "CompanyAdmin")).Count() == 1;
 
                 if (!model.IsSuperAdmin && !model.IsCompanyAdmin)
-                    return HttpNotFound();
+                    return View("~/Views/Shared/Errors/Error_403.cshtml");
 
                 var usersList = _context.AppUsers.ToList();
 

@@ -3,6 +3,7 @@
     .user-table-style {
         border: 1px solid #dddddd;
     }
+
         .user-table-style tbody > tr > th {
             border: 1px solid #dddddd;
             vertical-align: middle;
@@ -26,7 +27,7 @@
                     <div class="icon-main"><i class="fa fa-globe" aria-hidden="true"></i></div>
                     <br />Company List
                 </a>
-                <a href="/Dashboards/View/1" class="list-group-item text-center">
+                <a href="/dashboards/view/@Model.DashboardsList[0].Id" class="list-group-item text-center">
                     <div class="icon-main"><i class="fa fa-tachometer" aria-hidden="true"></i></div>
                     <br />Dashboard List
                 </a>
@@ -38,12 +39,9 @@
                 <ul class="nav nav-pills nav-stacked">
                     @if (!Model.IsUser)
                     {
-                        <li><a href="/AppRoles/Index"><i class="fa fa-users fa-fw"></i>User Groups</a></li>
+                        <li><a href="/approles/index"><i class="fa fa-users fa-fw"></i>User Groups</a></li>
                     }
-                    @if (!Model.IsUser)
-                    {
-                        <li><a href="/Users/Index"><i class="fa fa-user fa-fw"></i>User List</a></li>
-                    }
+                    <li><a href="/users/index"><i class="fa fa-user fa-fw"></i>User List</a></li>
                     <li><a class="selected-dashboard-super" href="/Dashboards/Index"><i class="fa fa-clipboard fa-fw"></i>Dashboard List</a></li>
                     @if (!Model.IsUser)
                     {
@@ -61,7 +59,8 @@
     <div class="col-lg-9 col-md-8 col-sm-12 col-xs-12  new-bhoechine-tab-main">
         <p class="text-center">
             @{
-                if(Model.IsCompanyAdmin || Model.IsSuperAdmin){
+                if (Model.IsCompanyAdmin || Model.IsSuperAdmin)
+                {
                     <a href="/Dashboards/Create" style="font-size:30px" type="button" class="btn btn-info btn-lg btn-create-datasource">Create Dashboard</a>
                     <a href="/Users/AddUserToDashboard" style="font-size:30px" type="button" class="btn btn-info btn-lg btn-create-datasource">Access to Dashboards</a>
                 }
@@ -80,9 +79,7 @@
                 {
                     <tr>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Title)
-
-
+                            @Html.ActionLink(item.Title, "view/"+item.Id)
                         </td>
                         <td>
                             @foreach (var user in item.AppUsers)
@@ -90,12 +87,19 @@
                                 <p>@user.Email</p>
                             }
                         </td>
-                        <td>
-                            @Html.ActionLink("Edit", "Edit", new { id = item.Id })
-                        </td>
-                        <td>
-                            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                        </td>
+                        @if(!Model.IsUser){
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+                            </td>
+                            <td>
+                                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                            </td>
+                        }
+                        else
+                        {
+                            <td></td>
+                            <td></td>
+                        }
                     </tr>
                 }
 
@@ -108,7 +112,6 @@
     /******************/
     /* Navigation Left*/
     /******************/
-
     $(document).ready(function () {
         $("div.bhoechie-tab-menu>div.list-group>a").click(function (e) {
             $(this).siblings('a.active').removeClass("active");
@@ -118,7 +121,6 @@
             $("div.bhoechie-tab>div.bhoechie-tab-content").eq(index).addClass("active");
         });
     });
-
     /**********************/
     /* End Navigation Left*/
     /**********************/
