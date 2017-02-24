@@ -1,0 +1,138 @@
+﻿<div class="modal fade" id="parshalUserCreate" role="dialog">
+    <script type="text/javascript">
+        function prePartionUserCreate(event) {
+            var isFormValid = false;
+
+            var _email = $("#newUserEmail").val();
+            var _password = $("#newUserPassword").val();
+            var _confPassword = $("#newUserConfPassword").val();
+            var _firstName = $("#newUserFirstName").val();
+            var _middleName = $("#newUserMiddleName").val();
+            var _lastName = $("#newUserLastName").val();
+            var _contactNumber = $("#newUserContactNumber").val();
+            var _gender = $("#newUserGender").val();
+            var _hireDate = $("#newUserHireDate").val();
+            var _roleName = $("#newUserRole").val();
+            
+            if (_hireDate != "") {
+                _hireDate = new Date($("#newUserHireDate").val()).getTime();
+            }
+
+            if (_email != "" || _password != "" || _confPassword != "" || _firstName != "" ||
+                _middleName != "" ||_lastName != "" || _contactNumber != "") {
+
+                isFormValid = true;
+            }
+
+            if (_confPassword != _password) {
+                isFormValid = false;
+                alert("Confirmation Password");
+            }
+
+            if (isFormValid) {
+                $.ajax({
+                    type: 'post',
+                    url: '/api/users',
+                    data: {
+                        Email: _email,
+                        Password: _password,
+                        FirstName: _firstName,
+                        MidleName: _middleName,
+                        LastName: _lastName,
+                        Gender: _gender,
+                        ContactNo: _contactNumber,
+                        DateHired: _hireDate,
+                        RoleName: _roleName
+                    },
+                    success: function (data) {
+                        if (parseInt(data)) {
+                            $('.form-horizontal')[0].reset();
+                            alert("User create with Id - "+data);
+                        } else {
+                            alert("Internal error!");
+                        }
+                    }
+                });
+            }
+        }
+    </script>
+    <div class="modal-dialog" style="padding: 25px">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label for="newUserEmail" class="col-sm-2 control-label">Email</label>
+                    <div class="col-sm-10">
+                        <input type="email" class="form-control" id="newUserEmail" placeholder="Email">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="newUserPassword" class="col-sm-2 control-label">Password</label>
+                    <div class="col-sm-10">
+                        <input type="password" class="form-control" id="newUserPassword" placeholder="Password">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="newUserConfPassword" class="col-sm-2 control-label">Confirm Password</label>
+                    <div class="col-sm-10">
+                        <input type="password" class="form-control" id="newUserConfPassword" placeholder="Confirm Password">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="newUserFirstName" class="col-sm-2 control-label">First Name</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="newUserFirstName" placeholder="First Name">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="newUserMiddleName" class="col-sm-2 control-label">Middle Name</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="newUserMiddleName" placeholder="Middle Name">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="newUserLastName" class="col-sm-2 control-label">Last Name</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="newUserLastName" placeholder="Last Name">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="newUserRole" class="col-sm-2 control-label">First Name</label>
+                    <div class="col-sm-10">
+                        <select id="newUserRole" class="form-control">
+                            <option value="User">User</option>
+                            <option value="CompanyAdmin">Company Admin</option>
+                            <option value="SuperAdmin">Super Admin</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="newUserContactNumber" class="col-sm-2 control-label">Contact Number</label>
+                    <div class="col-sm-10">
+                        <input type="tel" class="form-control" id="newUserContactNumber" placeholder="Contact Number">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="newUserGender" class="col-sm-2 control-label">Gender</label>
+                    <div class="col-sm-10">
+                        <select class="form-control" id="newUserGender">
+                            <option value="1">Male</option>
+                            <option value="0">Female</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="newUserHireDate" class="col-sm-2 control-label">Hire Date</label>
+                    <div class="col-sm-10">
+                        <input type="date" class="form-control" id="newUserHireDate" placeholder="Hire Date">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button onclick="prePartionUserCreate(event)" type="button" class="btn btn-default">Create</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

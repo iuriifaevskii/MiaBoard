@@ -33,7 +33,7 @@ namespace MiaBoard.Controllers.Api
         [Route("api/datasources/getbyuserid/{id:int}")]
         public IHttpActionResult GetDataSourcesByUserId(int id)
         {
-            if (id == 0 || id == null)
+            if (id == 0)
                 return BadRequest();
             
             AppUser user = _context.AppUsers.SingleOrDefault(X => X.Id == id);

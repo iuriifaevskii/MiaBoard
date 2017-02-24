@@ -187,6 +187,7 @@
     <Compile Include="Controllers\Api\DashboardsController.cs" />
     <Compile Include="Controllers\Api\DashletsController.cs" />
     <Compile Include="Controllers\Api\DataSourcesController.cs" />
+    <Compile Include="Controllers\Api\UsersController.cs" />
     <Compile Include="Controllers\AppRolesController.cs" />
     <Compile Include="Controllers\DashboardsController.cs" />
     <Compile Include="Controllers\DashletsController.cs" />
@@ -195,9 +196,9 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\SuperAdminController.cs" />
     <Compile Include="Controllers\TestController.cs" />
-    <Compile Include="Migrations\201702161033355_init.cs" />
-    <Compile Include="Migrations\201702161033355_init.Designer.cs">
-      <DependentUpon>201702161033355_init.cs</DependentUpon>
+    <Compile Include="Migrations\201702231246522_init.cs" />
+    <Compile Include="Migrations\201702231246522_init.Designer.cs">
+      <DependentUpon>201702231246522_init.cs</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\DashboardCreateViewModel.cs" />
     <Compile Include="ViewModels\DashboardEditViewModel.cs" />
@@ -239,6 +240,7 @@
     <Compile Include="ViewModels\UserInfoViewModel.cs" />
     <Compile Include="ViewModels\ViewDashboardViewModel.cs" />
     <Compile Include="ViewModels\_DataSourcesCreateViewModel.cs" />
+    <Compile Include="ViewModels\_UserCreateViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="404.html" />
@@ -523,6 +525,7 @@
     <Content Include="Views\Shared\Errors\Error_NotFound_Available_Dashboard.cshtml" />
     <Content Include="Views\Shared\Errors\Error_500.cshtml" />
     <Content Include="Views\Users\EditUser.cshtml" />
+    <Content Include="Views\Users\_Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\App_Data\" />
@@ -535,8 +538,8 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201702161033355_init.resx">
-      <DependentUpon>201702161033355_init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201702231246522_init.resx">
+      <DependentUpon>201702231246522_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
